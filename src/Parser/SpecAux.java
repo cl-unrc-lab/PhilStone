@@ -62,7 +62,7 @@ public class SpecAux{
 	public void addInstance(String name, String p){
 		boolean isOK = false;
 		if (instances.containsKey(name)){
-			this.errors = this.errors + "Duplicated variables in main program!";
+			this.errors = this.errors + "Duplicated variables in main program.";
 			this.instancesOK = false;
 		}
 		else{
@@ -73,7 +73,7 @@ public class SpecAux{
 				}
 			}
 			if (!isOK){
-				this.errors = this.errors + "\n" + "error in instance definition in main program";
+				this.errors = this.errors + "\n" + "error in instance definition in main program.";
 				instancesOK = isOK;
 			}
 		}
