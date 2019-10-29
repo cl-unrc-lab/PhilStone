@@ -1,0 +1,162 @@
+MODULE main 
+
+VAR
+    Prop_sa1 : boolean;
+    Prop_sb2 : boolean;
+    Prop_sb1 : boolean;
+    Prop_sa3 : boolean;
+    Prop_sb4 : boolean;
+    Prop_sa2 : boolean;
+    Prop_sb3 : boolean;
+    Prop_sa4 : boolean;
+    Prop_ea1 : boolean;
+    Prop_eb2 : boolean;
+    Prop_eb1 : boolean;
+    Prop_ea3 : boolean;
+    Prop_eb4 : boolean;
+    Prop_ea2 : boolean;
+    Prop_eb3 : boolean;
+    Prop_ea4 : boolean;
+
+    p1:process proc1(Prop_eb1, Prop_ea1Prop_sb1Prop_sa1);
+    p2:process proc2(Prop_ea2, Prop_eb2Prop_sa2Prop_sb2);
+    p3:process proc3(Prop_eb3, Prop_ea3Prop_sb3Prop_sa3);
+ASSIGN
+init(Prop_sa1) := FALSE;
+init(Prop_sb2) := FALSE;
+init(Prop_sb1) := FALSE;
+init(Prop_sa3) := FALSE;
+init(Prop_sb4) := FALSE;
+init(Prop_sa2) := FALSE;
+init(Prop_sb3) := FALSE;
+init(Prop_sa4) := FALSE;
+init(Prop_ea1) := FALSE;
+init(Prop_eb2) := FALSE;
+init(Prop_eb1) := FALSE;
+init(Prop_ea3) := FALSE;
+init(Prop_eb4) := FALSE;
+init(Prop_ea2) := FALSE;
+init(Prop_eb3) := FALSE;
+init(Prop_ea4) := FALSE;
+LTLSPEC
+    ( G ((!(Prop_sa1) | Prop_sb2)))
+MODULE proc1(Prop_sa1,Prop_sb1,Prop_ea1,Prop_eb1)
+VAR
+    state : {Node1,Node5,Node4,Node3,Node2};
+ASSIGN
+    init(state) := Node5;
+    next(Prop_sb1):=case
+        state = Node1 & next(state) = Node2 & Prop_sb1 & !Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb1 & !Prop_eb1 & !Prop_ea1 & Prop_sa1 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb1 & !Prop_eb1 & Prop_ea1 & !Prop_sa1 : {TRUE };
+        state = Node2 & next(state) = Node5 & !Prop_sb1 & Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        TRUE : {Prop_sb1};
+    esac;
+    next(Prop_eb1):=case
+        state = Node1 & next(state) = Node2 & Prop_sb1 & !Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {TRUE };
+        state = Node5 & next(state) = Node4 & !Prop_sb1 & !Prop_eb1 & !Prop_ea1 & Prop_sa1 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb1 & !Prop_eb1 & Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb1 & Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        TRUE : {Prop_eb1};
+    esac;
+    next(Prop_ea1):=case
+        state = Node1 & next(state) = Node2 & Prop_sb1 & !Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb1 & !Prop_eb1 & !Prop_ea1 & Prop_sa1 : {TRUE };
+        state = Node4 & next(state) = Node1 & !Prop_sb1 & !Prop_eb1 & Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb1 & Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        TRUE : {Prop_ea1};
+    esac;
+    next(Prop_sa1):=case
+        state = Node1 & next(state) = Node2 & Prop_sb1 & !Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb1 & !Prop_eb1 & !Prop_ea1 & Prop_sa1 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb1 & !Prop_eb1 & Prop_ea1 & !Prop_sa1 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb1 & Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {TRUE };
+        TRUE : {Prop_sa1};
+    esac;
+next(state):= case
+        state = Node1 & Prop_sb1 & !Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {Node2 };
+        state = Node5 & !Prop_sb1 & !Prop_eb1 & !Prop_ea1 & Prop_sa1 : {Node4 };
+        state = Node4 & !Prop_sb1 & !Prop_eb1 & Prop_ea1 & !Prop_sa1 : {Node1 };
+        state = Node2 & !Prop_sb1 & Prop_eb1 & !Prop_ea1 & !Prop_sa1 : {Node5 };
+        TRUE :  { state };
+    esac;
+MODULE proc2(Prop_sb2,Prop_sa2,Prop_eb2,Prop_ea2)
+VAR
+    state : {Node5,Node4,Node3,Node2};
+ASSIGN
+    init(state) := Node5;
+    next(Prop_eb2):=case
+        state = Node5 & next(state) = Node4 & !Prop_eb2 & !Prop_sb2 & !Prop_ea2 & Prop_sa2 : {FALSE };
+        state = Node4 & next(state) = Node3 & !Prop_eb2 & !Prop_sb2 & Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node3 & next(state) = Node2 & !Prop_eb2 & Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {TRUE };
+        state = Node2 & next(state) = Node5 & Prop_eb2 & !Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        TRUE : {Prop_eb2};
+    esac;
+    next(Prop_sb2):=case
+        state = Node5 & next(state) = Node4 & !Prop_eb2 & !Prop_sb2 & !Prop_ea2 & Prop_sa2 : {FALSE };
+        state = Node4 & next(state) = Node3 & !Prop_eb2 & !Prop_sb2 & Prop_ea2 & !Prop_sa2 : {TRUE };
+        state = Node3 & next(state) = Node2 & !Prop_eb2 & Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node2 & next(state) = Node5 & Prop_eb2 & !Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        TRUE : {Prop_sb2};
+    esac;
+    next(Prop_ea2):=case
+        state = Node5 & next(state) = Node4 & !Prop_eb2 & !Prop_sb2 & !Prop_ea2 & Prop_sa2 : {TRUE };
+        state = Node4 & next(state) = Node3 & !Prop_eb2 & !Prop_sb2 & Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node3 & next(state) = Node2 & !Prop_eb2 & Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node2 & next(state) = Node5 & Prop_eb2 & !Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        TRUE : {Prop_ea2};
+    esac;
+    next(Prop_sa2):=case
+        state = Node5 & next(state) = Node4 & !Prop_eb2 & !Prop_sb2 & !Prop_ea2 & Prop_sa2 : {FALSE };
+        state = Node4 & next(state) = Node3 & !Prop_eb2 & !Prop_sb2 & Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node3 & next(state) = Node2 & !Prop_eb2 & Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {FALSE };
+        state = Node2 & next(state) = Node5 & Prop_eb2 & !Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {TRUE };
+        TRUE : {Prop_sa2};
+    esac;
+next(state):= case
+        state = Node5 & !Prop_eb2 & !Prop_sb2 & !Prop_ea2 & Prop_sa2 : {Node4 };
+        state = Node4 & !Prop_eb2 & !Prop_sb2 & Prop_ea2 & !Prop_sa2 : {Node3 };
+        state = Node3 & !Prop_eb2 & Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {Node2 };
+        state = Node2 & Prop_eb2 & !Prop_sb2 & !Prop_ea2 & !Prop_sa2 : {Node5 };
+        TRUE :  { state };
+    esac;
+MODULE proc3(Prop_sa3,Prop_sb3,Prop_ea3,Prop_eb3)
+VAR
+    state : {Node1,Node5,Node4,Node3,Node2};
+ASSIGN
+    init(state) := Node5;
+    next(Prop_sb3):=case
+        state = Node1 & next(state) = Node2 & Prop_sb3 & !Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb3 & !Prop_eb3 & !Prop_ea3 & Prop_sa3 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb3 & !Prop_eb3 & Prop_ea3 & !Prop_sa3 : {TRUE };
+        state = Node2 & next(state) = Node5 & !Prop_sb3 & Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        TRUE : {Prop_sb3};
+    esac;
+    next(Prop_eb3):=case
+        state = Node1 & next(state) = Node2 & Prop_sb3 & !Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {TRUE };
+        state = Node5 & next(state) = Node4 & !Prop_sb3 & !Prop_eb3 & !Prop_ea3 & Prop_sa3 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb3 & !Prop_eb3 & Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb3 & Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        TRUE : {Prop_eb3};
+    esac;
+    next(Prop_ea3):=case
+        state = Node1 & next(state) = Node2 & Prop_sb3 & !Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb3 & !Prop_eb3 & !Prop_ea3 & Prop_sa3 : {TRUE };
+        state = Node4 & next(state) = Node1 & !Prop_sb3 & !Prop_eb3 & Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb3 & Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        TRUE : {Prop_ea3};
+    esac;
+    next(Prop_sa3):=case
+        state = Node1 & next(state) = Node2 & Prop_sb3 & !Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node5 & next(state) = Node4 & !Prop_sb3 & !Prop_eb3 & !Prop_ea3 & Prop_sa3 : {FALSE };
+        state = Node4 & next(state) = Node1 & !Prop_sb3 & !Prop_eb3 & Prop_ea3 & !Prop_sa3 : {FALSE };
+        state = Node2 & next(state) = Node5 & !Prop_sb3 & Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {TRUE };
+        TRUE : {Prop_sa3};
+    esac;
+next(state):= case
+        state = Node1 & Prop_sb3 & !Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {Node2 };
+        state = Node5 & !Prop_sb3 & !Prop_eb3 & !Prop_ea3 & Prop_sa3 : {Node4 };
+        state = Node4 & !Prop_sb3 & !Prop_eb3 & Prop_ea3 & !Prop_sa3 : {Node1 };
+        state = Node2 & !Prop_sb3 & Prop_eb3 & !Prop_ea3 & !Prop_sa3 : {Node5 };
+        TRUE :  { state };
+    esac;

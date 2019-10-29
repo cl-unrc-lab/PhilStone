@@ -1,0 +1,329 @@
+<alloy builddate="unknown">
+
+<instance bitwidth="0" maxseq="0" command="Check deadlock for 1..6 Time, 1 elem" filename="/Users/Pablo/University/Tools/Electrum/Untitled 1.ele" tracelength="5" backloop="5">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Node14" ID="4" parentID="5" one="yes">
+   <atom label="Node14$0"/>
+</sig>
+
+<sig label="this/Node13" ID="6" parentID="5" one="yes">
+   <atom label="Node13$0"/>
+</sig>
+
+<sig label="this/Node15" ID="7" parentID="5" one="yes">
+   <atom label="Node15$0"/>
+</sig>
+
+<sig label="this/Node10" ID="8" parentID="5" one="yes">
+   <atom label="Node10$0"/>
+</sig>
+
+<sig label="this/Node12" ID="9" parentID="5" one="yes">
+   <atom label="Node12$0"/>
+</sig>
+
+<sig label="this/Node11" ID="10" parentID="5" one="yes">
+   <atom label="Node11$0"/>
+</sig>
+
+<sig label="this/Node9" ID="11" parentID="5" one="yes">
+   <atom label="Node9$0"/>
+</sig>
+
+<sig label="this/Node8" ID="12" parentID="5" one="yes">
+   <atom label="Node8$0"/>
+</sig>
+
+<sig label="this/Node7" ID="13" parentID="5" one="yes">
+   <atom label="Node7$0"/>
+</sig>
+
+<sig label="this/Node6" ID="14" parentID="5" one="yes">
+   <atom label="Node6$0"/>
+</sig>
+
+<sig label="this/Node5" ID="15" parentID="5" one="yes">
+   <atom label="Node5$0"/>
+</sig>
+
+<sig label="this/Node4" ID="16" parentID="5" one="yes">
+   <atom label="Node4$0"/>
+</sig>
+
+<sig label="this/Node3" ID="17" parentID="5" one="yes">
+   <atom label="Node3$0"/>
+</sig>
+
+<sig label="this/Node2" ID="18" parentID="5" one="yes">
+   <atom label="Node2$0"/>
+</sig>
+
+<sig label="this/Node1" ID="19" parentID="5" one="yes">
+   <atom label="Node1$0"/>
+</sig>
+
+<sig label="this/Node" ID="5" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Prop_hungry" ID="20" parentID="21" one="yes">
+   <atom label="Prop_hungry$0"/>
+</sig>
+
+<sig label="this/Own_left" ID="22" parentID="21" one="yes">
+   <atom label="Own_left$0"/>
+</sig>
+
+<sig label="this/Av_right" ID="23" parentID="21" one="yes">
+   <atom label="Av_right$0"/>
+</sig>
+
+<sig label="this/Av_left" ID="24" parentID="21" one="yes">
+   <atom label="Av_left$0"/>
+</sig>
+
+<sig label="this/Own_right" ID="25" parentID="21" one="yes">
+   <atom label="Own_right$0"/>
+</sig>
+
+<sig label="this/Prop_thinking" ID="26" parentID="21" one="yes">
+   <atom label="Prop_thinking$0"/>
+</sig>
+
+<sig label="this/Prop_eating" ID="27" parentID="21" one="yes">
+   <atom label="Prop_eating$0"/>
+</sig>
+
+<sig label="this/Prop" ID="21" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/InstanceNoName" ID="28" parentID="2" one="yes">
+   <atom label="InstanceNoName$0"/>
+</sig>
+
+<field label="nodes" ID="29" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> </types>
+</field>
+
+<field label="succs" ID="30" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Node15$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node2$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> <atom label="Node2$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="val" ID="31" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Av_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Av_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Prop_thinking$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Av_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Own_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Own_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Prop_eating$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Av_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Prop_thinking$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Own_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Own_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Prop_thinking$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Prop_thinking$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Av_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Prop_thinking$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Av_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Own_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Own_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Av_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Av_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> <atom label="Own_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Av_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Own_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Own_left$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Av_right$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> <atom label="Prop_hungry$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> <atom label="Own_left$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="21"/> </types>
+</field>
+
+<field label="ACTstartThinking" ID="32" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Node14$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTbecomeHunrgy" ID="33" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node13$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTgetLeft" ID="34" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node2$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node6$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTgetRight" ID="35" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node6$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTeat" ID="36" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Node15$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTchange_left" ID="37" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node4$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="ACTchange_right" ID="38" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> <atom label="Node2$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="local" ID="39" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node15$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node12$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node6$0"/> <atom label="Node15$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node2$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node6$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node6$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<field label="env" ID="40" parentID="28">
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node14$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node13$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node10$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node10$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node11$0"/> <atom label="Node9$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node14$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node9$0"/> <atom label="Node11$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node7$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node8$0"/> <atom label="Node5$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node7$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node13$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node5$0"/> <atom label="Node8$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node4$0"/> <atom label="Node3$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node3$0"/> <atom label="Node4$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node2$0"/> <atom label="Node1$0"/> </tuple>
+   <tuple> <atom label="InstanceNoName$0"/> <atom label="Node1$0"/> <atom label="Node2$0"/> </tuple>
+   <types> <type ID="28"/> <type ID="5"/> <type ID="5"/> </types>
+</field>
+
+<sig label="this/elem" ID="41" parentID="2" var="yes">
+</sig>
+
+<field label="ins1" ID="42" parentID="41" var="yes">
+   <types> <type ID="41"/> <type ID="5"/> </types>
+</field>
+
+<field label="ins2" ID="43" parentID="41" var="yes">
+   <types> <type ID="41"/> <type ID="5"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+</instance>
+
+<source filename="/Users/Pablo/University/Tools/Electrum/Untitled 1.ele" content="&#x000a;--- THIS PATRT OF THE SPEC DESCRIBES THE INSTANCE&#x000a;abstract sig Node{}&#x000a;one sig Node14 extends Node{}&#x000a;one sig Node13 extends Node{}&#x000a;one sig Node15 extends Node{}&#x000a;one sig Node10 extends Node{}&#x000a;one sig Node12 extends Node{}&#x000a;one sig Node11 extends Node{}&#x000a;one sig Node9 extends Node{}&#x000a;one sig Node8 extends Node{}&#x000a;one sig Node7 extends Node{}&#x000a;one sig Node6 extends Node{}&#x000a;one sig Node5 extends Node{}&#x000a;one sig Node4 extends Node{}&#x000a;one sig Node3 extends Node{}&#x000a;one sig Node2 extends Node{}&#x000a;one sig Node1 extends Node{}&#x000a;abstract sig Prop{}&#x000a;one sig Prop_hungry extends Prop{}&#x000a;pred Prop_hungry[m:InstanceNoName,n:Node]{Prop_hungry in m.val[n]}&#x000a;one sig Own_left extends Prop{}&#x000a;pred Own_left[m:InstanceNoName,n:Node]{Own_left in m.val[n]}&#x000a;one sig Av_right extends Prop{}&#x000a;pred Av_right[m:InstanceNoName,n:Node]{Av_right in m.val[n]}&#x000a;one sig Av_left extends Prop{}&#x000a;pred Av_left[m:InstanceNoName,n:Node]{Av_left in m.val[n]}&#x000a;one sig Own_right extends Prop{}&#x000a;pred Own_right[m:InstanceNoName,n:Node]{Own_right in m.val[n]}&#x000a;one sig Prop_thinking extends Prop{}&#x000a;pred Prop_thinking[m:InstanceNoName,n:Node]{Prop_thinking in m.val[n]}&#x000a;one sig Prop_eating extends Prop{}&#x000a;pred Prop_eating[m:InstanceNoName,n:Node]{Prop_eating in m.val[n]}&#x000a;&#x000a;&#x000a;one sig InstanceNoName{&#x000a;    nodes : set Node,&#x000a;    succs : nodes -&gt; nodes,&#x000a;    val: nodes -&gt; Prop,&#x000a;    ACTstartThinking: nodes -&gt; nodes,&#x000a;    ACTbecomeHunrgy: nodes -&gt; nodes,&#x000a;    ACTgetLeft: nodes -&gt; nodes,&#x000a;    ACTgetRight: nodes -&gt; nodes,&#x000a;    ACTeat: nodes -&gt; nodes,&#x000a;    ACTchange_left: nodes -&gt; nodes,&#x000a;    ACTchange_right: nodes -&gt; nodes,&#x000a;    local: nodes -&gt; nodes,&#x000a;    env: nodes -&gt; nodes&#x000a;}&#x000a;{&#x000a;    nodes = Node14+Node13+Node15+Node10+Node12+Node11+Node9+Node8+Node7+Node6+Node5+Node4+Node3+Node2+Node1&#x000a;    ACTstartThinking = (Node15-&gt;Node14) --&#x000a;    ACTbecomeHunrgy = (Node14-&gt;Node5) + (Node10-&gt;Node8) + (Node12-&gt;Node6) + (Node11-&gt;Node7) + (Node9-&gt;Node13) --&#x000a;    ACTgetLeft = (Node8-&gt;Node1) + (Node5-&gt;Node2) + (Node3-&gt;Node6) --&#x000a;    ACTgetRight = (Node13-&gt;Node4) + (Node5-&gt;Node3) + (Node2-&gt;Node6) --&#x000a;    ACTeat = (Node6-&gt;Node15) --&#x000a;    ACTchange_left = (Node14-&gt;Node9) + (Node13-&gt;Node5) + (Node10-&gt;Node11) + (Node11-&gt;Node10) + (Node9-&gt;Node14) + (Node8-&gt;Node7) + (Node7-&gt;Node8) + (Node5-&gt;Node13) + (Node4-&gt;Node3) + (Node3-&gt;Node4)&#x000a;    ACTchange_right = (Node14-&gt;Node10) + (Node13-&gt;Node7) + (Node10-&gt;Node14) + (Node11-&gt;Node9) + (Node9-&gt;Node11) + (Node8-&gt;Node5) + (Node7-&gt;Node13) + (Node5-&gt;Node8) + (Node2-&gt;Node1) + (Node1-&gt;Node2)&#x000a;&#x000a;    val =     Node14-&gt;Prop_thinking + Node14-&gt;Av_left + Node14-&gt;Av_right + Node13-&gt;Prop_hungry + Node13-&gt;Av_right + Node15-&gt;Prop_eating + Node15-&gt;Own_left + Node15-&gt;Own_right + Node10-&gt;Prop_thinking + Node10-&gt;Av_left + Node12-&gt;Prop_thinking + Node12-&gt;Own_left + Node12-&gt;Own_right + Node11-&gt;Prop_thinking + Node9-&gt;Prop_thinking + Node9-&gt;Av_right + Node8-&gt;Prop_hungry + Node8-&gt;Av_left + Node7-&gt;Prop_hungry + Node6-&gt;Prop_hungry + Node6-&gt;Own_left + Node6-&gt;Own_right + Node5-&gt;Prop_hungry + Node5-&gt;Av_left + Node5-&gt;Av_right + Node4-&gt;Prop_hungry + Node4-&gt;Own_right + Node3-&gt;Prop_hungry + Node3-&gt;Av_left + Node3-&gt;Own_right + Node2-&gt;Prop_hungry + Node2-&gt;Av_right + Node2-&gt;Own_left + Node1-&gt;Prop_hungry + Node1-&gt;Own_left&#x000a;    succs = ACTstartThinking+ACTbecomeHunrgy+ACTgetLeft+ACTgetRight+ACTeat+ACTchange_left+ACTchange_right&#x000a;    env =ACTchange_right+ACTchange_left&#x000a;    local = succs - env&#x000a;&#x000a;}&#x000a;&#x000a;&#x000a;-- the following signature models the a concurrent trace&#x000a;var sig elem{&#x000a;  --process1:InstanceNoName,&#x000a;  --process2:InstanceNoName,&#x000a;  var ins1:Node,&#x000a;  var ins2: Node,&#x000a;}{&#x000a;&#x000a;  ins1 in InstanceNoName.nodes&#x000a;  ins2 in InstanceNoName.nodes&#x000a;&#x000a;  -- action coordination&#x000a;  Av_left[ InstanceNoName,ins1] iff Av_right[InstanceNoName,ins2]&#x000a;  Av_left[ InstanceNoName,ins2] iff Av_right[ InstanceNoName,ins1]&#x000a;}&#x000a;&#x000a;fact traces {&#x000a;&#x0009;--init&#x000a;&#x0009;elem.ins1 = Node14 &#x000a;&#x0009;elem.ins2 = Node14&#x000a;&#x0009;always{&#x000a;&#x0009;&#x0009;-- Basic requierement over the next relation&#x000a;  &#x0009;&#x0009;(someTrans[elem.ins1] and someTrans[elem.ins2])&#x000a;  &#x000a; &#x0009;-- If one instance move a local transitions the others move via an environmental one &#x000a; &#x0009;  &#x0009;(localTrans[elem.ins1] iff envTrans[elem.ins2]) &#x000a;               and  (localTrans[elem.ins2] iff envTrans[elem.ins1])&#x000a;&#x0009;}&#x000a;}&#x000a;&#x000a;&#x000a;-- it says that the the transition is local&#x000a;pred localTrans[n:Node]{&#x000a;  n&apos; in ((InstanceNoName.local)[n])&#x000a;}&#x000a;&#x000a;-- it says that the the transition is non-local&#x000a;pred envTrans[n:Node]{&#x000a;  (n&apos; in ((InstanceNoName.env)[n])) or  (n&apos;= n)&#x000a;}&#x000a;&#x000a;-- local or non-local transitions including stuttering&#x000a;pred someTrans[n:Node]{&#x000a;  localTrans[n] or envTrans[n] &#x000a;}&#x000a;&#x000a;&#x000a;&#x000a;assert deadlock {&#x000a;  &#x000a;   -- Deadlock&#x000a;   always (all s: elem | not (Own_right[ InstanceNoName, s.ins1]  and Own_right[ InstanceNoName, s.ins2]))&#x000a; &#x000a;}&#x000a;&#x000a;pred show[]{}&#x000a;--run show&#x000a;&#x000a;check deadlock for 1 elem,  6 Time&#x000a;"/>
+
+<source filename="/$alloy4$/models/util/integer.als" content="module util/integer&#x000a;&#x000a;/*&#x000a; * A collection of utility functions for using Integers in Alloy.&#x000a; * Note that integer overflows are silently truncated to the current bitwidth&#x000a; * using the 2&apos;s complement arithmetic, unless the &quot;forbid overfows&quot; option is&#x000a; * turned on, in which case only models that don&apos;t have any overflows are &#x000a; * analyzed. &#x000a; */&#x000a;&#x000a;fun add  [n1, n2: Int] : Int { this/plus[n1, n2] }&#x000a;fun plus [n1, n2: Int] : Int { n1 fun/add n2 }&#x000a;&#x000a;fun sub   [n1, n2: Int] : Int { this/minus[n1, n2] }&#x000a;fun minus [n1, n2: Int] : Int { n1 fun/sub n2 }&#x000a;&#x000a;fun mul [n1, n2: Int] : Int { n1 fun/mul n2 }&#x000a;&#x000a;/**&#x000a; * Performs the division with &quot;round to zero&quot; semantics, except the following 3 cases&#x000a; * 1) if a is 0, then it returns 0&#x000a; * 2) else if b is 0, then it returns 1 if a is negative and -1 if a is positive&#x000a; * 3) else if a is the smallest negative integer, and b is -1, then it returns a&#x000a; */&#x000a;fun div [n1, n2: Int] : Int { n1 fun/div n2 }&#x000a;&#x000a;/** answer is defined to be the unique integer that satisfies &quot;a = ((a/b)*b) + remainder&quot; */&#x000a;fun rem [n1, n2: Int] : Int { n1 fun/rem n2 }&#x000a;&#x000a;/** negate */&#x000a;fun negate [n: Int] : Int { 0 fun/sub n }&#x000a;&#x000a;/** equal to */&#x000a;pred eq [n1, n2: Int] { int[n1] = int[n2] }&#x000a;&#x000a;/** greater than */&#x000a;pred gt [n1, n2: Int] { n1 &gt; n2 }&#x000a;&#x000a;/** less then */&#x000a;pred lt [n1, n2: Int] { n1 &lt; n2 }&#x000a;&#x000a;/** greater than or equal */&#x000a;pred gte [n1, n2: Int] { n1 &gt;= n2 }&#x000a;&#x000a;/** less than or equal */&#x000a;pred lte [n1, n2: Int] { n1 &lt;= n2 }&#x000a;&#x000a;/** integer is zero */&#x000a;pred zero [n: Int] { n = 0 }&#x000a;&#x000a;/** positive */&#x000a;pred pos  [n: Int] { n &gt; 0 }&#x000a;&#x000a;/** negative */&#x000a;pred neg  [n: Int] { n &lt; 0 }&#x000a;&#x000a;/** non-positive */&#x000a;pred nonpos [n: Int] { n &lt;= 0 }&#x000a;&#x000a;/** non-negative */&#x000a;pred nonneg [n: Int] { n &gt;= 0 }&#x000a;&#x000a;/** signum (aka sign or sgn) */&#x000a;fun signum [n: Int] : Int { n&lt;0 =&gt; (0 fun/sub 1) else (n&gt;0 =&gt; 1 else 0) }&#x000a;&#x000a;/**&#x000a; * returns the ith element (zero-based) from the set s&#x000a; * in the ordering of &apos;next&apos;, which is a linear ordering&#x000a; * relation like that provided by util/ordering&#x000a; */&#x000a;fun int2elem[i: Int, next: univ-&gt;univ, s: set univ] : lone s {&#x000a;  {e: s | #^next.e = int i }&#x000a;}&#x000a;&#x000a;/**&#x000a; * returns the index of the element (zero-based) in the&#x000a; * ordering of next, which is a linear ordering relation&#x000a; * like that provided by util/ordering&#x000a; */&#x000a;fun elem2int[e: univ, next: univ-&gt;univ] : lone Int {&#x000a;  Int[#^next.e]&#x000a;}&#x000a;&#x000a;/** returns the largest integer in the current bitwidth */&#x000a;fun max:one Int { fun/max }&#x000a;&#x000a;/** returns the smallest integer in the current bitwidth */&#x000a;fun min:one Int { fun/min }&#x000a;&#x000a;/** maps each integer (except max) to the integer after it */&#x000a;fun next:Int-&gt;Int { fun/next }&#x000a;&#x000a;/** maps each integer (except min) to the integer before it */&#x000a;fun prev:Int-&gt;Int { ~next }&#x000a;&#x000a;/** given a set of integers, return the largest element */&#x000a;fun max [es: set Int]: lone Int { es - es.^prev }&#x000a;&#x000a;/** given a set of integers, return the smallest element */&#x000a;fun min [es: set Int]: lone Int { es - es.^next }&#x000a;&#x000a;/** given an integer, return all integers prior to it */&#x000a;fun prevs [e: Int]: set Int { e.^prev }&#x000a;&#x000a;/** given an integer, return all integers following it */&#x000a;fun nexts [e: Int]: set Int { e.^next }&#x000a;&#x000a;/** returns the larger of the two integers */&#x000a;fun larger [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; b else a) }&#x000a;&#x000a;/** returns the smaller of the two integers */&#x000a;fun smaller [e1, e2: Int]: Int { let a=int[e1], b=int[e2] | (a&lt;b =&gt; a else b) }&#x000a;"/>
+
+</alloy>

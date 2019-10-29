@@ -1,0 +1,106 @@
+*** This is NuSMV 2.6.0 (compiled on Wed Oct 14 15:32:58 2015)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** Processes are still supported, but deprecated.      ***
+WARNING *** In the future processes may be no longer supported. ***
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Prop_hungry = FALSE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.Prop_thinking = TRUE
+    phil3.Prop_eating = FALSE
+    phil3.state = Node10
+    phil2.Prop_hungry = FALSE
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.Prop_thinking = TRUE
+    phil2.Prop_eating = FALSE
+    phil2.state = Node10
+    phil1.Prop_hungry = FALSE
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.Prop_thinking = TRUE
+    phil1.Prop_eating = FALSE
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.Prop_hungry = TRUE
+    phil3.Prop_thinking = FALSE
+    phil3.state = Node11
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+    phil2.Prop_hungry = TRUE
+    phil2.Prop_thinking = FALSE
+    phil2.state = Node11
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.Prop_hungry = TRUE
+    phil1.Prop_thinking = FALSE
+    phil1.state = Node11
+  -> Input: 1.5 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.5 <-
+    Av_f3 = FALSE
+    phil2.Own_left = TRUE
+    phil2.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.6 <-
+    Av_f2 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node4
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.7 <-
+    Av_f1 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.8 <-
+    _process_selector_ = main
+    running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.8 <-
+  -> Input: 1.9 <-
+  -> State: 1.9 <-

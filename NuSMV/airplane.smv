@@ -1,0 +1,131 @@
+MODULE main 
+
+VAR
+    Av_c3 : boolean;
+    Av_c4 : boolean;
+    Av_takeOffLane : boolean;
+    Av_landingLane : boolean;
+
+    p1:process arrivingPlane(Av_landingLane);
+    p2:process parkingAirplane(Av_c3,Av_takeOffLane,Av_landingLane);
+ASSIGN
+    init(Av_landingLane) := TRUE;
+    init(Av_takeOffLane) := TRUE;
+    init(Av_c3) := TRUE;
+init(Av_c4) := FALSE;
+LTLSPEC
+    (F ((p1.EnumVar_st=Touchdown)))
+MODULE arrivingPlane(Av_lane)
+VAR
+    Own_lane:boolean;
+    EnumVar_st:{Arflow,Touchdown};
+    state : {Node0,Node5};
+ASSIGN
+    init(Own_lane) := FALSE;
+    init(EnumVar_st) :=Arflow;
+    init(state) := Node5;
+    next(Own_lane):=case
+        state = Node5 & next(state) = Node0 & Av_lane : {TRUE };
+        state = Node5 & next(state) = Node0 & Av_lane : {TRUE };
+        state = Node5 & next(state) = Node0 & Av_lane : {TRUE };
+        TRUE : {Own_lane};
+    esac;
+    next(Av_lane):=case
+        state = Node5 & next(state) = Node0 & Av_lane : {FALSE };
+        state = Node5 & next(state) = Node0 & Av_lane : {FALSE };
+        state = Node5 & next(state) = Node0 & Av_lane : {FALSE };
+        TRUE : {Av_lane};
+    esac;
+    next(EnumVar_st):=case
+        state = Node5 & next(state) = Node0 & Av_lane : {Touchdown };
+        state = Node5 & next(state) = Node0 & Av_lane : {Touchdown };
+        state = Node5 & next(state) = Node0 & Av_lane : {Touchdown };
+        TRUE : {EnumVar_st};
+    esac;
+next(state):= case
+        state = Node5 & Av_lane : {Node0 };
+        state = Node5 & Av_lane : {Node0 };
+        state = Node5 & Av_lane : {Node0 };
+        TRUE :  { state };
+    esac;
+MODULE parkingAirplane(Av_llane,Av_tlane,Av_freeLane)
+VAR
+    Own_llane:boolean;
+    Own_freeLane:boolean;
+    EnumVar_st:{Touchdown,Parked,Tax16lc3};
+    state : {Node13,Node10,Node5,Node4};
+ASSIGN
+    init(Own_llane) := TRUE;
+    init(Own_freeLane) := FALSE;
+    init(EnumVar_st) :=Touchdown;
+    init(state) := Node10;
+    next(Own_llane):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {FALSE };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        TRUE : {Own_llane};
+    esac;
+    next(Own_freeLane):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {FALSE };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        TRUE : {Own_freeLane};
+    esac;
+    next(Av_tlane):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        TRUE : {Av_tlane};
+    esac;
+    next(Av_llane):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        TRUE : {Av_llane};
+    esac;
+    next(Av_freeLane):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {FALSE };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {TRUE };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {TRUE };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {FALSE };
+        TRUE : {Av_freeLane};
+    esac;
+    next(EnumVar_st):=case
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {Touchdown };
+        state = Node10 & next(state) = Node5 & !Av_tlane & !Av_llane & Av_freeLane : {Touchdown };
+        state = Node5 & next(state) = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {Tax16lc3 };
+        state = Node10 & next(state) = Node5 & Av_tlane & !Av_llane & Av_freeLane : {Touchdown };
+        state = Node4 & next(state) = Node13 & Av_tlane & Av_llane & !Av_freeLane : {Parked };
+        state = Node4 & next(state) = Node13 & Av_tlane & !Av_llane & !Av_freeLane : {Parked };
+        state = Node5 & next(state) = Node4 & !Av_tlane & !Av_llane & !Av_freeLane : {Tax16lc3 };
+        TRUE : {EnumVar_st};
+    esac;
+next(state):= case
+        state = Node10 & !Av_tlane & !Av_llane & Av_freeLane : {Node5 };
+        state = Node10 & !Av_tlane & !Av_llane & Av_freeLane : {Node5 };
+        state = Node5 & Av_tlane & !Av_llane & !Av_freeLane : {Node4 };
+        state = Node10 & Av_tlane & !Av_llane & Av_freeLane : {Node5 };
+        state = Node4 & Av_tlane & Av_llane & !Av_freeLane : {Node13 };
+        state = Node4 & Av_tlane & !Av_llane & !Av_freeLane : {Node13 };
+        state = Node5 & !Av_tlane & !Av_llane & !Av_freeLane : {Node4 };
+        TRUE :  { state };
+    esac;

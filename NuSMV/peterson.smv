@@ -1,0 +1,219 @@
+MODULE main 
+
+VAR
+    Prop_try1 : boolean;
+    Prop_try2 : boolean;
+    Prop_turn : boolean;
+
+    p1:process proc1(Prop_turn,Prop_try2,Prop_try1);
+    p2:process proc2(Prop_turn,Prop_try2,Prop_try1);
+ASSIGN
+init(Prop_try1) := FALSE;
+init(Prop_try2) := FALSE;
+init(Prop_turn) := FALSE;
+LTLSPEC
+    ((( G ((!(p1.Prop_cs) | !(p2.Prop_cs))))) & (( G ((!(Prop_try1) | (F (p1.Prop_cs))))))) & (( G ((!(Prop_try2) | (F (p2.Prop_cs))))))
+MODULE proc1(Prop_turn,Prop_try2,Prop_try1)
+VAR
+    Prop_cs:boolean;
+    state : {Node14,Node16,Node11};
+ASSIGN
+    init(Prop_cs) := FALSE;
+    init(state) := Node14;
+    next(Prop_cs):=case
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        TRUE : {Prop_cs};
+    esac;
+    next(Prop_try1):=case
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        TRUE : {Prop_try1};
+    esac;
+    next(Prop_try2):=case
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        TRUE : {Prop_try2};
+    esac;
+    next(Prop_turn):=case
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & !Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node11 & next(state) = Node16 & Prop_try1 & !Prop_try2 & Prop_turn : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & !Prop_try2 & !Prop_turn : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try1 & Prop_try2 & !Prop_turn : {TRUE };
+        state = Node16 & next(state) = Node14 & Prop_try1 & Prop_try2 & !Prop_turn : {FALSE };
+        TRUE : {Prop_turn};
+    esac;
+next(state):= case
+        state = Node14 & !Prop_try1 & !Prop_try2 & !Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & !Prop_try2 & Prop_turn : {Node11 };
+        state = Node16 & Prop_try1 & Prop_try2 & Prop_turn : {Node14 };
+        state = Node14 & !Prop_try1 & Prop_try2 & !Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & Prop_try2 & !Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & Prop_try2 & Prop_turn : {Node11 };
+        state = Node11 & Prop_try1 & Prop_try2 & !Prop_turn : {Node16 };
+        state = Node14 & !Prop_try1 & !Prop_try2 & !Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & !Prop_try2 & !Prop_turn : {Node11 };
+        state = Node11 & Prop_try1 & !Prop_try2 & !Prop_turn : {Node16 };
+        state = Node14 & !Prop_try1 & Prop_try2 & Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & !Prop_try2 & !Prop_turn : {Node11 };
+        state = Node14 & !Prop_try1 & !Prop_try2 & !Prop_turn : {Node11 };
+        state = Node16 & Prop_try1 & !Prop_try2 & Prop_turn : {Node14 };
+        state = Node11 & Prop_try1 & !Prop_try2 & Prop_turn : {Node16 };
+        state = Node14 & !Prop_try1 & Prop_try2 & !Prop_turn : {Node11 };
+        state = Node16 & Prop_try1 & !Prop_try2 & !Prop_turn : {Node14 };
+        state = Node14 & !Prop_try1 & Prop_try2 & !Prop_turn : {Node11 };
+        state = Node16 & Prop_try1 & Prop_try2 & !Prop_turn : {Node14 };
+        TRUE :  { state };
+    esac;
+FAIRNESS
+    running;
+    
+MODULE proc2(Prop_turn,Prop_try2,Prop_try1)
+VAR
+    Prop_cs:boolean;
+    state : {Node14,Node15,Node11};
+ASSIGN
+    init(Prop_cs) := FALSE;
+    init(state) := Node14;
+    next(Prop_cs):=case
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & Prop_try1 : {FALSE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & Prop_turn & !Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & !Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        TRUE : {Prop_cs};
+    esac;
+    next(Prop_try2):=case
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & Prop_try1 : {FALSE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & Prop_turn & !Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & !Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & !Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {TRUE };
+        TRUE : {Prop_try2};
+    esac;
+    next(Prop_turn):=case
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & Prop_turn & !Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & !Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        TRUE : {Prop_turn};
+    esac;
+    next(Prop_try1):=case
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & Prop_try1 : {TRUE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & Prop_try1 : {TRUE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node11 & next(state) = Node15 & Prop_try2 & !Prop_turn & Prop_try1 : {TRUE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & Prop_turn & !Prop_try1 : {FALSE };
+        state = Node15 & next(state) = Node14 & Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        state = Node14 & next(state) = Node11 & !Prop_try2 & !Prop_turn & !Prop_try1 : {FALSE };
+        TRUE : {Prop_try1};
+    esac;
+next(state):= case
+        state = Node14 & !Prop_try2 & !Prop_turn & !Prop_try1 : {Node11 };
+        state = Node14 & !Prop_try2 & !Prop_turn & Prop_try1 : {Node11 };
+        state = Node15 & Prop_try2 & !Prop_turn & Prop_try1 : {Node14 };
+        state = Node14 & !Prop_try2 & Prop_turn & Prop_try1 : {Node11 };
+        state = Node15 & Prop_try2 & Prop_turn & Prop_try1 : {Node14 };
+        state = Node11 & Prop_try2 & Prop_turn & !Prop_try1 : {Node15 };
+        state = Node11 & Prop_try2 & !Prop_turn & !Prop_try1 : {Node15 };
+        state = Node11 & Prop_try2 & !Prop_turn & Prop_try1 : {Node15 };
+        state = Node14 & !Prop_try2 & Prop_turn & !Prop_try1 : {Node11 };
+        state = Node15 & Prop_try2 & Prop_turn & !Prop_try1 : {Node14 };
+        state = Node15 & Prop_try2 & !Prop_turn & !Prop_try1 : {Node14 };
+        state = Node14 & !Prop_try2 & !Prop_turn & !Prop_try1 : {Node11 };
+        TRUE :  { state };
+    esac;
+FAIRNESS
+    running

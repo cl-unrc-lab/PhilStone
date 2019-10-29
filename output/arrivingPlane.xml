@@ -1,0 +1,150 @@
+<alloy builddate="2012-09-25 15:54 EDT">
+
+<instance bitwidth="0" maxseq="0" command="Run Mod for 20" filename="..//output/arrivingPlaneTemplate.als">
+
+<sig label="seq/Int" ID="0" parentID="1" builtin="yes">
+</sig>
+
+<sig label="Int" ID="1" parentID="2" builtin="yes">
+</sig>
+
+<sig label="String" ID="3" parentID="2" builtin="yes">
+</sig>
+
+<sig label="this/Node" ID="4" parentID="2" abstract="yes">
+   <atom label="Node$0"/>
+   <atom label="Node$1"/>
+   <atom label="Node$2"/>
+   <atom label="Node$3"/>
+   <atom label="Node$4"/>
+   <atom label="Node$5"/>
+</sig>
+
+<sig label="this/Av_lane" ID="5" parentID="6" one="yes">
+   <atom label="Av_lane$0"/>
+</sig>
+
+<sig label="this/Own_lane" ID="7" parentID="6" one="yes">
+   <atom label="Own_lane$0"/>
+</sig>
+
+<sig label="this/Prop" ID="6" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/Arflow" ID="8" parentID="9" one="yes">
+   <atom label="Arflow$0"/>
+</sig>
+
+<sig label="this/Touchdown" ID="10" parentID="9" one="yes">
+   <atom label="Touchdown$0"/>
+</sig>
+
+<sig label="this/Enum" ID="9" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/NumVar" ID="11" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/EnumVar_st" ID="12" parentID="13" one="yes">
+   <atom label="EnumVar_st$0"/>
+</sig>
+
+<sig label="this/EnumVar" ID="13" parentID="2" abstract="yes">
+</sig>
+
+<sig label="this/arrivingPlaneMeta" ID="14" parentID="2" one="yes">
+   <atom label="arrivingPlaneMeta$0"/>
+</sig>
+
+<field label="nodes" ID="15" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> </types>
+</field>
+
+<field label="val" ID="16" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$0"/> <atom label="Own_lane$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Av_lane$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Av_lane$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Av_lane$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="6"/> </types>
+</field>
+
+<field label="enums" ID="17" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$0"/> <atom label="EnumVar_st$0"/> <atom label="Touchdown$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="EnumVar_st$0"/> <atom label="Arflow$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="EnumVar_st$0"/> <atom label="Arflow$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="EnumVar_st$0"/> <atom label="Arflow$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="EnumVar_st$0"/> <atom label="Arflow$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="EnumVar_st$0"/> <atom label="Arflow$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="13"/> <type ID="9"/> </types>
+</field>
+
+<field label="succs" ID="18" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$5"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<field label="local" ID="19" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<field label="env" ID="20" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$5"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<field label="ACTtryLand" ID="21" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$0"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<field label="ACTchange_lane" ID="22" parentID="14">
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$1"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$3"/> <atom label="Node$5"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$4"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="arrivingPlaneMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
+</field>
+
+<sig label="univ" ID="2" builtin="yes">
+</sig>
+
+<skolem label="$Mod_s" ID="23">
+   <tuple> <atom label="Node$5"/> </tuple>
+   <types> <type ID="4"/> </types>
+</skolem>
+
+</instance>
+
+</alloy>

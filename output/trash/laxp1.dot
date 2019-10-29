@@ -1,0 +1,35 @@
+digraph G{
+Node1->Node0;
+Node1->Node7[style=dotted];
+Node1 [label = "Node1\nProp_try2\nAv_try2\nOwn_turn"];
+Node0->Node1;
+Node0->Node10;
+Node0->Node8[style=dotted];
+Node0 [label = "Node0\nProp_try2\nAv_try2\nOwn_turn"];
+Node10->Node4[style=dotted];
+Node10 [label = "Node10\nProp_cs\nProp_try2\nAv_try2\nOwn_turn"];
+Node9->Node6[style=dotted];
+Node9 [label = "Node9\nProp_try2\nAv_try2\nOwn_turn"];
+Node8->Node4;
+Node8->Node1[style=dotted];
+Node8->Node2[style=dotted];
+Node8 [label = "Node8\nOwn_turn"];
+Node7->Node1[style=dotted];
+Node7->Node2[style=dotted];
+Node7 [label = "Node7\nOwn_turn"];
+Node6->Node6;
+Node6->Node4;
+Node6->Node2[style=dotted];
+Node6->Node9[style=dotted];
+Node6 [label = "Node6\nOwn_turn"];
+Node5->Node4[style=dotted];
+Node5 [label = "Node5\nProp_cs\nAv_try2\nOwn_turn"];
+Node4->Node5[style=dotted];
+Node4->Node10[style=dotted];
+Node4 [label = "Node4\nProp_cs\nOwn_turn"];
+Node3->Node5[style=dotted];
+Node3->Node10[style=dotted];
+Node3 [label = "Node3\nProp_cs\nOwn_turn"];
+Node2->Node6[style=dotted];
+Node2 [label = "Node2\nAv_try2\nOwn_turn"];
+}

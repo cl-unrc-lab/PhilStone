@@ -1,0 +1,27 @@
+Enum statep = {Node1,Node0,Node10,Node8,Node2};
+Global Av_m : BOOL;
+Global m : BOOL;
+
+Process p{
+Prop_try, Own_m, Prop_cs, Prop_m, Prop_ncs : BOOL;
+state : statep;
+Initial : state == Node10 && !Prop_try && !Own_m && !Prop_cs && Prop_m && Prop_ncs && Av_m;
+Normative : true;
+state == Node1 && !Av_m -> state=Node10,Prop_try=false,Own_m=false,Prop_cs=false,Prop_m=false,Prop_ncs=true,Av_m=true;
+state == Node0 && !Av_m -> state=Node1,Prop_try=false,Own_m=true,Prop_cs=true,Prop_m=false,Prop_ncs=false,Av_m=false;
+state == Node10 && Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=false,Prop_ncs=false,Av_m=true;
+state == Node10 && !Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=false,Prop_ncs=false,Av_m=false;
+state == Node8 && Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=false,Prop_ncs=false,Av_m=true;
+state == Node8 && Av_m -> state=Node0,Prop_try=true,Own_m=true,Prop_cs=false,Prop_m=false,Prop_ncs=false,Av_m=false;
+state == Node8 && Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=true,Prop_ncs=false,Av_m=true;
+state == Node8 && Av_m -> state=Node2,Prop_try=true,Own_m=true,Prop_cs=false,Prop_m=true,Prop_ncs=false,Av_m=false;
+state == Node8 && Av_m -> state=Node2,Prop_try=true,Own_m=true,Prop_cs=false,Prop_m=true,Prop_ncs=false,Av_m=false;
+state == Node8 && Av_m -> state=Node2,Prop_try=true,Own_m=true,Prop_cs=false,Prop_m=true,Prop_ncs=false,Av_m=false;
+state == Node8 && !Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=false,Prop_ncs=false,Av_m=false;
+state == Node10 && Av_m -> state=Node8,Prop_try=true,Own_m=false,Prop_cs=false,Prop_m=true,Prop_ncs=false,Av_m=true;
+state == Node2 && !Av_m -> state=Node1,Prop_try=false,Own_m=true,Prop_cs=true,Prop_m=false,Prop_ncs=false,Av_m=false;
+}
+Main(){
+p1:p;
+p2:p;
+run p1();run p2();}

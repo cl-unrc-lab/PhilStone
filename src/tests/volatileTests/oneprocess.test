@@ -1,0 +1,30 @@
+spec twoprocess
+p:prim_boolean;
+q:boolean;
+process proc{
+	init : global.p && !own(q);
+	action getQ(){
+        frame: q;
+        pre: av(global.q);
+        post: own(global.q);
+    }
+    
+	action setP(){
+		frame: p;
+		pre: global.p;
+		post: !global.p;
+	}	
+    action setQ(){
+        frame: q;
+        pre: global.q && own(global.q);
+        post: !global.q;
+    }
+	invariant: AG[global.p || !global.p];
+}
+
+main(){
+ p1:proc;
+ run p1();
+}
+
+property: AG[global.p || !global.p];

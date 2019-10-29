@@ -1,0 +1,124 @@
+MODULE main 
+
+VAR
+    Av_r : boolean;
+    Av_read1 : boolean;
+
+    w1:process writer();
+    r1:process reader(Av_read1);
+ASSIGN
+    init(Av_read1) := TRUE;
+init(Av_r) := FALSE;
+LTLSPEC
+    ( G ((!(r1.Prop_reading) | !(w1.Prop_cs))))
+MODULE writer()
+VAR
+    Prop_cs:boolean;
+    Own_r:boolean;
+    Prop_ncs:boolean;
+    Own_read1:boolean;
+    state : {Node13,Node15,Node3,Node1};
+ASSIGN
+    init(Prop_cs) := FALSE;
+    init(Own_r) := FALSE;
+    init(Prop_ncs) := TRUE;
+    init(Own_read1) := FALSE;
+    init(state) := Node15;
+    next(Prop_cs):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {FALSE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {TRUE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {FALSE };
+        TRUE : {Prop_cs};
+    esac;
+    next(Own_r):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {TRUE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {TRUE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {TRUE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {TRUE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {FALSE };
+        TRUE : {Own_r};
+    esac;
+    next(Av_read1):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {TRUE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {TRUE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {TRUE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {FALSE };
+        TRUE : {Av_read1};
+    esac;
+    next(Prop_ncs):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {TRUE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {TRUE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {TRUE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {TRUE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {TRUE };
+        TRUE : {Prop_ncs};
+    esac;
+    next(Av_r):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {FALSE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {FALSE };
+        TRUE : {Av_r};
+    esac;
+    next(Own_read1):=case
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & !Av_read1 & Av_r : {FALSE };
+        state = Node15 & next(state) = Node3 & Av_read1 & Av_r : {FALSE };
+        state = Node3 & next(state) = Node1 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & Av_read1 & !Av_r : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_read1 & !Av_r : {FALSE };
+        TRUE : {Own_read1};
+    esac;
+next(state):= case
+        state = Node15 & !Av_read1 & Av_r : {Node3 };
+        state = Node15 & !Av_read1 & Av_r : {Node3 };
+        state = Node15 & Av_read1 & Av_r : {Node3 };
+        state = Node3 & Av_read1 & !Av_r : {Node1 };
+        state = Node1 & Av_read1 & !Av_r : {Node15 };
+        state = Node1 & !Av_read1 & !Av_r : {Node15 };
+        TRUE :  { state };
+    esac;
+FAIRNESS    running;MODULE reader(Av_mylock)
+VAR
+    Prop_reading:boolean;
+    Own_mylock:boolean;
+    state : {Node14,Node1};
+ASSIGN
+    init(Prop_reading) := FALSE;
+    init(Own_mylock) := FALSE;
+    init(state) := Node14;
+    next(Prop_reading):=case
+        state = Node14 & next(state) = Node1 & Av_r & Av_mylock : {TRUE };
+        state = Node1 & next(state) = Node14 & Av_r & !Av_mylock : {FALSE };
+        TRUE : {Prop_reading};
+    esac;
+    next(Av_r):=case
+        state = Node14 & next(state) = Node1 & Av_r & Av_mylock : {TRUE };
+        state = Node1 & next(state) = Node14 & Av_r & !Av_mylock : {TRUE };
+        TRUE : {Av_r};
+    esac;
+    next(Own_mylock):=case
+        state = Node14 & next(state) = Node1 & Av_r & Av_mylock : {TRUE };
+        state = Node1 & next(state) = Node14 & Av_r & !Av_mylock : {FALSE };
+        TRUE : {Own_mylock};
+    esac;
+    next(Av_mylock):=case
+        state = Node14 & next(state) = Node1 & Av_r & Av_mylock : {FALSE };
+        state = Node1 & next(state) = Node14 & Av_r & !Av_mylock : {TRUE };
+        TRUE : {Av_mylock};
+    esac;
+next(state):= case
+        state = Node14 & Av_r & Av_mylock : {Node1 };
+        state = Node1 & Av_r & !Av_mylock : {Node14 };
+        TRUE :  { state };
+    esac;
+FAIRNESS    running;
