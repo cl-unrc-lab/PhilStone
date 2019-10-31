@@ -36,8 +36,8 @@
         />
     </target>
     <target name="init">
-        <mkdir dir="bin"/>
-        <copy includeemptydirs="false" todir="bin">
+        <mkdir dir="build"/>
+        <copy includeemptydirs="false" todir="build">
             <fileset dir="src">
                 <exclude name="**/*.java"/>
             </fileset>
@@ -45,15 +45,15 @@
 	<mkdir dir="output"/>
     </target>
     <target name="clean">
-        <delete dir="bin"/>
+        <delete dir="build"/>
     </target>
     <target depends="init, generate" name="build">
         <echo message="${ant.project.name}: ${ant.file}"/>
-         <javac srcdir="src" destdir="bin" debug="true" includeantruntime="true" classpath="jar/java-cup-11a.jar"> <classpath refid="PhilStone.classpath" />  </javac>
+         <javac srcdir="src" destdir="build" debug="true" includeantruntime="true" classpath="jar/java-cup-11a.jar"> <classpath refid="PhilStone.classpath" />  </javac>
     </target>
     <target name="jar">
-    	<mkdir dir="bin/jar"/>
-        	<jar destfile="bin/jar/PhilStone.jar" basedir="bin" >
+    	<mkdir dir="build/jar"/>
+        	<jar destfile="build/jar/PhilStone.jar" basedir="build" >
             	<manifest>
               		<attribute name="Main-Class" value="PS.PhilStone"/>
                     <attribute name="Class-Path" value="lib/*.jar"/>
