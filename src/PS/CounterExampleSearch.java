@@ -356,7 +356,7 @@ public class CounterExampleSearch {
 								cmd = world.getAllCommands().get(0);
 								sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
 								cexRefined = false;
-							}								
+							}		
 							sol.writeXML(outputPath+"temp.xml");
 							lts.fromAlloyXML(outputPath+"temp.xml");
 							lts.toDot(outputPath+currentIns+".dot");

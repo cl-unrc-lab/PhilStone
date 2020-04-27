@@ -184,6 +184,11 @@ public class Spec {
 		return result;
 	}
 
+	
+	public LinkedList<Var> getGlobalVars(){
+		LinkedList<Var> result = (LinkedList<Var>) this.globalVars.clone();
+		return result;
+	}
 	public LinkedList<String> getGlobalVarsNames(){
 		
 		LinkedList<String> result = new LinkedList<String>();
@@ -394,9 +399,9 @@ public class Spec {
 	 * @param templateDir
 	 */
 	public void generateMetamodels(FileWriter file, String templateDir, int scope){
-		for (int i=0; i<this.processes.size(); i++){
-			processes.get(i).generateMetamodel(file, templateDir, scope);
-		}
+		//for (int i=0; i<this.processes.size(); i++){
+		//	processes.get(i).generateMetamodel(file, templateDir, scope);
+		//}
 	}
 	
 	public String toString(){

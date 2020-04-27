@@ -1,6 +1,6 @@
 <alloy builddate="2012-09-25 15:54 EDT">
 
-<instance bitwidth="0" maxseq="0" command="Run Mod for 6" filename="..//output/pTemplate.als">
+<instance bitwidth="0" maxseq="0" command="Run Mod for 14" filename="..//output/pTemplate.als">
 
 <sig label="seq/Int" ID="0" parentID="1" builtin="yes">
 </sig>
@@ -18,6 +18,14 @@
    <atom label="Node$3"/>
    <atom label="Node$4"/>
    <atom label="Node$5"/>
+   <atom label="Node$6"/>
+   <atom label="Node$7"/>
+   <atom label="Node$8"/>
+   <atom label="Node$9"/>
+   <atom label="Node$10"/>
+   <atom label="Node$11"/>
+   <atom label="Node$12"/>
+   <atom label="Node$13"/>
 </sig>
 
 <sig label="this/Prop_cs" ID="5" parentID="6" one="yes">
@@ -57,91 +65,110 @@
 </sig>
 
 <field label="nodes" ID="15" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> </tuple>
    <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> </tuple>
    <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> </tuple>
    <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> </tuple>
    <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$6"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$7"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$8"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> </types>
 </field>
 
 <field label="val" ID="16" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> <atom label="Prop_cs$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> <atom label="Own_m$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> <atom label="Prop_try$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> <atom label="Own_m$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Prop_ncs$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Prop_cs$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Own_m$0"/> </tuple>
    <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Prop_try$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Av_m$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Prop_try$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Prop_ncs$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Av_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$6"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$7"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$8"/> <atom label="Own_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Prop_ncs$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Prop_try$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Prop_ncs$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Av_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Prop_try$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Av_m$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Prop_ncs$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Av_m$0"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="6"/> </types>
 </field>
 
 <field label="succs" ID="17" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> <atom label="Node$2"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$5"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$2"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$13"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$13"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$9"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$9"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$12"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="local" ID="18" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> <atom label="Node$2"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$13"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$12"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="env" ID="19" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$5"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$13"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$9"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$9"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="ACTenterTry" ID="20" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$3"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$12"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="ACTenterCS" ID="21" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$1"/> <atom label="Node$0"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$2"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="ACTenterNCS" ID="22" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$0"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$13"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="ACTgetLock" ID="23" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$1"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$3"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
 <field label="ACTchange_m" ID="24" parentID="14">
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$2"/> <atom label="Node$5"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$3"/> <atom label="Node$4"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$4"/> <atom label="Node$3"/> </tuple>
-   <tuple> <atom label="pMeta$0"/> <atom label="Node$5"/> <atom label="Node$2"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$9"/> <atom label="Node$13"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$10"/> <atom label="Node$12"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$11"/> <atom label="Node$9"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$12"/> <atom label="Node$10"/> </tuple>
+   <tuple> <atom label="pMeta$0"/> <atom label="Node$13"/> <atom label="Node$9"/> </tuple>
    <types> <type ID="14"/> <type ID="4"/> <type ID="4"/> </types>
 </field>
 
@@ -149,7 +176,7 @@
 </sig>
 
 <skolem label="$Mod_s" ID="25">
-   <tuple> <atom label="Node$5"/> </tuple>
+   <tuple> <atom label="Node$13"/> </tuple>
    <types> <type ID="4"/> </types>
 </skolem>
 

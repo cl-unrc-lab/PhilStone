@@ -1,6 +1,8 @@
 
 package Spec;
 
+import freemarker.template.*;
+
 import java.util.*;
 import java.io.*;
 import org.stringtemplate.v4.*;
@@ -27,6 +29,9 @@ public class ProcessSpec {
 	private Spec mySpec;
 	private Formula init;
 	int intSize; // the size of the ints
+	
+
+	
 	
 	/**
 	 * Basic Class Constructor
@@ -479,9 +484,213 @@ public class ProcessSpec {
 		return result;	
 	}
 	
-	public String metamodelToString(String templateDir, int scope){
+	// 
+	public void generateAlloySpec(String templateDir) throws Exception{
 		
+		/* Create and adjust the configuration singleton */
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_29);
+        cfg.setDirectoryForTemplateLoading(new File(templateDir));
+        
+        // Recommended settings for new projects:
+        cfg.setDefaultEncoding("UTF-8");
+        cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        cfg.setLogTemplateExceptions(false);
+        cfg.setWrapUncheckedExceptions(true);
+        cfg.setFallbackOnNullLoopVariable(false);
+        
+        Template temp = cfg.getTemplate("AlloyTemplate.ftlh","UTF-8");
+        // we extract the information of the model
+  		//HashMap<String,LinkedList<String>> dataModel = new HashMap<String, LinkedList<String>>();
+        Map dataModel = new HashMap();
+		LinkedList<Var> boolProps = new LinkedList<Var>();
+		LinkedList<Var> enumVars = new LinkedList<Var>();
+		LinkedList<String> auxVars = new LinkedList<String>();
+		LinkedList<Var> intVars = new LinkedList<Var>();
+		LinkedList<Var> sharedBoolProps = new LinkedList<Var>();
+		LinkedList<Var> sharedPrimBoolProps = new LinkedList<Var>();
+		LinkedList<Var> sharedIntVars = new LinkedList<Var>();
+		LinkedList<Var> sharedPrimIntVars = new LinkedList<Var>();
+		LinkedList<Var> sharedEnumVars = new LinkedList<Var>();
+		LinkedList<Var> sharedPrimEnumVars = new LinkedList<Var>();
+		LinkedList<EnumType> enumTypes = new LinkedList<EnumType>();
+		LinkedList<Lock> onlyLocks = (LinkedList<Lock>) mySpec.getLocks().clone(); // we clone it since we have to add more objects to the list
+		LinkedList<Action> actions = this.actions;
+		LinkedList<String> auxAxioms = new LinkedList<String>();
+		LinkedList<String> auxPreds = new LinkedList<String>();
+		LinkedList<String> invariants = new LinkedList<String>();
 		
+		// the auxs var needed for the spec
+		for (int i=0; i<this.invs.size(); i++){
+			invariants.add(invs.get(i).toAlloy(name+"Meta", "s"));
+			auxVars.addAll(invs.get(i).generateAuxProps(name+"Meta"));
+			auxAxioms.addAll(invs.get(i).generateAxioms());
+			auxPreds.addAll(invs.get(i).generatePreds(name+"Meta"));
+		}		
+		
+		// let's compute the model
+		//local vars
+		for (Var v:this.localVars){
+			switch(v.getType()){
+				case BOOL:
+					boolProps.add(v);
+					break;
+				case ENUM:
+					enumVars.add(v);
+					enumTypes.add(((EnumVar) v).getEnumType()); // the used enumtype is added to the list
+					break;
+				case INT:
+					intVars.add(v);
+					break;
+			}
+		}
+		
+		for (Var v:this.getSpec().getGlobalVars()){
+			if (this.usesSharedVar(v.getName())){ // only the variables that are used are added
+				switch(v.getType()){
+					case BOOL:
+						if (this.isAnOwnedVar(v.getName()))// Owned vars are treated as loval vars
+							boolProps.add(v);
+						else
+							sharedBoolProps.add(v);
+						break;
+					case PRIMBOOL:
+						if (this.isAnOwnedVar(v.getName()))
+							boolProps.add(v);
+						else
+							sharedPrimBoolProps.add(v);
+						break;
+					case ENUM:
+						enumTypes.add(((EnumVar) v).getEnumType()); // the used enumtype is added to the list
+						if (this.isAnOwnedVar(v.getName()))
+							enumVars.add(v);
+						else
+							sharedEnumVars.add(v);
+						break;
+					case ENUMPRIM:
+						enumTypes.add(((EnumVar) v).getEnumType()); // the used enumtype is added to the list
+						if (this.isAnOwnedVar(v.getName()))
+							enumVars.add(v);
+						else
+							sharedPrimEnumVars.add(v);
+						break;
+					case INT:
+						if (this.isAnOwnedVar(v.getName()))
+							intVars.add(v);
+						else
+							sharedIntVars.add(v);
+						break;
+					case PRIMINT:
+						if (this.isAnOwnedVar(v.getName()))
+							intVars.add(v);
+						else
+							sharedPrimIntVars.add(v);
+						break;
+					default: 
+						throw new RuntimeException("Error type in Variable:"+v.getName());
+				}
+			}
+		}
+		
+		// the pars are added to global variables
+		for (Var l:this.pars){
+			if (!this.isAnOwnedVar(l.getName())){ // they must not be owned vars
+				switch(l.getType()){
+					case BOOL:
+						if (!this.isAnOwnedVar(l.getName())) 
+							sharedBoolProps.add(l);
+						else
+							boolProps.add(l); // if owned then it is considered a local var
+						break;
+					case ENUM:
+						if (!this.isAnOwnedVar(l.getName())) 
+							sharedEnumVars.add(l);
+						else 
+							enumVars.add(l);
+						enumTypes.add(((EnumVar) l).getEnumType()); // the used enumtype is added to the list
+						break;
+					case INT:
+						if (!this.isAnOwnedVar(l.getName())) 
+							sharedIntVars.add(l);
+						else
+							intVars.add(l);
+						break;
+					case PRIMBOOL:
+						sharedPrimBoolProps.add(l);
+						break;
+					case PRIMINT:
+						if (!this.isAnOwnedVar(l.getName())) 
+							sharedPrimIntVars.add(l);
+						else
+							intVars.add(l);
+					case ENUMPRIM:
+						enumTypes.add(((EnumVar) l).getEnumType()); // the used enumtype is added to the list
+						if (!this.isAnOwnedVar(l.getName()))
+							sharedPrimEnumVars.add(l);
+						else
+							enumVars.add(l);
+						break;
+					default:
+						throw new RuntimeException();
+				}
+			}
+		}
+		// now the locks that are not associated to a global var
+		for (Lock l:this.mySpec.getLocks()){
+			if (l.isOnlyLock() && this.usesSharedVar(l.getName()))
+				onlyLocks.add(l);
+		}
+		for (Lock l:this.getLockPars()){
+			onlyLocks.add(l);
+		}
+		// the setof all ints
+		// we calculate the sets of integers used by the program
+		// for now, we only consider positive integers, 
+		LinkedList<String> intSet = new LinkedList<String>();
+		for (int i=0; i<this.intSize; i++){
+			intSet.add(String.valueOf(i));
+			i++;
+		}
+		
+		//Boolean containsInts = new Boolean(intVars.size()>0 || sharedIntVars.size()>0);
+		//Boolean containsEnum = new Boolean(enumVars.size()>0 || sharedEnumVars.size()>0);
+		dataModel.put("name", "Example");
+		dataModel.put("auxVars",auxVars);
+		dataModel.put("boolProps", boolProps);
+		dataModel.put("enumVars", enumVars);
+		dataModel.put("intVars", intVars);
+		dataModel.put("sharedBoolProps", sharedBoolProps);
+		dataModel.put("sharedPrimBoolProps", sharedPrimBoolProps);
+		dataModel.put("sharedIntVars", sharedIntVars);
+		dataModel.put("sharedPrimIntVars", sharedPrimIntVars);
+		dataModel.put("sharedEnumVars", sharedEnumVars);
+		dataModel.put("sharedPrimEnumVars", sharedPrimEnumVars);
+		dataModel.put("onlyLocks", onlyLocks);
+		dataModel.put("enumTypes", enumTypes);
+		dataModel.put("actions", this.actions);
+		dataModel.put("auxAxioms", auxAxioms);
+		dataModel.put("intSet", intSet);
+		
+		//Writer out = new OutputStreamWriter(System.out);
+		Writer out = new StringWriter();
+	    temp.process(dataModel, out);
+	    System.out.println(out.toString());
+		//String output = out.toString().replaceAll("&#39;", "'");
+	    //FileWriter fw = new FileWriter("example.txt");
+	    //fw.write(output);
+	    //fw.close();
+	    
+	}
+	
+	public String metamodelToString(String templateDir, int scope){	
+		
+		/* Line to activate freemarker
+		try{
+			generateAlloySpec(templateDir);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		**/
 		// we save the local bool propositions
 		List<String> localBoolProps = new ArrayList<String>();
 		for (int i = 0; i < localVars.size(); i++){
@@ -750,34 +959,12 @@ public class ProcessSpec {
 		
 		
 		
-		// a ugly solution to produce the complement of each primvar..
-		// and anonimous class
-		class VarContainer{
-			String name;
-			LinkedList<String> rest;
-			
-			public VarContainer(String name, LinkedList<String> rest){
-				this.name = name;
-				this.rest = rest;
-			}
-			public String getName(){
-				return this.name;
-			}
-			public LinkedList<String> getRest(){
-				LinkedList<String> result = new LinkedList<String>();
-				for (String v:rest){
-					if (!this.name.equals(v))
-						result.add(v);
-				}
-				return result;
-			}
-		}
 		
-		LinkedList<VarContainer> primContainer = new LinkedList<VarContainer>();
-		for (String v:usedPrimBoolVars){
-			VarContainer vc = new VarContainer(v, usedPrimBoolVars);		
-			primContainer.add(vc);
-		}
+		//LinkedList<VarContainer> primContainer = new LinkedList<VarContainer>();
+		//for (String v:usedPrimBoolVars){
+		//	VarContainer vc = new VarContainer(v, usedPrimBoolVars);		
+		//	primContainer.add(vc);
+		//}
 		
 		st.add("sharedBoolProps", usedBooleanGlobalVars); // we take the parameters as a global variables
 		st.add("sharedIntVars", usedIntGlobalVars);
@@ -790,7 +977,7 @@ public class ProcessSpec {
 		st.add("onlyLocks", onlyLocksNames); // those locks that do not have any variables associated to them
 		//System.out.println(usedLocks);
 		st.add("enumTypes", enumValues);
-		st.add("primContainer", primContainer);
+		//st.add("primContainer", primContainer);
 		
 		
 		// we create a collection for all the shared variables
@@ -856,85 +1043,6 @@ public class ProcessSpec {
 			result.addAll(this.invs.get(i).generatePreds(name));
 		}
 		return result;
-	}
-	
-	/**
-	 * It generates the metamodel of the process  in alloy
-	 * DEPRECATED it will be replace for he methods above
-	 * @param file	where the metamodel will be written
-	 */
-	public void generateMetamodel(FileWriter file, String templateDir, int scope){
-		// we set the propositions
-		//List<String> sharedBoolProps = new ArrayList<String>();
-		//for (int i = 0; i < sharedVars.size(); i++){
-		//		if (sharedVars.get(i).getType() == Type.BOOL)
-		//			sharedBoolProps.add(sharedVars.get(i).getName());
-		//			
-		//}		
-		
-		List<String> localBoolProps = new ArrayList<String>();
-		for (int i = 0; i < localVars.size(); i++){
-			if (localVars.get(i).getType() == Type.BOOL)
-				localBoolProps.add(localVars.get(i).getName());
-		}
-		
-		// we set the actions
-		List<Action> localActions = new ArrayList<Action>();
-		List<Action> envActions = new ArrayList<Action>();
-		for (int i = 0; i < actions.size(); i++){
-			if (actions.get(i).getIsLocal())
-				localActions.add(actions.get(i));
-			else
-				envActions.add(actions.get(i));
-		}
-		
-		List<String> invariants = new ArrayList<String>();
-		List<String> auxVars = new ArrayList<String>(); // the auxiliar vars needed for translating CTL to Alloy
-		List<String> auxAxioms = new ArrayList<String>(); // the auxiliar axioms needed for translating CTL to Alloy
-		List<String> auxPreds = new ArrayList<String>(); // the auxiliar axioms needed for translating CTL to Alloy
-		for (int i=0; i<this.invs.size(); i++){
-			invariants.add(invs.get(i).toAlloy(name+"Meta", "s"));
-			auxVars.addAll(invs.get(i).generateAuxProps(name+"Meta"));
-			auxAxioms.addAll(invs.get(i).generateAxioms());
-			auxPreds.addAll(invs.get(i).generatePreds(name+"Meta"));
-			
-		}		
-		List<Action> actions = new ArrayList<Action>();
-		actions.addAll(localActions);
-		actions.addAll(envActions);
-		
-		STGroup group = new STGroupDir(templateDir);
-		ST st = group.getInstanceOf("metamodel");
-		
-		//System.out.println(localActions);
-		
-		st.add("name", this.name);
-		st.add("boolProps", localBoolProps);
-		//st.add("sharedBoolProps", sharedBoolProps);
-		st.add("sharedBoolProps", mySpec.getGlobalVarsNames());
-		st.add("localActions", localActions);
-		st.add("envActions", envActions);
-		st.add("actions", actions);
-		st.add("auxVars", auxVars);
-		st.add("auxAxioms", auxAxioms);
-		st.add("auxPred", auxPreds);
-		st.add("invariants", invariants);
-		st.add("init", this.init.toAlloy(this.name+"Meta", "s"));
-		st.add("scope", scope);
-		//List<String> values = new ArrayList<String>();
-		//values.add("one");
-		//values.add("two");
-		//st.add("values", values);
-		
-		String result = st.render();
-		try{
-		    PrintWriter writer = new PrintWriter("/Users/Pablo/University/my-papers/drafts/Alloy.Synt/Tool/local/output/"+name+"Template.als", "UTF-8");
-		    writer.print(result);
-		    writer.close();
-		} catch (IOException e) {
-			System.out.println("Input-Output Error trying to write the metamodel.");
-		}
-		//System.out.println(result);
 	}
 	
 	public String toString(){

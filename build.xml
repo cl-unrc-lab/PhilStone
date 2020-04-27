@@ -13,7 +13,8 @@
         <pathelement location="jar/JFlex.jar"/>
         <pathelement location="jar/java-cup-11a.jar"/>
         <pathelement location="jar/java-cup-11a-runtime.jar"/>
-        <pathelement location="jar/alloy4.jar"/>
+        <pathelement location="jar/alloy4.2.jar"/>
+        <pathelement location="jar/freemarker.jar"/>
         <pathelement location="jar/dCTL_checker.jar"/>
     </path>
     <taskdef  name="jflex" classname="JFlex.anttask.JFlexTask"   classpath="jar/JFlex.jar"   />              
@@ -61,5 +62,6 @@
                 <zipgroupfileset includes="*.jar" dir="jar"/>
           	</jar>
   	</target>   
+    
 
 </project>
