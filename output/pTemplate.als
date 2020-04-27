@@ -188,15 +188,15 @@ fact FrameAxiomsm{
 -- for volatile vars we just say that local and non-volatile vars are not changed by the environmental methods that change volatile vars
 
 
-pred Form8[i:pMeta, s:Node]{
- all s':(*(pMeta.succs)[s]) | ((not ((Prop_ncs[pMeta,s']) and (Prop_try[pMeta,s']))) and (not ((Prop_try[pMeta,s']) and (Prop_cs[pMeta,s'])))) and (not ((Prop_ncs[pMeta,s']) and (Prop_cs[pMeta,s']))) }
+pred Form5[i:pMeta, s:Node]{
+ all s':(*(pMeta.succs)[s]) | (not ((Prop_ncs[pMeta,s']) and (Prop_try[pMeta,s']))) and (not ((Prop_try[pMeta,s']) and (Prop_cs[pMeta,s']))) }
 
 -- Pred with inital condition and Invariants
 pred Mod[s:pMeta.nodes]{ 
     -- all s':(*(pMeta.succs)[s]) | some pMeta.succs[s'] -- if ew want any node has a succ
-     Form8[pMeta,s]  
+     Form5[pMeta,s]  
     (((Prop_ncs[pMeta,s]) and (not (Prop_cs[pMeta,s]))) and (not (Prop_try[pMeta,s]))) and (Av_m[pMeta,s])
 
 }
 
-run Mod for 6
+run Mod for 14
