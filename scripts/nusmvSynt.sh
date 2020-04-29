@@ -23,5 +23,5 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 	export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
 fi
 
-cd ../bin/
+cd ../build/
 java PS/PhilStone -NuSMV -scope=$1 -pdf $2
