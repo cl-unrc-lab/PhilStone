@@ -272,8 +272,10 @@ public class CounterExampleSearch {
 			}
 			// the program is written to the output folder
 			try{
+				//System.out.println("Program:"+syntProgram);
 				PrintWriter writer = new PrintWriter(outputPath+mySpec.getName()+".imp", "UTF-8");
 				writer.print(syntProgram);
+				writer.flush();
 				writer.close();
 			}
 			catch(Exception e){
@@ -843,12 +845,15 @@ public class CounterExampleSearch {
 	 */
 	private boolean nuSMVModelCheck(String ins, LinkedList<LinkedList<String>> cexs){
 		boolean result = false;
+		String spec =  this.generateNuSMVSpec();
 		String mcResult = "";
 		//System.out.println("Using NuSMV");
 		// we write the specification to a file
 		try{
 			FileWriter fw = new FileWriter(outputPath+"spec.smv");
-			fw.write(this.generateNuSMVSpec());
+			
+			//fw.write(this.generateNuSMVSpec());
+			fw.write(spec);
 			//System.out.println(this.generateNuSMVSpec());
 			fw.close();
 		}
@@ -882,6 +887,9 @@ public class CounterExampleSearch {
 			c.addRuns(readNuSMVCex(mcResult));
 			cexs.addLast(c.getRuns(ins)); // we add the counterexample to the collection of counterexamples of the current instance
 	    	this.processCounterExample(c);
+		}
+		else{
+			this.syntProgram=spec;
 		}
 		
 		return result;

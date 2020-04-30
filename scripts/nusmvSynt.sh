@@ -18,6 +18,7 @@ fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export JAVA_LIBRARY_PATH="../lib/MacOs/"
+        export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
 elif [[ "$OSTYPE" == "linux"* ]]; then
 	export LD_LIBRARY_PATH='../lib/AMD64/'
 	export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
