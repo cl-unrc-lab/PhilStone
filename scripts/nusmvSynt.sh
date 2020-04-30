@@ -25,4 +25,4 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 fi
 
 cd ../build/
-java PS/PhilStone -NuSMV -scope=$1 -pdf $2
+java PS/PhilStone -pdf -NuSMV -scope=$1 -pdf $2
