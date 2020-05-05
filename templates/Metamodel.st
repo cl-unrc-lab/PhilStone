@@ -238,10 +238,12 @@ one sig <name>Meta{
 
 */
 
+
 <if(sharedPrimBoolProps)>
     <sharedPrimBoolProps : {sh | fact ResAx5 { all s:<name>Meta.nodes | (some s':<name>Meta.ACTchange_<sh>[s] | Prop_<sh>[<name>Meta,s']) \}} >  
     <sharedPrimBoolProps : {sh | fact ResAx6 { all s:<name>Meta.nodes | (some s':<name>Meta.ACTchange_<sh>[s] | not Prop_<sh>[<name>Meta,s']) \}} > 
 <endif>
+
 
 -- resource axioms for ints
 <if(sharedIntVars)>
