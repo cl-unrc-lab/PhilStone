@@ -458,7 +458,7 @@ public class CounterExampleSearch {
 									System.out.println("Instance "+ currentIns + ", Iteration Number:"+p);
 								sol.writeXML(outputPath+"temp.xml");
 								lts.fromAlloyXML(outputPath+"temp.xml");
-								lts.toDot(outputPath+"instance"+p+".dot");
+								//lts.toDot(outputPath+"instance"+p+".dot");
 								//System.out.println("Instance Number:"+i);
 								p++;
 								mapInsModels.put(currentIns, lts);
