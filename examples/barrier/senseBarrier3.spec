@@ -1,8 +1,7 @@
 /*
 Specification for sense barrier algorithm described in "Two Algorithms for barrier synchronization"
-locals vars: 
-  a: indicates the "epoch" i that a process is executing, two epochs a and !a
-  b0,b1; shared variables used for synchronization
+p1 communicates de barrier with the rest of processes
+pxpy, communication of process x with process y
 */
 spec senseBarrier
 
