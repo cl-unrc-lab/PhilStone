@@ -3,39 +3,20 @@ A simple tool for the synthesis of concurrent programs using Alloy-Tool and Mode
 
 - Compiling the Tool
 
-You can compile the code with the ant tool, just running 'ant' The .class files will be generated and saved in folder bin/
+You can compile the code with the ant tool, just running 'ant' The .class files will be generated and saved in folder build/
 
-- Running the Tool
 
-1- You must add the jar/ folder to your $CLASSPATH, and set the $PhilStone to the actual folder,
+- Running the tool using the script
 
-2- Just execute:
+just: cd scripts/
 
-   java bin/PS/PhilStone [OPTIONS] [SPEC FILES]
+and execute: ./nusmvSynth [SCOPE] [SPEC]
 
-where: [OPTIONS] are the following:
+for instance:
 
-'-scope=k' tries to synthesize the program using a scope of k elements
-
-'-pdf' if a program is synthesized it produces a pdf with the state/transition system for the processes, saved as a .dot in output/  folder
-
-'-genSearch' it tries to use solutions of the problem with less instances 
-
-'-lexSearch' it uses the standard algorithm without counterexamples
-
-The default algorithm uses counterexamples.
-
-- Examples of use:
-
-(cd bin/)
-
-- java PS/PhilStone -scope=6 ../examples/mutex2.spec
-
-it synthesizes a program for mutex with a scope of 6 using counterexamples, if the scope is small  the algorithm couldn't be able to synthesize a program,
-
-- java PS/PhilStone -genSearch=../src/tests/phils/phil.spec -scope=14 ../examples/phils/phil5.spec
-
-It synthesizes code for 5 philosophers using a smaller instance of the problem (2 philosophers).
+ ./nusmvSynt.sh 16 ../examples/phils/Phils3.spec
+ 
+synthesizes the phils example with a scope of 16. All the examples are in examples/
 
 - Generating JAR file:
 
