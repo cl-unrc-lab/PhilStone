@@ -5,75 +5,111 @@ VAR
 
     p1:process p(Av_m);
     p2:process p(Av_m);
-    p3:process p(Av_m);
-    p4:process p(Av_m);
-    p5:process p(Av_m);
-    p6:process p(Av_m);
-    p7:process p(Av_m);
-    p8:process p(Av_m);
 ASSIGN
 init(Av_m) := TRUE;
 LTLSPEC
-    ( G ((((((((((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs)) | ((((((!(p2.Prop_cs)) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p3.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p6.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p7.Prop_cs))) & (!(p8.Prop_cs))) | ((((((!(p1.Prop_cs)) & (!(p2.Prop_cs))) & (!(p3.Prop_cs))) & (!(p4.Prop_cs))) & (!(p5.Prop_cs))) & (!(p6.Prop_cs))) & (!(p8.Prop_cs)))))
+    ( G ((!(p1.Prop_cs) | !(p2.Prop_cs))))
 MODULE p(Av_m)
 VAR
-    Prop_cs:boolean;
-    Own_m:boolean;
     Prop_try:boolean;
+    Own_m:boolean;
+    Prop_cs:boolean;
     Prop_ncs:boolean;
-    state : {Node1,Node0,Node5,Node4};
+    state : {Node15,Node12,Node7,Node1,Node0};
 ASSIGN
-    init(Prop_cs) := FALSE;
-    init(Own_m) := FALSE;
     init(Prop_try) := FALSE;
+    init(Own_m) := FALSE;
+    init(Prop_cs) := FALSE;
     init(Prop_ncs) := TRUE;
-    init(state) := Node5;
-    next(Prop_cs):=case
-        state = Node1 & next(state) = Node0 & !Av_m : {TRUE };
-        state = Node0 & next(state) = Node5 & !Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & Av_m : {FALSE };
-        state = Node4 & next(state) = Node1 & Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & !Av_m : {FALSE };
-        TRUE : {Prop_cs};
-    esac;
-    next(Own_m):=case
-        state = Node1 & next(state) = Node0 & !Av_m : {TRUE };
-        state = Node0 & next(state) = Node5 & !Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & Av_m : {FALSE };
-        state = Node4 & next(state) = Node1 & Av_m : {TRUE };
-        state = Node5 & next(state) = Node4 & !Av_m : {FALSE };
-        TRUE : {Own_m};
-    esac;
+    init(state) := Node15;
     next(Prop_try):=case
-        state = Node1 & next(state) = Node0 & !Av_m : {FALSE };
-        state = Node0 & next(state) = Node5 & !Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & Av_m : {TRUE };
-        state = Node4 & next(state) = Node1 & Av_m : {TRUE };
-        state = Node5 & next(state) = Node4 & !Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & !Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & !Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & Av_m : {TRUE };
+        state = Node1 & next(state) = Node15 & !Av_m : {FALSE };
+        state = Node0 & next(state) = Node1 & !Av_m : {FALSE };
         TRUE : {Prop_try};
     esac;
+    next(Own_m):=case
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {TRUE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_m : {FALSE };
+        state = Node0 & next(state) = Node1 & !Av_m : {TRUE };
+        TRUE : {Own_m};
+    esac;
+    next(Prop_cs):=case
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_m : {FALSE };
+        state = Node0 & next(state) = Node1 & !Av_m : {TRUE };
+        TRUE : {Prop_cs};
+    esac;
     next(Prop_ncs):=case
-        state = Node1 & next(state) = Node0 & !Av_m : {FALSE };
-        state = Node0 & next(state) = Node5 & !Av_m : {TRUE };
-        state = Node5 & next(state) = Node4 & Av_m : {FALSE };
-        state = Node4 & next(state) = Node1 & Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & !Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {FALSE };
+        state = Node1 & next(state) = Node15 & !Av_m : {TRUE };
+        state = Node0 & next(state) = Node1 & !Av_m : {FALSE };
         TRUE : {Prop_ncs};
     esac;
     next(Av_m):=case
-        state = Node1 & next(state) = Node0 & !Av_m : {FALSE };
-        state = Node0 & next(state) = Node5 & !Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & Av_m : {TRUE };
-        state = Node4 & next(state) = Node1 & Av_m : {FALSE };
-        state = Node5 & next(state) = Node4 & !Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {TRUE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node7 & next(state) = Node0 & Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & !Av_m : {FALSE };
+        state = Node15 & next(state) = Node7 & Av_m : {TRUE };
+        state = Node1 & next(state) = Node15 & !Av_m : {FALSE };
+        state = Node0 & next(state) = Node1 & !Av_m : {FALSE };
         TRUE : {Av_m};
     esac;
 next(state):= case
-        state = Node1 & !Av_m : {Node0 };
-        state = Node0 & !Av_m : {Node5 };
-        state = Node5 & Av_m : {Node4 };
-        state = Node4 & Av_m : {Node1 };
-        state = Node5 & !Av_m : {Node4 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node15 & !Av_m : {Node7 };
+        state = Node15 & Av_m : {Node7 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node7 & Av_m : {Node0 };
+        state = Node15 & !Av_m : {Node7 };
+        state = Node15 & Av_m : {Node7 };
+        state = Node1 & !Av_m : {Node15 };
+        state = Node0 & !Av_m : {Node1 };
         TRUE :  { state };
     esac;
 FAIRNESS    running;
