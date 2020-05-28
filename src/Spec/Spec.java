@@ -184,6 +184,11 @@ public class Spec {
 		return result;
 	}
 
+	public LinkedList<Var> getGlobalVars(){
+		LinkedList<Var> result = (LinkedList<Var>) this.globalVars.clone();
+		return result;
+	}
+	
 	public LinkedList<String> getGlobalVarsNames(){
 		
 		LinkedList<String> result = new LinkedList<String>();
