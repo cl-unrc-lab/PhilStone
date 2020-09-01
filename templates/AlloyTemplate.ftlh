@@ -1,3 +1,4 @@
+
 <#-- This template is used to generated the Alloy Specs  -->
 <#-- Author: Pablo Castro -->
 
@@ -17,7 +18,6 @@
 open util/relation
 
 -- basic signatures
-
 pred true {no none}
 pred false {some none}
 
