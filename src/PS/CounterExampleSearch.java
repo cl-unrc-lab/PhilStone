@@ -325,7 +325,7 @@ public class CounterExampleSearch {
 				LinkedList<LinkedList<String>> actualCexs = new LinkedList<LinkedList<String>>();
 				this.disjointCexFound.put(currentIns, new Boolean(false));
 				
-				
+		
 				while (cexNumber < this.cexForInstance.get(this.instancesList.get(insNumber)).size() & !this.disjointCexFound.get(currentIns)){
 				//while (cexNumber < this.cexForInstance.get(this.instancesList.get(insNumber)).size()){	
 					if (cexNumber > -1){
@@ -359,10 +359,10 @@ public class CounterExampleSearch {
 								cmd = world.getAllCommands().get(0);
 								sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
 								cexRefined = false;
-							}								
+							}									
 							sol.writeXML(outputPath+"temp.xml");
 							lts.fromAlloyXML(outputPath+"temp.xml");
-							lts.toDot(outputPath+currentIns+".dot");
+							lts.toDot(outputPath+currentIns+iterations+".dot");
 							if (showInfo)
 								System.out.println("Instance "+ currentIns + ", Iteration Number:"+j);
 							j++;
@@ -456,9 +456,9 @@ public class CounterExampleSearch {
 							while (sol.satisfiable()){  // !disjointCexFound.get(currentIns)??
 								//if (showInfo)
 									System.out.println("Instance "+ currentIns + ", Iteration Number:"+p);
-								sol.writeXML(outputPath+"temp.xml");
-								lts.fromAlloyXML(outputPath+"temp.xml");
-								//lts.toDot(outputPath+"instance"+p+".dot");
+								sol.writeXML(outputPath+"temp"+p+".xml");
+								lts.fromAlloyXML(outputPath+"temp"+p+".xml");
+								lts.toDot(outputPath+"instance"+p+".dot");
 								//System.out.println("Instance Number:"+i);
 								p++;
 								mapInsModels.put(currentIns, lts);
@@ -472,7 +472,15 @@ public class CounterExampleSearch {
 								changed.put(currentIns, new Boolean(false));
 								mapInsModels.put(currentIns, formerLTS);
 								// and with add more counterexamples to the bag
-								//actualCexs.addLast(this.cexActualRun.get(currentIns).get(actualCexs.size()));
+								//=== New Line
+								//actualCexs.addLast(this.cexActualRun.get(currentIns).get(actualCexs.size()-1));
+								//actualCexs.add(this.cexForInstance.get(currentIns).get(cexNumber));
+								//mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, actualCexs);
+								//world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
+								//cmd = world.getAllCommands().get(0);
+								//sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
+								//cexRefined = false;
+								//====
 								sol = sol.next();
 							}
 							
