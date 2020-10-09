@@ -1,5 +1,6 @@
 package PS;
 import FormulaSpec.*;
+import Utils.Pair;
 
 import java.io.FileWriter;
 import java.io.InputStreamReader;
@@ -55,7 +56,15 @@ public class CounterExampleSearch {
 	LinkedList<CounterExample> counterExamples; 						// a set containing all the counter examples found until now,
 	HashMap<String, LinkedList<LinkedList<String>>> cexForInstance; // it contains for each instance a queue contain a collection of counterexamples
 	HashMap<String, LinkedList<LinkedList<String>>> cexActualRun; // it keeps the counter examples found in the actual execution of the algorithm
-	HashMap<String, Boolean> disjointCexFound; // says if a new coutnerexample was found for the corresponding instance
+	HashMap<String, Boolean> disjointCexFound; // says if a new counterexample was found for the corresponding instance
+	A4Solution[] currentSol; 
+	LinkedList<LinkedList<String>>[] currentCexs;
+	LinkedList<A4Solution>[] queueSolvers;
+	LinkedList<LinkedList<LinkedList<String>>>[] queueCexs;
+	boolean[] stopped;
+	boolean[] solverRefreshed;
+	
+	//HashMap<String, Pair<A4Solution, LinkedList<LinkedList<String>>>> currentSol; // it takes into account the current solver and cexs																		  // used for each instances
 	Spec mySpec;			// the specification
 	String outputPath;		// the output path for the synthesized program
 	String templatePath;	// the path to the template,
@@ -64,7 +73,7 @@ public class CounterExampleSearch {
 	boolean showInfo = false; // when true the methods will show the info of the search
 	boolean printPDF;
 	boolean cexFound = false;
-	boolean cexRefined = false;  
+	HashMap<String,Boolean> cexRefined;  
 	boolean alloySearch = false; // to indicate  if the search is performed using Alloy
 	boolean electrumSearch = false; // to indicate that the search is performed using Electrum
 	boolean nuXMVSearch = false; // to indicate that the search is performed using Nuxmv
@@ -113,14 +122,28 @@ public class CounterExampleSearch {
 		this.mapProcessModels = new HashMap<String, LTS>(); // laxModels
 		this.counterExamples = new LinkedList<CounterExample>();
 		this.cexForInstance = new HashMap<String, LinkedList<LinkedList<String>>>();
+		this.currentSol = new A4Solution[instancesList.size()];
+		this.currentCexs = (LinkedList<LinkedList<String>>[]) new LinkedList[instancesList.size()];
+		this.queueSolvers = (LinkedList<A4Solution>[]) new LinkedList[instancesList.size()];
+		this.queueCexs = (LinkedList<LinkedList<LinkedList<String>>>[]) new LinkedList[instancesList.size()];
+		this.stopped = new boolean[instancesList.size()];
+		this.solverRefreshed = new boolean[instancesList.size()];
+		
 		for (int i=0; i<instancesList.size(); i++){
 			this.cexForInstance.put(instancesList.get(i), new LinkedList<LinkedList<String>>());
 		}
 		
 		// we initialized all the elements of 
 		this.disjointCexFound = new HashMap<String, Boolean>();
+		this.cexRefined = new HashMap<String, Boolean>();
 		for (int i=0; i<instancesList.size(); i++){
 			this.disjointCexFound.put(instancesList.get(i), new Boolean(false));
+			this.cexRefined.put(instancesList.get(i), new Boolean(false));
+			this.queueSolvers[i] = new LinkedList<A4Solution>();
+			this.queueCexs[i] = new LinkedList<LinkedList<LinkedList<String>>>();
+			this.currentCexs[i] = new LinkedList<LinkedList<String>>(); 
+			this.stopped[i] = false;
+			this.solverRefreshed[i] = false;
 		}
 		
 		this.cexActualRun = new HashMap<String, LinkedList<LinkedList<String>>>();
@@ -191,7 +214,6 @@ public class CounterExampleSearch {
 			long startTime = System.currentTimeMillis();    
 
 			String currentProcess = processes.get(i);
-			//String currentInstance = 
 			
 			// the output file for the Alloy model
 			String outputfilename = outputPath+currentProcess+".xml";
@@ -206,40 +228,21 @@ public class CounterExampleSearch {
 			    writer.close();
 			} catch (IOException e) {
 				System.out.println("Error trying to write the alloy specifications for the processes.");
-				System.out.println(e.getStackTrace());
+				e.printStackTrace(System.out);
 			}
 		
-			A4Reporter rep = new A4Reporter();
-			Module world = null;
+			A4Solution sol = this.getAlloyInitialSolution(currentProcess);
+			try{
+				sol.writeXML(outputfilename); 
+			}
+			catch (Exception e){
+				System.out.println("Error trying to write the alloy specifications for the processes.");
+				e.printStackTrace(System.out);
+			}
 			LTS lts = new LTS(mySpec.getProcessByName(currentProcess));
 			lts.setName(currentProcess);
-			try{
-				world = CompUtil.parseEverything_fromFile(rep, null, outputPath+currentProcess+"Template.als");
-				A4Options opt = new A4Options();
-				opt.originalFilename = outputPath+currentProcess+"Template.als"; // the specification metamodel
-				//opt.solver = A4Options.SatSolver.ZChaffJNI;
-				//opt.solver = A4Options.SatSolver.MiniSatProverJNI;
-				opt.solver = A4Options.SatSolver.MiniSatJNI;
-				Command cmd = world.getAllCommands().get(0);
-				A4Solution sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
-				assert sol.satisfiable();
-				
-				// we obtain a first candidate for the coarsest model
-				sol.writeXML(outputfilename); 
-				
-				// we read the LTS
-				lts.fromAlloyXML(outputfilename);
-				//System.out.println("/Users/Pablo/University/my-papers/drafts/Alloy.Synt/Tool/local/output/"+currentProcess+"Template.dot");
-				//lts.toDot("/Users/Pablo/University/my-papers/drafts/Alloy.Synt/Tool/local/output/"+currentProcess+"Template.dot");
-				
-			}catch(Exception e){
-				System.out.println("Input-Output Error trying to write Alloy files.");
-				System.out.println(e);
-			}	
-			
-			// we store the laxest model for each process
-			mapProcessModels.put(currentProcess, lts);
-			
+			lts.fromAlloyXML(outputfilename); // we read the LTS
+			mapProcessModels.put(currentProcess, lts); // we store the candidate model for each process
 			// we store the laxest model for each instance, at the beginning they coincide with those of the processes
 			for (int j=0; j<instancesList.size();j++){
 				if (instances.get(instancesList.get(j)).equals(currentProcess)){
@@ -253,15 +256,13 @@ public class CounterExampleSearch {
 			System.out.println(currentProcess+" time:" + estimatedTime);
 		}
 		
-		System.out.println("Local Models Generated...");
+		System.out.println("+Local Models Generated");
 		
 		// the map containing the collection of counterexamples for each instance is initialized
 		for (int j=0; j<instancesList.size();j++){
 			this.cexActualRun.put(instancesList.get(j), new LinkedList<LinkedList<String>>());
 		}
 		
-		// an iterator for the laxest models
-		//Iterator<String> itModels = insLaxModels.keySet().iterator();
 		boolean found = counterExampleSearch(0, scope);
 		if (found){
 			System.out.println("Program Synthesized, saved to output folder.."); 
@@ -288,279 +289,167 @@ public class CounterExampleSearch {
 		}
 	}
 	
+	/**
+	 * Auxiliar function to search an instance in lexocographic order
+	 * @param insNumber	the instance being inspected
+	 * @param scope	the scope for the Alloy specs
+	 * @return
+	 */
 	public boolean counterExampleSearch(int insNumber, int scope){
-		boolean result = false; // an attribute to save the result
 		String currentIns = instancesList.get(insNumber);
-		LTS originalModel = mapInsModels.get(currentIns);
-		if (showInfo){
-			System.out.println("Inspecting instance: "+currentIns);
-		}
-		
-		if (insNumber == this.numberIns - 1){ // if so we are in the base case
-			//this.alloyBoundedModelCheck("", new LinkedList<LinkedList<String>>(), 5, scope);			
-			// if BMC on then we use Alloy else we use the model checker
-			//boolean checkResult = this.alloySearch?alloyBoundedModelCheck(currentIns, new LinkedList<LinkedList<String>>(), this.pathBound, this.scope):modelCheck(currentIns, new LinkedList<LinkedList<String>>());
-			//if (modelCheck(currentIns, new LinkedList<LinkedList<String>>())){ // if false, we add the counterexamples to the corresponding queues
+		this.disjointCexFound.put(currentIns, new Boolean(false));
+		this.queueCexs[insNumber].clear();
+		this.queueSolvers[insNumber].clear();
+		this.currentSol[insNumber] = null;
+		this.currentCexs[insNumber] = new LinkedList<LinkedList<String>>();
+		this.stopped[insNumber]=false;
+		if (insNumber == (this.numberIns - 1)){ //  Base Case
+			System.out.println("Last instance: "+currentIns);
+			LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
+			lts.setName(currentIns);
+			LTS formerLTS = mapInsModels.get(currentIns);
 			boolean checkResult = false;
-			// we choose the model checker
-			this.iterations++;
-			if (this.alloySearch)
-				checkResult = alloyBoundedModelCheck(currentIns, new LinkedList<LinkedList<String>>(), this.pathBound, this.scope);
-			if (this.electrumSearch || this.nuXMVSearch)
-				checkResult = this.electrumBoundedModelCheck(currentIns, new LinkedList<LinkedList<String>>(), this.pathBound, this.scope);
-			if (this.nuSMVSearch)
-				checkResult = this.nuSMVModelCheck(currentIns, new LinkedList<LinkedList<String>>());
-			if (!this.alloySearch && !this.electrumSearch && !this.nuXMVSearch && !this.nuSMVSearch)
-				checkResult = modelCheck(currentIns, new LinkedList<LinkedList<String>>());		
-			if (checkResult){
+			checkResult = selectChecker(currentIns);
+			iterations++;
+			if (checkResult) 
 				return true;
-			}
-			else{
-				this.cexFound = false; 
-				// we try to get a program for all the cex
-				
-				//old line cexNumber = 0
-				int cexNumber = 0; // we use -1 for the case when no counterexample is analyzed
-				// we use a collection of actual counterexamples, the idea is to add new counterexample found during hte execution of the algorithm
-				LinkedList<LinkedList<String>> actualCexs = new LinkedList<LinkedList<String>>();
-				this.disjointCexFound.put(currentIns, new Boolean(false));
-				
-		
-				while (cexNumber < this.cexForInstance.get(this.instancesList.get(insNumber)).size() & !this.disjointCexFound.get(currentIns)){
-				//while (cexNumber < this.cexForInstance.get(this.instancesList.get(insNumber)).size()){	
-					if (cexNumber > -1){
-						actualCexs.add(this.cexForInstance.get(currentIns).get(cexNumber)); // we add the current cex
-					}
-					// WE GET A POSSIBLE PROGRAM AND MODEL CHECK IT
-					try{
-						int j = 0;
-						cexRefined = false;
-						A4Reporter rep = new A4Reporter();
-						Module world = null;
-						LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
-						lts.setName(currentIns);
-						LTS formerLTS = mapInsModels.get(currentIns);
-						PrintWriter writer = new PrintWriter(outputPath+"Instances.als", "UTF-8");
-						mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, actualCexs);	
-						A4Options opt = new A4Options();
-						//opt.originalFilename = outputPath+"Instances.als"; // the specification metamodel
-						//opt.solver = A4Options.SatSolver.SAT4J;
-						//opt.solver = A4Options.SatSolver.MiniSatProverJNI;
-						opt.solver = A4Options.SatSolver.MiniSatJNI;
-						//opt.solver = A4Options.SatSolver.ZChaffJNI;
-						world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
-						Command cmd = world.getAllCommands().get(0);
-						A4Solution sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
-						while (sol.satisfiable()  &  !disjointCexFound.get(currentIns) & !cexRefined){ //add refined & !disjointCexFound.get(currentIns)
-							if (cexRefined){
-								actualCexs.add(this.cexForInstance.get(currentIns).get(cexNumber));
-								mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, actualCexs);
-								world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
-								cmd = world.getAllCommands().get(0);
-								sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
-								cexRefined = false;
-							}									
-							sol.writeXML(outputPath+"temp.xml");
-							lts.fromAlloyXML(outputPath+"temp.xml");
-							lts.toDot(outputPath+currentIns+iterations+".dot");
-							if (showInfo)
-								System.out.println("Instance "+ currentIns + ", Iteration Number:"+j);
-							j++;
-							mapInsModels.put(currentIns, lts);
-							changed.put(currentIns, new Boolean(true));
-							// if we generate a correct program then output true
-							//checkResult = this.alloySearch?alloyBoundedModelCheck(currentIns, actualCexs, this.pathBound, this.scope):modelCheck(currentIns, actualCexs);
-							//if (modelCheck(currentIns, actualCexs)) // model check generates new counterexamples, TBD: we need to add any found instance to actualCexs
-							// we model check
-							if (this.alloySearch)
-								checkResult = alloyBoundedModelCheck(currentIns, actualCexs, this.pathBound, this.scope);
-							if (this.nuSMVSearch)
-								checkResult = nuSMVModelCheck(currentIns, actualCexs);
-							if (this.electrumSearch || this.nuXMVSearch)
-								checkResult = this.electrumBoundedModelCheck(currentIns, actualCexs, this.pathBound, this.scope);
-							if (!this.alloySearch && !this.electrumSearch && !this.nuXMVSearch && !this.nuSMVSearch)
-								checkResult = modelCheck(currentIns, actualCexs);
-							iterations++;	
-							if (checkResult)
-								return true;
-						
-							// else continue with the search, and restore the previous values
-							mapInsModels.put(currentIns, formerLTS);
-							changed.put(currentIns, new Boolean(false));
-							sol = sol.next();
-						}
-						//else{
-						//	break;
-						//}
-					}// end of try
-					catch(Exception e){
-						System.out.println("Input-Output Error trying to write Alloy files.");
+			
+			this.queueCexs[insNumber].addLast(new LinkedList<LinkedList<String>>());
+			this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));
+			while(!this.queueSolvers[insNumber].isEmpty()){
+					
+					int j = 0;
+					this.currentSol[insNumber] = this.queueSolvers[insNumber].removeLast();
+					this.currentCexs[insNumber] = this.queueCexs[insNumber].removeLast();	
+					disjointCexFound.put(currentIns, new Boolean(false));
+					System.out.println("Size of queue:"+ this.queueSolvers[insNumber].size());
+					while (this.currentSol[insNumber].satisfiable()){ //add refined & !disjointCexFound.get(currentIns)
+						this.iterations++;
 						try{
-							PrintWriter writererror = new PrintWriter(outputPath+"InstancesError.als", "UTF-8");
-							mapInsModels.get(currentIns).getAlloyInstancesSpec(writererror,scope, actualCexs);	
-						}catch(Exception e1){
+							this.currentSol[insNumber].writeXML(outputPath+"temp"+j+".xml");
 						}
-						System.out.println(e.getMessage());
-						e.printStackTrace();//System.out.println(e);
-					}
-					if (!cexRefined)
-						cexNumber++;
-					//j++;
-				}
-				// after this while we know that no program was found for this instance of the search
-				return false;
-			}
+						catch (Exception e){
+							System.out.println(e);
+						}
+						lts.fromAlloyXML(outputPath+"temp"+j+".xml");
+						lts.toDot(outputPath+currentIns+iterations+".dot");
+						if (showInfo) 
+							System.out.println("Instance "+ currentIns + ", Iteration Number:"+j);
+						j++;
+						mapInsModels.put(currentIns, lts);
+						changed.put(currentIns, new Boolean(true));						
+						checkResult = selectChecker(currentIns);	
+						if (checkResult)
+							return true;		
+						mapInsModels.put(currentIns, formerLTS);
+						changed.put(currentIns, new Boolean(false));
+						 if (this.stopped[insNumber]){ // if a disjoint cex is found stop de search
+							 return false;
+						 }
+						 this.stopped[insNumber] = false;
+						// else continue with the search, and restore the previous values
+						
+						try{
+							if (!this.solverRefreshed[insNumber])
+								this.currentSol[insNumber] = this.currentSol[insNumber].next();
+							this.solverRefreshed[insNumber] =  false;
+						}
+						catch(Exception e){
+							System.out.println("Error while searching for another instance");
+							e.printStackTrace();
+						}
+					}//end while
+				}//end while					
+			//}// end else	
+			// false; // after this while we know that no program was found for this instance of the search
 		}// end of base case
 		else{ // recursive case
-			
-			int cexNumber = -1; // at the beginning we start with no counterexample
-			LinkedList<LinkedList<String>> actualCexs = new LinkedList<LinkedList<String>>();
-			// while there are counterexamples in the queue try...
-			int k =0;
-			
-			while (cexNumber < this.cexForInstance.get(currentIns).size()){
-						
-				if (cexNumber == -1){ // if -1 then no counterexample will take into account
-					if (counterExampleSearch(insNumber+1, scope))
-						return true;
-				}
-				else{
-					if (showInfo){
-						System.out.println("Instance:"+currentIns);
-						System.out.println(actualCexs.size());
-						System.out.println(this.cexActualRun.get(currentIns).size());
-						
-					}
-					actualCexs.add(this.cexForInstance.get(currentIns).get(cexNumber)); // we add the current cexs	
-					int p = 0;
-					// while we can get more counterexamples using the current counterexamples we try to find a program
-					//while (cexNumber < this.cexForInstance.get(currentIns).size()){//actualCexs.size() < this.cexActualRun.get(currentIns).size()){
-						
-						// WE GET A POSSIBLE PROGRAM AND MODEL CHECK IT
-						try{
-							A4Reporter rep = new A4Reporter();
-							Module world = null;
-							LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
-							lts.setName(currentIns);
-							LTS formerLTS = mapInsModels.get(currentIns);
-							PrintWriter writer = new PrintWriter(outputPath+"Instances.als", "UTF-8");
-							mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, actualCexs);		
-							A4Options opt = new A4Options();
-							opt.originalFilename = outputPath+"Instances.als"; // the specification metamodel
-							//opt.solver = A4Options.SatSolver.SAT4J;
-							//opt.solver = A4Options.SatSolver.MiniSatProverJNI;
-							opt.solver = A4Options.SatSolver.MiniSatJNI;
-							world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
-							Command cmd = world.getAllCommands().get(0);
-							A4Solution sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
-							while (sol.satisfiable()){  // !disjointCexFound.get(currentIns)??
-								//if (showInfo)
-									System.out.println("Instance "+ currentIns + ", Iteration Number:"+p);
-								sol.writeXML(outputPath+"temp"+p+".xml");
+			System.out.println("Inspecting Instance: "+currentIns);
+					int p=0;
+					LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
+					lts.setName(currentIns);
+					LTS formerLTS = mapInsModels.get(currentIns);
+					this.queueCexs[insNumber].addLast(new LinkedList<LinkedList<String>>());
+					this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));		
+					while (!this.queueSolvers[insNumber].isEmpty()){
+						this.currentSol[insNumber] = this.queueSolvers[insNumber].removeLast();
+						this.currentCexs[insNumber] = this.queueCexs[insNumber].removeLast();
+							while (this.currentSol[insNumber].satisfiable()){  // !disjointCexFound.get(currentIns)??
+								try{
+									this.currentSol[insNumber].writeXML(outputPath+"temp"+p+".xml");
+								}
+								catch(Exception e){
+									System.out.println("Input-Output Error trying to write Alloy files.");
+									e.printStackTrace();//System.out.println(e);
+									System.exit(0);
+								}
 								lts.fromAlloyXML(outputPath+"temp"+p+".xml");
-								lts.toDot(outputPath+"instance"+p+".dot");
-								//System.out.println("Instance Number:"+i);
+								lts.toDot(outputPath+"instance"+insNumber+":"+p+".dot");
 								p++;
 								mapInsModels.put(currentIns, lts);
-								changed.put(currentIns, new Boolean(true));
-								
+								changed.put(currentIns, new Boolean(true));		
 								// we try with this model recursively
-								if (counterExampleSearch(insNumber+1, scope)) // model check generates new counterexamples, TBD: we need to add any found instance to actualCexs
+								if (counterExampleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
 									return true;
-					
-								// else continue with the search, and restore the previous values
+			
+								boolean stop = true;
+								
+								for (int m=this.numberIns-1; m>=insNumber; m--){
+										stop = stop && this.stopped[m];
+								}
 								changed.put(currentIns, new Boolean(false));
 								mapInsModels.put(currentIns, formerLTS);
-								// and with add more counterexamples to the bag
-								//=== New Line
-								//actualCexs.addLast(this.cexActualRun.get(currentIns).get(actualCexs.size()-1));
-								//actualCexs.add(this.cexForInstance.get(currentIns).get(cexNumber));
-								//mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, actualCexs);
-								//world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
-								//cmd = world.getAllCommands().get(0);
-								//sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);
-								//cexRefined = false;
-								//====
-								sol = sol.next();
-							}
-							
-							System.out.println("trying...."+k);
-							k++;
-					
-						}// end of try
-						catch(Exception e){
-							System.out.println("Input-Output Error trying to write Alloy files.");
-							e.printStackTrace();//System.out.println(e);
-						}
-					//}
-					// if we did not find anything the current cex, we reset the bag  of counter examples and try with the next one
-					actualCexs.clear();
-					this.cexActualRun.get(currentIns).clear();
-				}
-				cexNumber++;
-			}
-			return false; // if no program found then we return false	
-		}				
+								if (stop)
+									return false;
+								this.stopped[insNumber] = false;
+								// else continue with the search, and restore the previous values								
+								//changed.put(currentIns, new Boolean(false));
+								//mapInsModels.put(currentIns, formerLTS);								
+								if (!this.solverRefreshed[insNumber]){
+									try{
+										this.currentSol[insNumber] = this.currentSol[insNumber].next();	
+									}
+									catch(Exception e){
+										System.out.println("Input-Output Error trying to write Alloy files.");
+										e.printStackTrace();//System.out.println(e);
+										System.exit(0);
+									}
+								}
+								this.solverRefreshed[insNumber] =  false;
+							}//endwhile
+					}
+				
+		}		
+		return false; // if no program found then we return false
 	}
 	
+	
 	private void addCounterExToProcess(String process, LinkedList<String> cex){
+		this.disjointCexFound.put(process, new Boolean(false));
 		if (showInfo){
 			System.out.println("Cex to add:");
 			System.out.println(cex);
 			System.out.println("Cex in the Queue:");
 			System.out.println(this.cexForInstance.get(process));
 		}
-		if (cex.size() < 2 ){ // For ACTL!: if size is less than 2 then the current process do not participate in the counterexample and all the branch of the backtracking can be pruned
-			this.disjointCexFound.put(process, new Boolean(true));
+		if (cex.size() < 2 ){ // For ACTL!: if size is less than 2 then the current process do not participate in the counterexample and all the branch of the backtracking can be pruned	
+			this.stopped[this.getNumberInstance(process)] = true;
 			return;
 		}
-		boolean inCexList = false;
-		LinkedList<LinkedList<String>> cexList = cexForInstance.get(process);
-		for (int i=0; i<cexList.size(); i++){
-			if (lInclusion(cexList.get(i), cex)){ // if the counterexample is already in the queue, cexList[i] is included in cex
-				inCexList = true; // we do not need to add it
-				if (showInfo)
-					System.out.println("rinclusion");
-			}
-			if (rInclusion(cexList.get(i), cex)){
-				cexList.remove(i);
-				cexList.add(i, cex); // we swap the former cex for the new one
-									    // since the left inclusion says that the right one is more refined		
-				inCexList = true;
-				if (showInfo)
-					System.out.println("linclusion");
-			}
-			//if (disjoint(cexList.get(i), cex)){
-			//	this.disjointCexFound.put(process, new Boolean(true)); // a disjoint cex was found
-			//	cexList.addLast(cex);
-			//}
-				
+		boolean linclusion = false;
+		boolean rinclusion = false;
+		boolean updateCex = false;
+		for (int i=0; i<this.currentCexs[this.getNumberInstance(process)].size(); i++){
+			linclusion = lInclusion(this.currentCexs[this.getNumberInstance(process)].get(i), cex); // teh found example is refined by an example already in the cexs
+			rinclusion = rInclusion(this.currentCexs[this.getNumberInstance(process)].get(i), cex); // a refined cex is found
+			updateCex = updateCex || ((rinclusion && !linclusion)||(!rinclusion && !linclusion));
 		}
-		if (!inCexList){
-				cexList.addLast(cex);
-				this.disjointCexFound.put(process, new Boolean(true));
+		if (updateCex){
+			refreshSolver(process, cex);
+			this.solverRefreshed[this.getNumberInstance(process)] = true;
 		}
-		boolean inRunningList = false;
-		for (int i=0; i<this.cexActualRun.get(process).size(); i++){
-			if (rInclusion(cexActualRun.get(process).get(i), cex)) // if the counterexample is already in the queue
-				inRunningList = true; // we do not need to add it
-			if (lInclusion(cexActualRun.get(process).get(i), cex)){
-				cexActualRun.get(process).remove(i);
-				cexActualRun.get(process).add(i, cex); // we swap the former cex for the new one
-									    // since the left inculsion says that the right one is more refined		
-				//cexActualRun.get(process).add(cex);
-				inRunningList = true;
-				cexRefined = true;
-			}
-			//if (disjoint(cexActualRun.get(process).get(i), cex)){
-			//	this.disjointCexFound.put(process, new Boolean(true)); // a disjoint cex was found
-			//	cexActualRun.get(process).addLast(cex);
-			//}
-		}
-		if (!inRunningList){
-			cexActualRun.get(process).addLast(cex);
-			this.disjointCexFound.put(process, new Boolean(true));
-		}
+		this.stopped[this.getNumberInstance(process)] = false;
+		//this.solverRefreshed[this.getNumberInstance(process)] = false;
 	}
 	
 	private void processCounterExample(CounterExample c){	
@@ -2484,4 +2373,131 @@ public class CounterExampleSearch {
 		
 	}
 	
-}
+	private A4Solution getAlloySolution(String currentIns){
+		A4Solution sol = null;
+		try{
+			A4Reporter rep = new A4Reporter();
+			Module world = null;
+			//LTS formerLTS = mapInsModels.get(currentIns);
+			PrintWriter writer = new PrintWriter(outputPath+"Instances.als", "UTF-8");
+			//mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.cexActualRun.get(currentIns));	
+			LTS lts = new LTS();
+			mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.currentCexs[getNumberInstance(currentIns)]);
+			A4Options opt = new A4Options();
+			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
+			Command cmd = world.getAllCommands().get(0);
+			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
+		}
+		catch(Exception e){
+			System.out.println("Input-Output Error trying to write Alloy files.");
+			e.printStackTrace();//System.out.println(e);
+			System.exit(0);;
+		}
+		return sol;
+	}//end of method
+	
+	/**
+	 * It gets an Alloy solutions with a particular collection of counterexamples
+	 * @param currentIns	The current instance
+	 * @param cexs			The collection of counterexamples
+	 * @return				An Alloy Solution if it exists
+	 */
+	private A4Solution getAlloySolutionWithCexs(String currentIns, LinkedList<LinkedList<String>> cexs){
+		A4Solution sol = null;
+		try{
+			A4Reporter rep = new A4Reporter();
+			Module world = null;
+			//LTS formerLTS = mapInsModels.get(currentIns);
+			PrintWriter writer = new PrintWriter(outputPath+"Instances.als", "UTF-8");
+			//mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.cexActualRun.get(currentIns));	
+			LTS lts = new LTS();
+			mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, cexs);
+			A4Options opt = new A4Options();
+			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
+			Command cmd = world.getAllCommands().get(0);
+			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
+		}
+		catch(Exception e){
+			System.out.println("Input-Output Error trying to write Alloy files.");
+			e.printStackTrace();//System.out.println(e);
+			System.exit(0);;
+		}
+		return sol;
+	}//end of method
+	
+	
+	
+	private A4Solution getAlloyInitialSolution(String currentIns){
+		A4Solution sol = null;
+		try{
+			A4Reporter rep = new A4Reporter();
+			Module world = null;
+			A4Options opt = new A4Options();
+			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+currentIns+"Template.als");
+			Command cmd = world.getAllCommands().get(0);
+			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
+		}
+		catch(Exception e){
+			System.out.println("Input-Output Error trying to write Alloy files.");
+			e.printStackTrace();//System.out.println(e);
+		}
+		return sol;
+	}//end of method
+	
+	private int getNumberInstance(String instanceName){
+		int i=0;;
+		for (String ins:this.instancesList){
+			if (ins.equals(instanceName))
+				return i;
+			i++;
+		}
+		throw new RuntimeException("Error when searching for instance...");
+	}
+	
+	/**
+	 * A simple method for selecting g a model checking and perform the checking
+	 * @param currentIns	the current instance
+	 * @return	true iff the model check succeds
+	 */
+	private boolean selectChecker(String currentIns){
+		boolean result = false;
+		if (this.alloySearch)
+			result = alloyBoundedModelCheck(currentIns, this.cexActualRun.get(currentIns), this.pathBound, this.scope);
+		if (this.nuSMVSearch)
+			result = nuSMVModelCheck(currentIns, this.currentCexs[this.getNumberInstance(currentIns)]);
+		if (this.electrumSearch || this.nuXMVSearch)
+			result = this.electrumBoundedModelCheck(currentIns, this.cexActualRun.get(currentIns), this.pathBound, this.scope);
+		if (!this.alloySearch && !this.electrumSearch && !this.nuXMVSearch && !this.nuSMVSearch)
+			result = modelCheck(currentIns, this.cexActualRun.get(currentIns));
+		return result;
+	}
+	
+	/**
+	 * It refresh the solver that is used by the current instance, the former is saved in the queue
+	 * @param process	The current process
+	 * @param cex		A fresh cex
+	 */
+	private void refreshSolver(String process, LinkedList<String> cex){
+		//this.queueCexs[getNumberInstance(process)].addLast(new LinkedList<LinkedList<String>>(this.currentCexs[this.getNumberInstance(process)]));
+		//A4Solution newSol = this.getAlloySolutionWithCexs(process, this.queueCexs[getNumberInstance(process)].getLast());
+		//this.queueSolvers[getNumberInstance(process)].addLast(newSol);
+		
+		this.queueCexs[getNumberInstance(process)].addLast(this.currentCexs[this.getNumberInstance(process)]);
+		this.currentCexs[this.getNumberInstance(process)] = (LinkedList<LinkedList<String>>) this.currentCexs[this.getNumberInstance(process)].clone();
+		this.currentCexs[this.getNumberInstance(process)].addLast(cex);
+		try{
+			this.queueSolvers[getNumberInstance(process)].addLast(this.currentSol[getNumberInstance(process)].next());
+		}
+		catch(Exception e){
+			System.out.println(e.getStackTrace());
+		}
+		this.currentSol[getNumberInstance(process)] = getAlloySolution(process);
+		System.out.println(this.currentSol[getNumberInstance(process)]);
+		this.solverRefreshed[this.getNumberInstance(process)] = true;
+		
+	}
+	
+}// End of class

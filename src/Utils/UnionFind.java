@@ -58,5 +58,15 @@ public class UnionFind{
 	    	parent.put(root2, root1);
 	    	rank.put(root1, new Integer(rank.get(root1).intValue()+1));
 	    }
-	  }	  
+	  }	 
+	  
+	  public String toString(){
+		  String result ="";
+		  Collection<Node> ns = this.parent.keySet();
+		  for (Node n:ns){
+			  if (parent.get(n) == n)
+				  result = result + n.getName();
+		  }
+		  return result;
+	  }
 }

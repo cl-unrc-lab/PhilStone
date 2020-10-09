@@ -297,8 +297,7 @@ public class LTS {
 	 * @param scope		the scope that will passed to Alloy
 	 * @param counterexamples a collection of counterexamples that allows us to refine the specification
 	 */
-	public void getAlloyInstancesSpec(PrintWriter writer, int scope, LinkedList<LinkedList<String>> counterexamples){
-			
+	public void getAlloyInstancesSpec(PrintWriter writer, int scope, LinkedList<LinkedList<String>> counterexamples){			
 		if (this.eqClasses == null)
 				this.computeEqClasses();
 			String space = "    ";
@@ -320,9 +319,10 @@ public class LTS {
 			}
 			
 			// write down the enum constants
-			writer.println("abstract sig Enum{}");
 			// let us calculate the enum constants in the spec
 			LinkedList<String> enumCons = new LinkedList<String>();
+			if (this.enums.size()>0)
+				writer.println("abstract sig Enum{}");
 			for (String v: this.enums){
 				if (this.globalEnums.contains(v)){ // if a global var
 					for  (String cons:((EnumVar) this.processSpec.getSpec().getGlobalVarByName(v)).getValues()){
@@ -335,8 +335,8 @@ public class LTS {
 					}
 				}		
 			}
-			
-			writer.println("abstract sig EnumVar{}");
+			if (this.enums.size()>0)
+				writer.println("abstract sig EnumVar{}");
 			for (int i=0; i<enums.size(); i++){
 				writer.println("one sig "+enums.get(i)+ " extends EnumVar{}");
 				writer.println("fun "+" Val_"+enums.get(i).replace("EnumVar_", "")+"[m:Instance"+name+",n:Node]:Enum { m.enums[n]["+enums.get(i)+"]} ");
@@ -539,11 +539,15 @@ public class LTS {
 			for (int i=0; i<auxPreds.size(); i++){
 				writer.println(auxPreds.get(i));
 			}
-			
+			generateInvs(name);
 			writer.println("pred compile[s:Node]{s="+ this.initialNode);	
 			for (int i=0; i<this.localInvs.size(); i++){
 				writer.println(this.localInvs.get(i));
 			}
+			
+			
+			
+			
 			//no sure why this
 			//writer.println("all n':(*(Instance"+name+".succs))[s] | some n'':(*(Instance"+name+".succs))[n'] | some Instance"+name+".local[n'']}");
 			writer.println("}");
@@ -988,6 +992,7 @@ public class LTS {
 		//	result += " : BOOL;\n"; // until now we deal only with booleans 
 		this.computeEqClasses();
 		
+		
 		result += space + "state : {";
 		//program += space + "state"+currentProcess +" : {";
 		LinkedList<String> states = this.getEqClassesNames();
@@ -1226,7 +1231,7 @@ public class LTS {
 	}
 	
 	/**
-	 * Locate and set those action that are from de environment in the alloy model
+	 * Locate and set those action that are from the environment in the alloy model
 	 * @param instance
 	 */
 	private void setEnvActions(org.w3c.dom.Node instance){
@@ -1366,6 +1371,14 @@ public class LTS {
 			return str.replaceAll("\\$0", "");
 		}
 		return str.replace("$", "");
+	}
+	
+	private void generateInvs(String name){
+		this.localInvs.clear();
+		if (this.processSpec!= null){
+			for (int i=0; i<this.processSpec.getInvsAsStrings("Instance"+name).size(); i++)
+				this.localInvs.add(this.processSpec.getInvsAsStrings("Instance"+name).get(i));
+		}
 	}
 	
 }

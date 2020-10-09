@@ -104,7 +104,6 @@ public class Edge {
 		}
 		else{ 
 			writer.println(origin.getName() + "->" + target.getName() + "[style=dotted];");
-	
 		}
 	}
 		

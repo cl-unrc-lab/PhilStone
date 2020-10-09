@@ -15,7 +15,7 @@ import mc.FormulaParser;
 import mc.ProgramParser;
 
 /** 
- * GenSearch is a variation oh CounterExampleSearch that implements which generalizes a solution to N parameters,
+ * GenSearch is a variation oh CounterExampleSearch that generalizes a solution to N parameters,
  * that is, given N processes P1,...,PN it tries to solve the problem for few parameters, and then generalizes it 
  * by adding the rest of the processes
  * @author Pablo
@@ -57,7 +57,7 @@ public class GenSearch{
 			}
 				
 		}
-		// if not exception allthe instances has the same type
+		// if no exception all the instances has the same type
 		
 		
 		this.mapInsModels = new HashMap<String, LTS>(); // insLaxModels
@@ -80,9 +80,10 @@ public class GenSearch{
 				
 		System.out.println("Trying the small Spec");
 		CounterExampleSearch cex = new CounterExampleSearch(this.smallSpec, outputPath, templatePath, showInfo, printPDF, scope);
+		cex.setNuSMVBMC(0);
 		cex.startSearch();
 		if (!cex.getSyntProgram().equals("")){ // if found a program, we check if there is some process not changed
-			System.out.println("The Small Specification was Synthesized");
+			System.out.println("The Smaller Specifications was Synthesized");
 			
 			// the initial models are saved
 			for (int j=0; j< this.processes.size(); j++){
