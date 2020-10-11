@@ -83,6 +83,7 @@ terminal RUN;
 terminal PRIMBOOL;
 terminal integer PRIMINT;
 terminal OWNS;
+terminal ASSUMPTION;
                 
                 
 non terminal  ExprAux primary, expr, disjunction, conjunction, relation, comparison, addition, term, factor;
