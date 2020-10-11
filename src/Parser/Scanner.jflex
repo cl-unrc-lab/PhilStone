@@ -69,7 +69,8 @@ EndOfLineComment     = "// " {InputCharacter}* {LineTerminator}
 <YYINITIAL> "primenum"			{ return symbol(sym.PRIMENUM, new String(yytext()) ); } 
 <YYINITIAL> "inc"				{ return symbol(sym.INC, new String(yytext()) ); }  
 <YYINITIAL> "dec"				{ return symbol(sym.DEC, new String(yytext()) ); }                               
-
+<YYINITIAL> "Open"				{ return symbol(sym.OPEN, new String(yytext())) ); }
+<YYINITIAL>	"Assumption"		{ return symbol(sym.ASSUMPTION, new String(yytext())) ); }
 
 
 <YYINITIAL> {
@@ -118,7 +119,6 @@ EndOfLineComment     = "// " {InputCharacter}* {LineTerminator}
 	{WhiteSpace}		{ /* ignore white space */ }
  /*	[\r\n] 			{ olvl = lvl; lvl = 0; yybegin(MINDENT); } */
 }
-
 
 
 {Comment}           { /* ignore */ }

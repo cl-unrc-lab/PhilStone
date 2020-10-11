@@ -360,12 +360,10 @@ public class CounterExampleSearch {
 						}
 					}//end while
 				}//end while					
-			//}// end else	
-			// false; // after this while we know that no program was found for this instance of the search
 		}// end of base case
 		else{ // recursive case
 			System.out.println("Inspecting Instance: "+currentIns);
-					int p=0;
+					int p=0; // and aux var needed for numbering the files
 					LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
 					lts.setName(currentIns);
 					LTS formerLTS = mapInsModels.get(currentIns);
@@ -401,10 +399,7 @@ public class CounterExampleSearch {
 								mapInsModels.put(currentIns, formerLTS);
 								if (stop)
 									return false;
-								this.stopped[insNumber] = false;
-								// else continue with the search, and restore the previous values								
-								//changed.put(currentIns, new Boolean(false));
-								//mapInsModels.put(currentIns, formerLTS);								
+								this.stopped[insNumber] = false;							
 								if (!this.solverRefreshed[insNumber]){
 									try{
 										this.currentSol[insNumber] = this.currentSol[insNumber].next();	
