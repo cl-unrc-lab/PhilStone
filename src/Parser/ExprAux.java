@@ -18,6 +18,18 @@ public class ExprAux {
 	String owner; // in the case of variables, they have an owner
 	String unqualifiedName; //the name of the var without the owner
 	
+	
+	
+	public ExprAux(){
+		this.operator = Operator.NULL;
+		this.op1 = null;
+		this.op2 = null;
+		ival = 0;
+		bval = false;
+		this.name = "";
+		this.error = "";
+		this.line = 0;
+	}
 	/**
 	 * Basic constructor, in the case of unary operators the second operators should be set to null
 	 * @param operator

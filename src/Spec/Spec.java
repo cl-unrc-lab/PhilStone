@@ -15,6 +15,7 @@ public class Spec {
 	private LinkedList<Var> globalVars; // the global vars, this list does not contain the primVars
 	private LinkedList<Lock> locks;	// the locks in the specification
 	private LinkedList<TemporalFormula> invs; // the invariants
+	private LinkedList<TemporalFormula> assumptions; // the assumptions
 	private HashMap<String, ProcessSpec> instances; // the instances in the specification
 	private HashMap<String, LinkedList<Var>> actualPars; // the actual parameters of each instance
 	private LinkedList<EnumType> enums; // the enums defined in the specification
@@ -29,6 +30,7 @@ public class Spec {
 		this.globalVars = new LinkedList<Var>();
 		this.locks = new LinkedList<Lock>();
 		this.invs = new LinkedList<TemporalFormula>();
+		this.assumptions = new LinkedList<TemporalFormula>();
 		this.instances = new HashMap<String, ProcessSpec>();
 		this.actualPars = new HashMap<String, LinkedList<Var>>();
 		this.enums = new LinkedList<EnumType>();
@@ -92,6 +94,11 @@ public class Spec {
 	public void addInv(TemporalFormula f){
 		this.invs.add(f);
 	}
+	
+	public void addAssumption(TemporalFormula f){
+		this.assumptions.add(f);
+	}
+	
 	
 	public void addProcess(ProcessSpec p){
 		this.processes.add(p);
@@ -293,6 +300,21 @@ public class Spec {
 			int i = 2;
 			while (i<invs.size()){
 				result = new Conjunction(result, invs.get(i));
+			}
+			return result;
+		}
+	}
+	
+	public Formula getAssumptionProperty(){
+		if (assumptions.size() == 0)
+			return (new BoolConstant(true));
+		if (assumptions.size() == 1)
+			return assumptions.get(0);
+		else{
+			Conjunction result = new Conjunction(assumptions.get(0), assumptions.get(1));
+			int i = 2;
+			while (i<assumptions.size()){
+				result = new Conjunction(result, assumptions.get(i));
 			}
 			return result;
 		}

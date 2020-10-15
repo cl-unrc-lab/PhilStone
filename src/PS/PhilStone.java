@@ -52,6 +52,7 @@ public class PhilStone {
 	private static boolean NuXMV = false;
 	private static boolean NuSMV = false;
 	private static int scope = 0;
+	private static boolean open = false; // true when the specification is an open system (i.e., with an environment)
 	
 	public static void main(String[] args) {
 		
@@ -70,6 +71,10 @@ public class PhilStone {
 		if (args.length > 0){
 			specName = args[args.length-1];
 			for (int i=0; i<args.length-1;i++){
+				if (args[i].equals("-open")){
+					open=true;
+					continue;
+				}
 				if (args[i].equals("-pdf")){
 					writePdf=true;
 					continue;
@@ -198,7 +203,7 @@ public class PhilStone {
 		}
 		catch(Exception e){
 			System.out.println("Error while parsing the Spec File");
-//            e.printStackTrace(System.out);
+            e.printStackTrace(System.out);
             System.exit(0);
 		}
 		SpecAux smalls = null;
@@ -225,6 +230,8 @@ public class PhilStone {
 			
 			if (cexSearch){
 				CounterExampleSearch cs = new CounterExampleSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope);
+				if (open)
+					cs.setOpen();
 				cs.startSearch();
 			}
 			if (BMC){ // this is for using alloy model checking
@@ -244,6 +251,8 @@ public class PhilStone {
 			if (NuSMV){
 				CounterExampleSearch cs = new CounterExampleSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope, false, pathBound);
 				cs.setNuSMVBMC(pathBound);
+				if (open)
+					cs.setOpen();
 				cs.startSearch();
 			}
 			if (lexSearch){

@@ -24,6 +24,7 @@ public class SpecAux{
 	private HashMap<String, LinkedList<String>> sharedEnumValues; // it contains the possible values for each enum var
 	private LinkedList<ExprAux> invs; // the list of the invariants
 	private LinkedList<ExprAux> ltlProps; // the list of ltl properties of the spec
+	private LinkedList<ExprAux> assumptions; // A list of assumptions for open systems
 	private String errors; // a string used for keeping track of type errors
 	private boolean instancesOK;
 	//private boolean duplicatedInstances;
@@ -37,6 +38,7 @@ public class SpecAux{
 		this.sharedVars = new HashMap<String,Type>();
 		this.invs = new LinkedList<ExprAux>();
 		this.ltlProps = new LinkedList<ExprAux>();
+		this.assumptions = new LinkedList<ExprAux>();
 		this.errors = "";
 		this.instancesOK = true;
 		this.sharedPrimBoolVars = new LinkedList<String>();
@@ -133,7 +135,7 @@ public class SpecAux{
 			String current = it.next();
 			Type currentType = v.get(current); 
 			if (currentType == Type.PRIMBOOL){
-				this.sharedVars.put(current, Type.BOOL); // primitive boolean are also consideras as boolean for type checking purposes
+				this.sharedVars.put(current, Type.BOOL); // primitive boolean are also considered as boolean for type checking purposes
 				this.sharedPrimBoolVars.add(current);
 			}
 			if (currentType == Type.PRIMINT){	// and similarly for PRIMINT
@@ -182,6 +184,11 @@ public class SpecAux{
 		ltlProps.add(e);
 	}
 	
+	public void addAssumption(ExprAux e){
+		assumptions.add(e);
+	}
+	
+	
 	public boolean isPrimTypeVar(String name){
 		return this.sharedPrimBoolVars.contains(name) || this.sharedPrimIntVars.contains(name) || this.sharedPrimEnumVars.contains(name);
 	}
@@ -229,6 +236,8 @@ public class SpecAux{
 				this.errors = this.errors + "\n" + processes.get(i).getErrors();			
 			}
 		}
+		
+		// we type check the invariants
 		for (int i=0; i< this.invs.size(); i++){
 			if (invs.get(i).getType(table, this, "global") == Type.INT || invs.get(i).getType(table, this, "global") == Type.ENUM){
 				checkOk = false;
@@ -243,6 +252,21 @@ public class SpecAux{
 				this.errors +=  "\nInvariant contains AV/OWN primitive, line :" +  this.invs.get(i).getLine();	
 			}	
 		}
+		// we type check the assumptions
+		for (int i=0; i< this.assumptions.size(); i++){
+			if (assumptions.get(i).getType(table, this, "global") == Type.INT || assumptions.get(i).getType(table, this, "global") == Type.ENUM){
+				checkOk = false;
+				this.errors = this.errors + "\n" + "Error in assumption property, line: "+  this.invs.get(i).getLine();
+			}
+			if (assumptions.get(i).getType(table, this, "global") == Type.ERROR){
+				checkOk = false;
+				this.errors = this.errors + "\n " +  this.invs.get(i).getError();			
+			}
+			if (assumptions.get(i).containsLock()){
+				checkOk = false;
+				this.errors +=  "\nAssumption contains AV/OWN primitive, line :" +  this.invs.get(i).getLine();	
+			}	
+		}
 		if (!this.instancesOK)
 			checkOk = false;
 		return checkOk;
@@ -254,7 +278,7 @@ public class SpecAux{
 	 */
 	public Spec getSpec(){
 		
-		// we create a symbol table for storing the expression and their types
+		// we create a symbol table for storing the expressions and their types
 		HashMap<String, Type> table = new HashMap<String, Type>(); // the symbol table
 		
 		// we add the shared vars
@@ -338,6 +362,11 @@ public class SpecAux{
 		// get the invariants
 		for (int i=0; i<this.invs.size(); i++){
 			result.addInv((TemporalFormula) invs.get(i).getExpr(table, this, null));
+		}
+		
+		// add the assumptions
+		for (int i=0; i<this.assumptions.size(); i++){
+			result.addAssumption((TemporalFormula) assumptions.get(i).getExpr(table, this, null));
 		}
 		
 		// the instances

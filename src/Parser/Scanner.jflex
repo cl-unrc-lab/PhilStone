@@ -69,7 +69,7 @@ EndOfLineComment     = "// " {InputCharacter}* {LineTerminator}
 <YYINITIAL> "primenum"			{ return symbol(sym.PRIMENUM, new String(yytext()) ); } 
 <YYINITIAL> "inc"				{ return symbol(sym.INC, new String(yytext()) ); }  
 <YYINITIAL> "dec"				{ return symbol(sym.DEC, new String(yytext()) ); }                               
-<YYINITIAL>	"Assumption"		{ return symbol(sym.ASSUMPTION, new String(yytext())) ); }
+<YYINITIAL>	"assumption"		{ return symbol(sym.ASSUMPTION, new String(yytext()) ); }
 
 
 <YYINITIAL> {

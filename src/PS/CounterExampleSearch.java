@@ -47,6 +47,7 @@ import java.nio.file.Paths;
  */
 public class CounterExampleSearch {
 	String syntProgram; 								// the program synthesized
+	boolean open = false;								// it indicates if it is an open specification 
 	LinkedList<String> processes;						// a list of processes
 	LinkedList<String> instancesList; 					// a list of instances
 	HashMap<String, String> instances; 
@@ -203,6 +204,11 @@ public class CounterExampleSearch {
 		this.alloySearch = false;
 		this.pathBound = 1; // some value different form 0 to the pathBound, electrum does not use it but 0 throws an error
 	}
+	
+	public void setOpen(){
+		this.open = true;
+	}
+	
 	
 	/**
 	 * It starts the synthesis of programs guided by counterexamples
@@ -1344,8 +1350,6 @@ public class CounterExampleSearch {
 						program+= "Av_"+parameters.get(i);
 				}
 				else{
-					//program+=","+parameters.get(i)+ ", Av_"+parameters.get(i);
-					//program+=", Av_"+parameters.get(i);
 					if (mySpec.getGlobalVarType(parameters.get(i)) == Type.BOOL)
 						program+= ","+"Prop_"+parameters.get(i)+", Av_"+parameters.get(i);
 					if (mySpec.getGlobalVarType(parameters.get(i)) == Type.PRIMBOOL)
@@ -1361,7 +1365,23 @@ public class CounterExampleSearch {
 			program += ");\n";
 		}
 		
-		
+		// in the case of open systems we generate an environment
+		if (this.open){
+			program += space + "env :process Env(";
+			LinkedList<String> primVars = this.mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL);
+			for (int i=0; i<primVars.size();i++){
+				if (i==0 && primVars.size()>=1){
+					if (mySpec.getGlobalVarType(primVars.get(i)) == Type.PRIMBOOL) // by now all are primbools
+						program+= "Prop_"+primVars.get(i);
+				}
+				else{
+					if (mySpec.getGlobalVarType(this.mySpec.getGlobalVarsNames().get(i)) == Type.PRIMBOOL)
+						program+= ","+"Prop_"+this.mySpec.getGlobalVarsNames().get(i);	
+				}
+			}
+			program += ");\n";
+		}
+			
 		// we set the init formula
 		program += "ASSIGN\n";
 		LinkedList<String> initialisedVars = new LinkedList<String>();
@@ -1402,13 +1422,18 @@ public class CounterExampleSearch {
 		}
 		
 		// the global property is written down
-		program += "LTLSPEC\n";
-		program += space + generateNuSMVFormula(mySpec.getGlobalProperty())+"\n";
+		if (!open){
+			program += "LTLSPEC\n";
+			program += space + generateNuSMVFormula(mySpec.getGlobalProperty())+"\n";
+		}
+		else{ /// if it is an open system we generate the assumptions
+			program += "LTLSPEC\n";
+			program +=  space +"(! ("+ generateNuSMVFormula(mySpec.getAssumptionProperty())+")) | ("+ generateNuSMVFormula(mySpec.getGlobalProperty())+")\n";
+		}
 		
 		// the processes are written down
 		//Iterator<String> it3 = processes.keySet().iterator();
-		Iterator<String> it3 = definedProcesses.iterator();
-		
+		Iterator<String> it3 = definedProcesses.iterator();		
 		while (it3.hasNext()){
 			HashMap<String, String> pars = new HashMap<String, String>();
 			LinkedList<String> parList = new LinkedList<String>();
@@ -1423,8 +1448,7 @@ public class CounterExampleSearch {
 				LinkedList<String> processPrimBoolPars = mySpec.getProcessByName(currentProcess).getBoolPrimParNames();
 				for (int i=0; i<processPrimBoolPars.size();i++){
 					pars.put(processPrimBoolPars.get(i), "PRIMBOOL");
-				}
-				
+				}			
 				LinkedList<String> processLockPars = mySpec.getProcessByName(currentProcess).getLockParNames();
 				for (int i=0; i<processLockPars.size();i++){
 					pars.put(processLockPars.get(i), "LOCK");
@@ -1483,12 +1507,16 @@ public class CounterExampleSearch {
 					}
 				}
 				
-				
 				program += mapInsModels.get(currentProcess).toNuSMVProcess(pars, parList, currentProcess+"Process", currentProcess);
+				program += "\n";
 			}
 		}
 		
-		//System.out.println(program);
+		// If it is an open system we write an environment process
+		if (open)	
+			program += this.generateEnvProcess();
+		
+		System.out.println(program);
 		return program;
 	}
 	
@@ -1865,9 +1893,10 @@ public class CounterExampleSearch {
 			//result += "(some s: first.*(this/next) | "+generateBoundedFormula(((AF) f).getExpr1())+")";
 			return result;
 		}
-	
 		throw new RuntimeException("nuSMV Bounded Model Checking not defined for the given formula");
 	}
+	
+	
 	
 	/**
 	 * NOTE: This method only work for formula of the type AGp 
@@ -2492,6 +2521,38 @@ public class CounterExampleSearch {
 		this.currentSol[getNumberInstance(process)] = getAlloySolution(process);
 		System.out.println(this.currentSol[getNumberInstance(process)]);
 		this.solverRefreshed[this.getNumberInstance(process)] = true;
+		
+	}
+	
+	/**
+	 * @return	A NuSMV process representing the environment.
+	 */
+	private String generateEnvProcess(){
+		String result = "";
+		String space = "    ";
+		// write the global vars as a parameters
+		LinkedList<String> boolVars = mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL);
+		result += "MODULE Env(";
+		for (int i=0; i< boolVars.size(); i++){
+			result += i==0?boolVars.get(i):","+boolVars.get(i);
+		}
+		result += ")\n";
+		result += "ASSIGN\n";
+		for (String var : mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL)){
+			result += "next("+var+") :=case \n";
+			result += space+"TRUE: {TRUE};\n";
+			result += space+"TRUE: {FALSE};\n";
+			result += "esac;\n";
+		}
+		for (String var : mySpec.getGlobalVarsNamesByType(Type.ENUM)){
+			result += "next("+var+") :=case \n";
+			for (String value : ((EnumVar) mySpec.getGlobalVarByName(var)).getEnumType().getValues()){
+				result += space+"TRUE: {"+value+"};\n";	
+			}
+			result += "esac;";
+		}
+		result += "FAIRNESS running;\n";
+		return result;
 		
 	}
 	

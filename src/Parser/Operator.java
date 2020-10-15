@@ -6,6 +6,11 @@ package Parser;
  *
  */
 public enum Operator {
+	NULL, // for empty
+	X,    // for LTL
+	W,    // for LTL
+	F,    // for LTL
+	G,    // for LTL 
 	SUM, 
 	MULT, 
 	DIV, 
