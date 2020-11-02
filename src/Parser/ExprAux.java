@@ -7,7 +7,7 @@ import Spec.*;
 
 
 public class ExprAux {
-	Operator operator; // the operator SUM, MULT, DIV, NEG, AND, OR, NOT, IMP, AU, EU, AX, EX,  
+	Operator operator; // the operator SUM, MULT, DIV, NEG, AND, OR, NOT, IMP, AU, EU, AX, EX, F, G, X, W, U
 	ExprAux op1; // operator 1
 	ExprAux op2; // operator 2
 	boolean bval; // in the case it is a constant
@@ -223,15 +223,20 @@ public class ExprAux {
 		case NOT:	return new Negation((Formula) this.op1.getExpr(table, mySpec, myProcess));
 		case OR:	return new Disjunction((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table,mySpec, myProcess));
 		case IMP:	return new Implication((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
-		case AU:	return new AU((TemporalFormula) this.op1.getExpr(table, mySpec, myProcess), (TemporalFormula) this.op2.getExpr(table, mySpec, myProcess));
-		case EU:	return new EU((TemporalFormula) this.op1.getExpr(table, mySpec, myProcess), (TemporalFormula) this.op2.getExpr(table, mySpec, myProcess));
-		case AW:	return new AW((TemporalFormula) this.op1.getExpr(table, mySpec, myProcess), (TemporalFormula) this.op2.getExpr(table, mySpec, myProcess));
-		case EW:	return new EW((TemporalFormula) this.op1.getExpr(table, mySpec, myProcess), (TemporalFormula) this.op2.getExpr(table, mySpec, myProcess));
+		case AU:	return new AU((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
+		case EU:	return new EU((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
+		case AW:	return new AW((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
+		case EW:	return new EW((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
 		case AND:	return new Conjunction((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
 		case AG:	return new AG((Formula) this.op1.getExpr(table, mySpec, myProcess));
 		case EG:	return new EG((Formula) this.op1.getExpr(table, mySpec, myProcess));
 		case EF:	return new EF((Formula) this.op1.getExpr(table, mySpec, myProcess));
 		case AF: 	return new AF((Formula) this.op1.getExpr(table, mySpec, myProcess));
+		case X:     return new X((Formula) this.op1.getExpr(table, mySpec, myProcess));
+		case F:     return new F((Formula) this.op1.getExpr(table, mySpec, myProcess));
+		case G:     return new G((Formula) this.op1.getExpr(table, mySpec, myProcess));
+		case U:     return new U((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
+		case W:     return new W((Formula) this.op1.getExpr(table, mySpec, myProcess), (Formula) this.op2.getExpr(table, mySpec, myProcess));
 		case MINUS: return new NegExpression((AritExpression) this.op1.getExpr(table, mySpec, myProcess));
 		case DEC: 	return new DecEnum((EnumExpression) this.op1.getExpr(table, mySpec, myProcess));
 		case INC: 	return new IncEnum((EnumExpression) this.op1.getExpr(table, mySpec, myProcess));
@@ -339,6 +344,9 @@ public class ExprAux {
 			case EG:
 			case EF:
 			case AF:
+			case F:
+			case G:
+			case X:
 			case NOT:	if (op1 == null){
 							this.error = "Type Error in Boolean Expression, line: " + Integer.toString(line);
 							return Type.ERROR;
@@ -377,6 +385,8 @@ public class ExprAux {
 				
 			case OR:
 			case IMP:
+			case U:
+			case W:
 			case AU:
 			case EU:
 			case AW:
@@ -593,12 +603,17 @@ public class ExprAux {
 		case INC:
 		case EX:	
 		case AX:	
+		case X:
+		case F:
+		case G:
 		case NOT:	return op1.containsLock();
 		case OR:	
 		case AU:	
 		case EU:	
 		case AW:	
 		case EW:	
+		case W:
+		case U:
 		case AND:	
 		case MINUS: 
 		case MULT:  

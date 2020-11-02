@@ -545,9 +545,14 @@ temporalFormula 	::=
 			|	 	FORALL NEXT LBRACKET expr:s  RBRACKET							{: RESULT = new ExprAux(Operator.AX, s, null, sleft); :}
             | 		FORALL GLOBALLY LBRACKET expr:s RBRACKET					{: RESULT = new ExprAux(Operator.AG, s, null, sleft); :}
            // |		FORALL FUTURE temporalFormula:s 						{: RESULT = new AF(s); :}
-            |		FORALL LBRACKET expr:p UNTIL expr:q RBRACKET 		{: RESULT = new ExprAux(Operator.AU, p, q, pleft);	:}
-            |		FORALL LBRACKET expr:p WEAKUNTIL expr:q RBRACKET 	{: RESULT = new ExprAux(Operator.AW, p, q, pleft);	:}
-            |		FORALL FUTURE LBRACKET expr:q RBRACKET 						{: RESULT = new ExprAux(Operator.AF, q, null, qleft); :}		
+            |		FORALL LBRACKET expr:p UNTIL expr:q RBRACKET 		    {: RESULT = new ExprAux(Operator.AU, p, q, pleft);	:}
+            |		FORALL LBRACKET expr:p WEAKUNTIL expr:q RBRACKET 	    {: RESULT = new ExprAux(Operator.AW, p, q, pleft);	:}
+            |		FORALL FUTURE LBRACKET expr:q RBRACKET 					{: RESULT = new ExprAux(Operator.AF, q, null, qleft); :}		
+			|       NEXT LBRACKET expr:s RBRACKET 							{: RESULT = new ExprAux(Operator.X, s, null, sleft); :}
+			|       GLOBALLY LBRACKET expr:s RBRACKET						{: RESULT = new ExprAux(Operator.G, s, null, sleft); :}
+			|       LBRACKET expr:p UNTIL expr:q  RBRACKET		            {: RESULT = new ExprAux(Operator.U, p, q, pleft); :}
+			|		LBRACKET expr:p WEAKUNTIL expr:q RBRACKET 	{: RESULT = new ExprAux(Operator.W, p, q, pleft); :}	
+			|	    FUTURE LBRACKET expr:q RBRACKET 						{: RESULT = new ExprAux(Operator.F, q, null, qleft); :}	
 		;
 
 

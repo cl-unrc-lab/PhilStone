@@ -30,7 +30,8 @@ public class LTS {
 	private String associatedProcess;
 	private UnionFind eqClasses; // used for storing equivalence classes of nodes wrt environmental actions
 	private String initialNode;
-	private ProcessSpec processSpec; // the specification corrrsponding to the actual LTS
+	private ProcessSpec processSpec; // the specification corresponding to the actual LTS
+	private boolean tokenRing = false; // it indicates that the LTS represents a token ring 
 		
 	/**
 	 * A simple constructor for the class
@@ -91,6 +92,9 @@ public class LTS {
 		this.name = name;
 	}
 	
+	public void setTokenRing(){
+		this.tokenRing = true;
+	}
 	
 	/**
 	 * Adds a node to the list
@@ -390,7 +394,7 @@ public class LTS {
 					writer.println(space + "no " + actions.get(i));
 					continue;
 				}
-				if (!env.contains(actions.get(i))){
+				if (!env.contains(actions.get(i)) && (!this.tokenRing || (!actions.get(i).contains("receive")))){
 					//if (actions.get(i).equals("ACTgetLeft") || actions.get(i).equals("ACTgetRight"))
 						writer.print(space + actions.get(i)+" in "); // NOTE: CHANGE THIS!
 					//else
@@ -407,6 +411,7 @@ public class LTS {
 				writer.println("");
 			}
 			writer.println("");
+			
 			
 			// the propositions
 			writer.print(space + "val = ");
@@ -543,10 +548,7 @@ public class LTS {
 			writer.println("pred compile[s:Node]{s="+ this.initialNode);	
 			for (int i=0; i<this.localInvs.size(); i++){
 				writer.println(this.localInvs.get(i));
-			}
-			
-			
-			
+			}	
 			
 			//no sure why this
 			//writer.println("all n':(*(Instance"+name+".succs))[s] | some n'':(*(Instance"+name+".succs))[n'] | some Instance"+name+".local[n'']}");

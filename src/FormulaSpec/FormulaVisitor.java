@@ -27,6 +27,11 @@ public interface FormulaVisitor {
 	public void visit(EG e);
 	public void visit(EF e);
 	public void visit(AF a);
+	public void visit(F a);
+	public void visit(G a);
+	public void visit(X a);
+	public void visit(W a);
+	public void visit(U a);
 }
 
 

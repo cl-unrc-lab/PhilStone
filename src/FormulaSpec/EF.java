@@ -3,6 +3,7 @@ package FormulaSpec;
 import java.util.LinkedList;
 
 public class EF extends TemporalFormula{
+
 	public EF(Formula e1){
         super(e1,null);		
 	}

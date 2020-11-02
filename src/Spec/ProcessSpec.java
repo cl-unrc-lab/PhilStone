@@ -481,7 +481,6 @@ public class ProcessSpec {
 	
 	public String metamodelToString(String templateDir, int scope){
 		
-		
 		// we save the local bool propositions
 		List<String> localBoolProps = new ArrayList<String>();
 		for (int i = 0; i < localVars.size(); i++){
@@ -489,6 +488,8 @@ public class ProcessSpec {
 				localBoolProps.add(localVars.get(i).getName());
 				
 		}
+		
+		
 		
 		localBoolProps.addAll(this.getOwnedSharedVarsNamesbyType(Type.BOOL)); // the owned vars are considered local for efficiency reasons
 		localBoolProps.addAll(this.getOwnedSharedVarsNamesbyType(Type.PRIMBOOL));
@@ -547,12 +548,19 @@ public class ProcessSpec {
 		actions.addAll(envActions);
 		
 		STGroup group = new STGroupDir(templateDir);
-		ST st = group.getInstanceOf("Metamodel");
+		ST st = mySpec.isTokenRing() ? group.getInstanceOf("TokenRingMetamodel") : group.getInstanceOf("Metamodel");
 		if (st == null){ // linux uses uppercases for the metamodel!
 			throw new RuntimeException("Template Folder Not Found");				
 		}
 		
 		st.add("name", this.name);
+		if (mySpec.isTokenRing()){
+			// if it is a token ring then we remove hasToken, sendi, sendi+1
+			for (int i=0; i< localBoolProps.size(); i++){
+				if (localBoolProps.get(i).contains("hasToken"))
+					localBoolProps.remove(i);
+			}
+		}
 		st.add("boolProps", localBoolProps); // we add local boolean variables
 		st.add("intVars", localIntVars); // we add the local int variables
 		st.add("enumVars", localEnumVars); // we add the local enum vars
@@ -782,6 +790,18 @@ public class ProcessSpec {
 		st.add("sharedBoolProps", usedBooleanGlobalVars); // we take the parameters as a global variables
 		st.add("sharedIntVars", usedIntGlobalVars);
 		st.add("sharedEnumVars", usedEnumGlobalVars);
+		if (mySpec.isTokenRing()){
+			// if it is a token ring then we remove hasToken, sendi, sendi+1
+			for (int i=0; i< usedPrimBoolVars.size(); i++){
+				if (usedPrimBoolVars.get(i).contains("send"))
+					usedPrimBoolVars.remove(i);
+			}
+			for (int i=0; i< primContainer.size(); i++){
+				if (primContainer.get(i).getName().contains("send"))
+					primContainer.remove(i);
+			}
+			
+		}
 		st.add("sharedPrimBoolProps", usedPrimBoolVars); // the primitive/volatile shared bool vars
 		st.add("sharedPrimIntVars", usedPrimIntVars); // the primitive/volatile shared int vars
 		st.add("sharedPrimEnumVars", usedPrimEnumVars); // the primitive/volatile shared enum vars
@@ -821,6 +841,13 @@ public class ProcessSpec {
 		boolean containsInt = !localIntVars.isEmpty() || !usedIntGlobalVars.isEmpty() || !usedPrimIntVars.isEmpty();
 		st.add("containsEnums", containsEnum);
 		st.add("containsInts", containsInt);
+		if (mySpec.isTokenRing()){
+			int id = mySpec.getProcessId(this.name);
+			int size = mySpec.getNumberOfProcs();
+			st.add("idProcess", id);
+			st.add("nextIdProcess", (id%size)+1);
+			st.add("firstProcess", id==1);
+		}
 		
 		String result = st.render();
 		return result;
@@ -907,6 +934,8 @@ public class ProcessSpec {
 		ST st = group.getInstanceOf("metamodel");
 		
 		//System.out.println(localActions);
+		
+		
 		
 		st.add("name", this.name);
 		st.add("boolProps", localBoolProps);

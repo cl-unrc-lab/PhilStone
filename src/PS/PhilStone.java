@@ -53,6 +53,8 @@ public class PhilStone {
 	private static boolean NuSMV = false;
 	private static int scope = 0;
 	private static boolean open = false; // true when the specification is an open system (i.e., with an environment)
+	private static boolean token = false; // an option for token ring systems
+	
 	
 	public static void main(String[] args) {
 		
@@ -73,6 +75,10 @@ public class PhilStone {
 			for (int i=0; i<args.length-1;i++){
 				if (args[i].equals("-open")){
 					open=true;
+					continue;
+				}
+				if (args[i].equals("-token")){
+					token=true;
 					continue;
 				}
 				if (args[i].equals("-pdf")){
@@ -232,6 +238,10 @@ public class PhilStone {
 				CounterExampleSearch cs = new CounterExampleSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope);
 				if (open)
 					cs.setOpen();
+				if (token){
+					cs.setToken();
+					mySpec.setTokenRing();
+				}
 				cs.startSearch();
 			}
 			if (BMC){ // this is for using alloy model checking
@@ -253,6 +263,10 @@ public class PhilStone {
 				cs.setNuSMVBMC(pathBound);
 				if (open)
 					cs.setOpen();
+				if (token){
+					cs.setToken();
+					mySpec.setTokenRing();
+				}
 				cs.startSearch();
 			}
 			if (lexSearch){

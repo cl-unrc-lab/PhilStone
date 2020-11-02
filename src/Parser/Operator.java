@@ -9,6 +9,7 @@ public enum Operator {
 	NULL, // for empty
 	X,    // for LTL
 	W,    // for LTL
+	U,
 	F,    // for LTL
 	G,    // for LTL 
 	SUM, 

@@ -19,6 +19,7 @@ public class Spec {
 	private HashMap<String, ProcessSpec> instances; // the instances in the specification
 	private HashMap<String, LinkedList<Var>> actualPars; // the actual parameters of each instance
 	private LinkedList<EnumType> enums; // the enums defined in the specification
+	private boolean tokenRing = false; // it says if the spec is a token ring
 	
 	/**
 	 * A Basic Constructor for Spec
@@ -329,6 +330,18 @@ public class Spec {
 		return null;
 	}
 	
+	public int getNumberOfProcs(){
+		return this.processes.size();
+	}
+	
+	public int getProcessId(String name){
+		for (int i=0; i<this.processes.size(); i++){
+			if (processes.get(i).getName().equals(name))
+				return (i+1);
+		}
+	return -1;
+	}
+	
 	/**
 	 * 
 	 * @param instance	the instance to which we want to obtain the actual parameters
@@ -396,6 +409,14 @@ public class Spec {
 		return Type.ERROR;
 	}
 	
+	/**
+	 * 
+	 * @return	true iff the spec is a token ring
+	 */
+	public boolean isTokenRing(){
+		return this.tokenRing;
+	}
+	
 	/** 
 	 * @return	the metamodel of the given process, returns the empty string in the case of 
 	 * 			inexistent Process
@@ -419,6 +440,13 @@ public class Spec {
 		for (int i=0; i<this.processes.size(); i++){
 			processes.get(i).generateMetamodel(file, templateDir, scope);
 		}
+	}
+	
+	/**
+	 * It sets token ring to true
+	 */
+	public void setTokenRing(){
+		this.tokenRing = true;
 	}
 	
 	public String toString(){

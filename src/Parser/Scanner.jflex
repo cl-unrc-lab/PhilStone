@@ -100,7 +100,7 @@ EndOfLineComment     = "// " {InputCharacter}* {LineTerminator}
 	{IntLiteral} 		{ return symbol(sym.INTEGER, new Integer(Integer.parseInt(yytext()))); }	
 	"True" 				{ return symbol(sym.TRUE, new String(yytext()) ); }
 	"False" 			{ return symbol(sym.FALSE, new String(yytext()) ); }
-/*	"->" 				{ return symbol(sym.IMPLIES, new String(yytext())); } */
+	"->" 				{ return symbol(sym.IMPLIES, new String(yytext())); } 
 	"<->" 				{ return symbol(sym.IFF, new String(yytext())); }
 	"&&" 				{ return symbol(sym.AND, new String(yytext())); }
 	"||" 				{ return symbol(sym.OR, new String(yytext())); }

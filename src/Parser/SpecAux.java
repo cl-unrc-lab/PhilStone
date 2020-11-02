@@ -253,6 +253,7 @@ public class SpecAux{
 			}	
 		}
 		// we type check the assumptions
+		
 		for (int i=0; i< this.assumptions.size(); i++){
 			if (assumptions.get(i).getType(table, this, "global") == Type.INT || assumptions.get(i).getType(table, this, "global") == Type.ENUM){
 				checkOk = false;
@@ -267,6 +268,7 @@ public class SpecAux{
 				this.errors +=  "\nAssumption contains AV/OWN primitive, line :" +  this.invs.get(i).getLine();	
 			}	
 		}
+		
 		if (!this.instancesOK)
 			checkOk = false;
 		return checkOk;

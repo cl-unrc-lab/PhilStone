@@ -7,11 +7,9 @@ public class BoolConstant extends TemporalFormula {
 	
 	public BoolConstant(boolean v){
 		super(null, null);
-		//name = s;
 		value =v;
 	}
 	
-		
 	@Override	
 	public void accept(FormulaVisitor visitor){
 		 visitor.visit(this);		 

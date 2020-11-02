@@ -48,6 +48,8 @@ import java.nio.file.Paths;
 public class CounterExampleSearch {
 	String syntProgram; 								// the program synthesized
 	boolean open = false;								// it indicates if it is an open specification 
+	boolean token = false;                              // it indicates that it is a token ring, it adds 
+												        // formulas specifying token rings
 	LinkedList<String> processes;						// a list of processes
 	LinkedList<String> instancesList; 					// a list of instances
 	HashMap<String, String> instances; 
@@ -209,6 +211,14 @@ public class CounterExampleSearch {
 		this.open = true;
 	}
 	
+	public void setTemplatePath(String template){
+		this.templatePath = template;
+	}
+	
+	public void setToken(){
+		this.token = true;
+	}
+	
 	
 	/**
 	 * It starts the synthesis of programs guided by counterexamples
@@ -247,6 +257,8 @@ public class CounterExampleSearch {
 			}
 			LTS lts = new LTS(mySpec.getProcessByName(currentProcess));
 			lts.setName(currentProcess);
+			if (mySpec.isTokenRing())
+				lts.setTokenRing();
 			lts.fromAlloyXML(outputfilename); // we read the LTS
 			mapProcessModels.put(currentProcess, lts); // we store the candidate model for each process
 			// we store the laxest model for each instance, at the beginning they coincide with those of the processes
@@ -313,6 +325,8 @@ public class CounterExampleSearch {
 			System.out.println("Last instance: "+currentIns);
 			LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
 			lts.setName(currentIns);
+			if (mySpec.isTokenRing())
+				lts.setTokenRing();
 			LTS formerLTS = mapInsModels.get(currentIns);
 			boolean checkResult = false;
 			checkResult = selectChecker(currentIns);
@@ -369,9 +383,13 @@ public class CounterExampleSearch {
 		}// end of base case
 		else{ // recursive case
 			System.out.println("Inspecting Instance: "+currentIns);
+				//	if (counterExampleSearch(insNumber+1, scope))
+				//			return true; // try with the initial model
 					int p=0; // and aux var needed for numbering the files
 					LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
 					lts.setName(currentIns);
+					if (mySpec.isTokenRing())
+						lts.setTokenRing();
 					LTS formerLTS = mapInsModels.get(currentIns);
 					this.queueCexs[insNumber].addLast(new LinkedList<LinkedList<String>>());
 					this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));		
@@ -1335,7 +1353,7 @@ public class CounterExampleSearch {
 			// in NuSMV the global vars that are used in the process need to be passed as pars
 			// we add the used shared vars to the parameters of the methods
 			for (String gvar:mySpec.getGlobalVarsNames()){
-				if (!parameters.contains(gvar) && mySpec.getProcessSpec(currentInstance).usesSharedVar(gvar))
+				if (!parameters.contains(gvar) && (mySpec.getProcessSpec(currentInstance).usesSharedVar(gvar) || (mySpec.isTokenRing() && gvar.contains("send"))))
 					parameters.add(gvar);
 			}
 			//for (int i=parameters.size()-1; i>=0;i--){
@@ -1371,15 +1389,19 @@ public class CounterExampleSearch {
 			LinkedList<String> primVars = this.mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL);
 			for (int i=0; i<primVars.size();i++){
 				if (i==0 && primVars.size()>=1){
-					if (mySpec.getGlobalVarType(primVars.get(i)) == Type.PRIMBOOL) // by now all are primbools
-						program+= "Prop_"+primVars.get(i);
+					if (!mySpec.isTokenRing() || !primVars.get(i).contains("send")){
+						if (mySpec.getGlobalVarType(primVars.get(i)) == Type.PRIMBOOL) // by now all are primbools
+							program+= "Prop_"+primVars.get(i);
+					}
 				}
 				else{
-					if (mySpec.getGlobalVarType(this.mySpec.getGlobalVarsNames().get(i)) == Type.PRIMBOOL)
-						program+= ","+"Prop_"+this.mySpec.getGlobalVarsNames().get(i);	
+					if (!mySpec.isTokenRing() || !primVars.get(i).contains("send")){
+						if (mySpec.getGlobalVarType(this.mySpec.getGlobalVarsNames().get(i)) == Type.PRIMBOOL)
+								program+= ","+"Prop_"+this.mySpec.getGlobalVarsNames().get(i);	
+					}
 				}
 			}
-			program += ");\n";
+		program += ");\n";
 		}
 			
 		// we set the init formula
@@ -1457,7 +1479,7 @@ public class CounterExampleSearch {
 				parList.addAll(mySpec.getProcessByName(currentProcess).getParNames());
 				// we also add the global vars that are not in the params and are used by the process
 				for (String gvar:mySpec.getGlobalVarsNames()){
-					if (mySpec.getProcessByName(currentProcess).usesSharedVar(gvar) && !pars.containsKey(gvar)){
+					if ((mySpec.getProcessByName(currentProcess).usesSharedVar(gvar) || (mySpec.isTokenRing() && gvar.contains("send"))) && !pars.containsKey(gvar)){
 						// we add the globalvar as a parameter
 						parList.add(gvar);
 						if (mySpec.getGlobalVarType(gvar) == Type.BOOL){
@@ -1492,7 +1514,7 @@ public class CounterExampleSearch {
 				}
 				
 				for (String gvar:mySpec.getGlobalVarsNames()){
-					if (mySpec.getProcessByName(mySpec.getInstanceTypes().get(currentProcess)).usesSharedVar(gvar) && !pars.containsKey(gvar)){
+					if ((mySpec.getProcessByName(mySpec.getInstanceTypes().get(currentProcess)).usesSharedVar(gvar) || (mySpec.isTokenRing() && gvar.contains("send"))) && !pars.containsKey(gvar)){
 						// we add the globalvar as a parameter
 						parList.add(gvar);
 						if (mySpec.getGlobalVarType(gvar) == Type.BOOL){
@@ -1873,26 +1895,40 @@ public class CounterExampleSearch {
 			return result;
 		}
 		if (f instanceof AG){
-			//result += "infinite and ";
 			result += "( G ("+generateNuSMVFormula(((AG) f).getExpr1())+"))";
-			//result += "(all s: first.*(this/next) | "+generateBoundedFormula(((AG) f).getExpr1())+")" ;
 			return result;
 		}
 		if (f instanceof EG){
 			result += "( G ("+generateNuSMVFormula(((EG) f).getExpr1())+"))";
-			//result += "(all s: first.*(this/next) | "+generateBoundedFormula(((EG) f).getExpr1())+")" ;
 			return result;
 		}
 		if (f instanceof EF){
 			result += "(F("+generateNuSMVFormula(((EF) f).getExpr1())+"))";
-			//result += "(some s: first.*(this/next) | "+generateBoundedFormula(((EF) f).getExpr1())+")";
 			return result;
 		}
 		if (f instanceof AF){
 			result += "(F ("+generateNuSMVFormula(((AF) f).getExpr1())+"))";
-			//result += "(some s: first.*(this/next) | "+generateBoundedFormula(((AF) f).getExpr1())+")";
 			return result;
 		}
+		if (f instanceof F){
+			result += "(F ("+generateNuSMVFormula(((F) f).getExpr1())+"))";
+			return result;
+		}
+		if (f instanceof G){
+			result += "( G ("+generateNuSMVFormula(((G) f).getExpr1())+"))";
+			return result;
+		}
+		if (f instanceof U){
+			U theF = (U) f;
+			result +=  "(" + generateNuSMVFormula(theF.getExpr1())+ " U "+generateNuSMVFormula(theF.getExpr2()) + ")";
+			return result;
+		}
+		if (f instanceof W){
+			W theF = (W) f;
+			result +=  "(" + generateNuSMVFormula(theF.getExpr1())+ " U "+generateNuSMVFormula(theF.getExpr2()) + ") | (G !"+generateNuSMVFormula(theF.getExpr2())+")";
+			return result;
+		}
+		
 		throw new RuntimeException("nuSMV Bounded Model Checking not defined for the given formula");
 	}
 	
@@ -2534,15 +2570,22 @@ public class CounterExampleSearch {
 		LinkedList<String> boolVars = mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL);
 		result += "MODULE Env(";
 		for (int i=0; i< boolVars.size(); i++){
-			result += i==0?boolVars.get(i):","+boolVars.get(i);
+				if (!mySpec.isTokenRing() || !boolVars.get(i).contains("send"))
+					result += i==0?boolVars.get(i):","+boolVars.get(i);
 		}
 		result += ")\n";
 		result += "ASSIGN\n";
 		for (String var : mySpec.getGlobalVarsNamesByType(Type.PRIMBOOL)){
-			result += "next("+var+") :=case \n";
-			result += space+"TRUE: {TRUE};\n";
-			result += space+"TRUE: {FALSE};\n";
-			result += "esac;\n";
+			if (!var.contains("token") && (!mySpec.isTokenRing() || !var.contains("send"))){
+				result += "next("+var+") :=case \n";
+				result += space+"TRUE: {TRUE};\n";
+				result += space+"TRUE: {FALSE};\n";
+				result += "esac;\n";
+			}
+			else{
+				if (!mySpec.isTokenRing() || !var.contains("send"))
+					result += "next("+var+") := {"+var+"};\n";
+			}
 		}
 		for (String var : mySpec.getGlobalVarsNamesByType(Type.ENUM)){
 			result += "next("+var+") :=case \n";
