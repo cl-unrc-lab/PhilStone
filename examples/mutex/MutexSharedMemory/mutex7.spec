@@ -12,7 +12,7 @@ process p{
 	
 	action enterCS(){
 		frame: try,m, cs;
-		pre: this.try ;
+		pre: this.try ; /*the synthesizer should improve this condition*/
 		post: this.cs; 
 	}
 
@@ -24,7 +24,7 @@ process p{
 	action getLock(){
 		frame: m;
 		pre: this.try && av(global.m);
-		post: this.try && own(global.m);
+		post:this.try && own(global.m);
 	}
 	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)&&!(this.ncs&&this.cs)] && AG[EF[this.cs]] && AG[EF[this.ncs]];
 }

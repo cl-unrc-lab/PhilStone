@@ -26,7 +26,7 @@ process p{
 		pre: this.try && av(global.m);
 		post: this.try && own(global.m);
 	}
-	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)&&!(this.ncs&&this.cs)] && AG[EF[this.cs]] && AG[EF[this.ncs]];
+	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)&&!(this.ncs&&this.cs)] && AG[EF[this.cs]] && AG[EF[this.ncs]] && AG[!own(global.m) || EF[av(global.m)]];
 }
 
 main(){
@@ -44,4 +44,4 @@ main(){
  run p6();
 }
 
-property: AG[(!p1.cs && !p2.cs && !p3.cs && !p4.cs && !p5.cs) || (!p2.cs && !p3.cs && !p4.cs && !p5.cs && !p6.cs) || (!p1.cs && !p3.cs && !p4.cs && !p5.cs && !p6.cs) || (!p1.cs && !p2.cs && !p4.cs && !p5.cs && !p6.cs) || (!p1.cs && !p2.cs && !p3.cs && !p5.cs && !p6.cs) || (!p1.cs && !p2.cs && !p3.cs && !p4.cs && !p6.cs) ];
+property: AG[(!p1.cs || !p2.cs) && (!p2.cs || !p3.cs) && (!p1.cs || !p3.cs) && (!p3.cs || !p4.cs) && (!p2.cs || !p4.cs) && (!p1.cs || !p4.cs) && (!p1.cs || !p5.cs) && (!p2.cs || !p5.cs) && (!p3.cs || !p5.cs) && (!p4.cs || !p5.cs)] && (!p5.cs || !p6.cs) && (!p1.cs || !p6.cs) &&  (!p2.cs || !p6.cs)  &&  (!p2.cs || !p6.cs) &&  (!p3.cs || !p6.cs)  &&  (!p4.cs || !p6.cs) && & (!p5.cs || !p6.cs);

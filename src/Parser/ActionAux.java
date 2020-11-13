@@ -89,7 +89,7 @@ public class ActionAux {
 		Type postType = post.getType(table, mySpec, myProcess.getName());
 		for (int i=0; i<frame.size(); i++){
 			if (!table.containsKey(frame.get(i)) && !this.myProcess.containsPar(frame.get(i))){
-				this.addError("Variable "+frame.get(i)+" in frame of process "+name+" no declared.");
+				this.addError("Variable "+frame.get(i)+" in frame of action "+name+" no declared.");
 				ok = false;
 			}	
 		}

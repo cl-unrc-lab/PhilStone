@@ -224,7 +224,7 @@ public class SpecAux{
 			
 			// we add the parameters of each process to the table
 			LinkedList<Pair<String, Type>> pars = processes.get(i).getPars();
-			for (int k=0; i<pars.size(); i++){
+			for (int k=0; k<pars.size(); k++){
 				Pair<String, Type> currentPar = pars.get(k);
 				table.put(currentPar.getFirst(), currentPar.getSecond());
 			}

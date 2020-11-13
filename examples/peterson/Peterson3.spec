@@ -13,12 +13,12 @@ process proc1{
      action competeForN1(){
 		frame: turn12, try1;
 		pre: !this.cs && !global.try1 && !this.presentp1n1;
-		post: global.turn12 && global.try1;
+		post: global.try1; /*global.turn12 && global.try1;*/
 	}
 
 	action enterN1(){
 		frame: presentp1n1;
-        pre: global.try1 && !this.cs && !this.presentp1n1;
+        pre: global.try1 && !this.cs;/* && !this.presentp1n1;*/
 		post: this.presentp1n1;
 	}
     
@@ -30,7 +30,7 @@ process proc1{
     
     action enterCS(){
 		frame: cs;
-		/*pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
+		/*this condition is synthesized: pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
         pre: global.try1 && !this.cs;
 		post: this.cs;
 	}
@@ -38,7 +38,7 @@ process proc1{
     action leaveCS(){
         frame: cs,  try1, presentp1n1;
         pre: this.cs;
-        post: !this.cs &&  !global.try1 && !this.presentp1n1;    
+        post: !this.cs &&  !global.try1 && !this.presentp1n1;   
     }
    
 	invariant: AG[!this.cs || EF[!this.cs]] && AG[EF[this.cs]];
@@ -52,7 +52,7 @@ process proc2{
      action competeForN1(){
 		frame: turn12, try2;
 		pre: !this.cs && !global.try2 && !this.presentp2n1;
-		post: !global.turn12 && global.try2;
+		post:global.try2; /* !global.turn12 && global.try2;*/
 	}
 
 	action enterN1(){
@@ -69,7 +69,7 @@ process proc2{
     
     action enterCS(){
 		frame: cs;
-		/*pre: (global.try2 && !this.cs && global.turn23) || (!global.try3 && !this.cs && global.try2);*/
+		/* this condition is synthesized : pre: (global.try2 && !this.cs && global.turn23) || (!global.try3 && !this.cs && global.try2);*/
         pre: global.try2 && !this.cs;
 		post: this.cs;
 	}
@@ -77,7 +77,7 @@ process proc2{
     action leaveCS(){
         frame: cs,  try2, presentp2n1;
         pre: this.cs;
-        post: !this.cs &&  !global.try2 && !this.presentp2n1;    
+        post: !this.cs &&  !global.try2 && !this.presentp2n1;   
     }
    
 	invariant: EF[this.cs]; /*&& AG[!this.cs || EF[!this.cs]];*/
@@ -118,4 +118,4 @@ main(){
     run p3();	 	
 }
 property: AG[(!p1.cs || !p2.cs) && (!p2.cs || !p3.cs) && (!p3.cs || !p1.cs)] && AG[!global.try3 || AF[p3.cs]] && AG[!global.try1 || !p1.presentp1n1 || AF[p1.cs]]  && AG[!p2.presentp2n1 || AF[p2.cs]];
-/*&& (!p2.cs || !p3.cs) && (!p3.cs || !p1.cs)] && AG[!global.try1 || AF[p1.cs]] && AG[!global.try2 || AF[p2.cs]] && AG[!global.try3 || AF[p3.cs]];*/
+/*AG[(!p1.cs && !p2.cs) && (!p2.cs || !p3.cs) && (!p3.cs || !p1.cs)] && AG[!global.try1 || AF[p1.cs]] && AG[!global.try2 || AF[p2.cs]] && AG[!global.try3 || AF[p3.cs]];*/

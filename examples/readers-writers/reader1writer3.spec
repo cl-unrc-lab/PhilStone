@@ -8,22 +8,22 @@ process writer{
 
 	action lockR(){
 		frame: r;
-		pre: this.ncs && av(global.r);
+		pre: this.ncs;/* && av(global.r);*/
 		post: own(global.r);
 	}
 
 	action enterCS(){
 		frame: ncs, cs;
-		pre: this.ncs && own(global.r) && av(global.read1);
+		pre: this.ncs;/* && own(global.r) && av(global.read1);*/
 		post: !this.ncs && this.cs;
 	}
 
 	action unlockR(){
 		frame: ncs,cs,r;
-		pre: this.cs && own(global.r);
+		pre: this.cs;/* && own(global.r);*/
 		post: !this.cs && this.ncs && !own(global.r);
 	}
-	invariant: this.cs || !this.cs;
+	invariant: AG[EF[this.cs]];
 
 }
 
@@ -33,16 +33,16 @@ process reader (mylock: lock){
 
 	action startRead(){
 		frame: reading, mylock;
-		pre: !this.reading && av(global.r) && av(mylock);
+		pre: !this.reading;/* && av(global.r) && av(mylock);*/
 		post: this.reading && own(mylock);
 	}
 
 	action finishRead(){
 		frame: reading, mylock;
-		pre: this.reading && av(global.r) && own(mylock);
+		pre: this.reading;/* && av(global.r) && own(mylock);*/
 		post: !this.reading && !own(mylock);
 	}
-	invariant: this.reading || !this.reading;
+	invariant: AG[EF[this.reading]];
 }
 
 main(){

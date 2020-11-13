@@ -24,9 +24,9 @@ process p{
 	action getLock(){
 		frame: m;
 		pre: this.try && av(global.m);
-		post: this.try && own(global.m);
+		post:  own(global.m);
 	}
-	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)&&!(this.ncs&&this.cs)] && AG[EF[this.cs]] && AG[EF[this.ncs]];
+	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)&&!(this.ncs&&this.cs)] && AG[EF[this.cs]] && AG[EF[this.ncs]]&& AG[!own(global.m) || EF[av(global.m)]];
 }
 main(){
  p1:p;
@@ -41,4 +41,4 @@ main(){
  run p5();
 }
 
-property: AG[(!p1.cs && !p2.cs && !p3.cs && !p4.cs) || (!p2.cs && !p3.cs && !p4.cs && !p5.cs) || (!p1.cs && !p3.cs && !p4.cs && !p5.cs) || (!p1.cs && !p2.cs && !p4.cs && !p5.cs) || (!p1.cs && !p2.cs && !p3.cs && !p5.cs) ];
+property: AG[(!p1.cs || !p2.cs) && (!p2.cs || !p3.cs) && (!p1.cs || !p3.cs) && (!p3.cs || !p4.cs) && (!p2.cs || !p4.cs) && (!p1.cs || !p4.cs) && (!p1.cs || !p5.cs) && (!p2.cs || !p5.cs) && (!p3.cs || !p5.cs) && (!p4.cs || !p5.cs)];

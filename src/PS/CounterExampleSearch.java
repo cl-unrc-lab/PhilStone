@@ -1538,7 +1538,7 @@ public class CounterExampleSearch {
 		if (open)	
 			program += this.generateEnvProcess();
 		
-		System.out.println(program);
+		//System.out.println(program);
 		return program;
 	}
 	

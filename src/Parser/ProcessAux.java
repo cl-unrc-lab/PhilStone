@@ -315,6 +315,7 @@ public class ProcessAux {
 		for (int i=0; i<actions.size(); i++){
 			if (!actions.get(i).isWellFormed(table, mySpec)){
 				ok = false;
+				System.out.println(table);
 				this.addError(actions.get(i).getErrors());
 			}
 		}

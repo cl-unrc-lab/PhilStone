@@ -14,7 +14,7 @@ process writer{
 
 	action enterCS(){
 		frame: ncs, cs;
-		pre: this.ncs && own(global.r) && av(global.read1);
+		pre: this.ncs || !this.ncs; /*this.ncs && own(global.r) && av(global.read1);*/
 		post: !this.ncs && this.cs;
 	}
 
@@ -33,7 +33,7 @@ process reader(mylock:lock){
 
 	action startRead(){
 		frame: reading, mylock;
-		pre: !this.reading && av(global.r) && av(mylock);
+		pre: !this.reading || this.reading; /* && av(global.r) && av(mylock);*/
 		post: this.reading && own(mylock);
 	}
 
