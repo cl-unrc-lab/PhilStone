@@ -96,7 +96,7 @@ property:
          
        
 
-assumption: 
+assumption:
             G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]
             && G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]]      
             && G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]] 

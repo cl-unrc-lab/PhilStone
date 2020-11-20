@@ -36,7 +36,7 @@ process phil(left:lock, right:lock) {
 				pre: this.st=Hungry && own(left) && own(right);
 				post: this.st=Eating ;
 			}
-    invariant: AG[EF[this.st=Eating]] && AG[EF[this.st=Thinking]];
+    invariant: AG[EF[this.st=Eating]] && AG[EF[this.st=Thinking]] && AG[EF[this.st=Hungry]];
 }
 
 main(){
@@ -51,4 +51,5 @@ main(){
 /* Temporal Spec */
 
 property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left)] && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right)]
-          && AG[AF[phil1.st= Eating || phil2.st= Eating || phil3.st= Eating]];
+        && AG[!(phil1.st = Hungry) || EF[phil1.st = Eating]]  && AG[!(phil2.st = Hungry) || EF[phil2.st = Eating]]
+        && AG[!(phil3.st = Hungry) || EF[phil3.st = Eating]];

@@ -54,11 +54,6 @@ main(){
 /* Temporal Spec */
 
 property: 
-          /*  G[!global.r1 || !p1.g1 || [p1.g1 W !global.r1]]
-          && G[global.r1 || p1.g1 || [!p1.g1 W global.r1]]
-          && G[!global.r2 || !p2.g2 || [p2.g2 W !global.r2]]
-          && G[global.r2 || p2.g2 || [!p2.g2 W global.r2 ]]
-          && G[F[global.r1 && p1.g1]] && G[F[global.r2 && p2.g2]] */
               G[!global.r1 || F[p1.g1]]
           &&  G[!global.r2 || F[p2.g2]] 
           &&  G[!(p1.g1 && p2.g2)];
@@ -72,10 +67,3 @@ assumption: G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]
             && G[F[!p2.g2 || !global.r2]];
 
 
-/*G[!global.r1 || p1.g1 || [global.r1 W (!global.r1 || p1.g1)]]
-            && G[global.r1 || !p1.g1 || [!global.r1 W (global.r1 || !p1.g1)]]
-            && G[!global.r2 || p2.g2 || [global.r2 W (!global.r2 || p2.g2)]] 
-            && G[global.r2 || !p2.g2 || [!global.r2 W (global.r2 || !p2.g2)]]
-            && G[F[!p1.g1 || !global.r1]] 
-            && G[F[!p2.g2 || !global.r2]] */
-            

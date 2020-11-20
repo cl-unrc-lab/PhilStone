@@ -45,13 +45,13 @@ process proc2{
     
     action passBarrier0(){
         frame: parity, finish;
-        pre: !this.parity && global.p1 && this.finish;
+        pre: !this.parity;/* && global.p1 && this.finish;*/
         post: this.parity && !this.finish;
     }
     
     action passBarrier1(){
         frame: parity, finish;
-        pre: this.parity && !global.p1 && this.finish;
+        pre: this.parity;/* && !global.p1 && this.finish;*/
         post: !this.parity && !this.finish;
     }
     

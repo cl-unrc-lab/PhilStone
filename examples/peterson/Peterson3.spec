@@ -12,13 +12,13 @@ process proc1{
 
      action competeForN1(){
 		frame: turn12, try1;
-		pre: !this.cs && !global.try1 && !this.presentp1n1;
+		pre: !this.cs && !global.try1 && !this.presentp1n1; 
 		post: global.try1; /*global.turn12 && global.try1;*/
 	}
 
 	action enterN1(){
 		frame: presentp1n1;
-        pre: global.try1 && !this.cs;/* && !this.presentp1n1;*/
+        pre: global.try1 && !this.cs && !this.presentp1n1;
 		post: this.presentp1n1;
 	}
     
@@ -30,7 +30,7 @@ process proc1{
     
     action enterCS(){
 		frame: cs;
-		/*this condition is synthesized: pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
+		/*this condition will be synthesized: pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
         pre: global.try1 && !this.cs;
 		post: this.cs;
 	}
@@ -52,7 +52,7 @@ process proc2{
      action competeForN1(){
 		frame: turn12, try2;
 		pre: !this.cs && !global.try2 && !this.presentp2n1;
-		post:global.try2; /* !global.turn12 && global.try2;*/
+		post: global.try2; /* !global.turn12 && global.try2;*/
 	}
 
 	action enterN1(){
@@ -69,7 +69,7 @@ process proc2{
     
     action enterCS(){
 		frame: cs;
-		/* this condition is synthesized : pre: (global.try2 && !this.cs && global.turn23) || (!global.try3 && !this.cs && global.try2);*/
+		/* this condition will be synthesized : pre: (global.try2 && !this.cs && global.turn23) || (!global.try3 && !this.cs && global.try2);*/
         pre: global.try2 && !this.cs;
 		post: this.cs;
 	}
@@ -80,7 +80,7 @@ process proc2{
         post: !this.cs &&  !global.try2 && !this.presentp2n1;   
     }
    
-	invariant: EF[this.cs]; /*&& AG[!this.cs || EF[!this.cs]];*/
+	invariant: AG[EF[this.cs]]; /*&& AG[!this.cs || EF[!this.cs]];*/
 }
 
 process proc3{
@@ -106,7 +106,7 @@ process proc3{
         post: !this.cs &&  !global.try3;    
     }
    
-	invariant: EF[this.cs]; /*&& AG[!this.cs || EF[!this.cs]];*/
+	invariant: AG[EF[this.cs]]; /*&& AG[!this.cs || EF[!this.cs]];*/
 }
 
 main(){

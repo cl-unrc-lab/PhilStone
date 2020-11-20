@@ -68,7 +68,7 @@ property:
        
 
 assumption: /* with the unique assumption G[F[p1.hasToken]] && G[F[p2.hastoken]] is faster */
-            G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]] /* Assumptions taken from Pnueli's paper /*
+            G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]] /* Assumptions taken from Pnueli's paper */
             && G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]]
             && G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]] 
             && G[global.r2 || !p2.g2 || [!global.r2 W  !p2.g2]]

@@ -54,7 +54,7 @@ public class PhilStone {
 	private static int scope = 0;
 	private static boolean open = false; // true when the specification is an open system (i.e., with an environment)
 	private static boolean token = false; // an option for token ring systems
-	
+	private static boolean noCEX = false;
 	
 	public static void main(String[] args) {
 		
@@ -79,6 +79,10 @@ public class PhilStone {
 				}
 				if (args[i].equals("-token")){
 					token=true;
+					continue;
+				}
+				if (args[i].equals("-noCEX")){
+					noCEX = true;
 					continue;
 				}
 				if (args[i].equals("-pdf")){
@@ -242,6 +246,8 @@ public class PhilStone {
 					cs.setToken();
 					mySpec.setTokenRing();
 				}
+				if (noCEX)
+					cs.setNoCEX();
 				cs.startSearch();
 			}
 			if (BMC){ // this is for using alloy model checking
@@ -267,6 +273,8 @@ public class PhilStone {
 					cs.setToken();
 					mySpec.setTokenRing();
 				}
+				if (noCEX)
+					cs.setNoCEX();
 				cs.startSearch();
 			}
 			if (lexSearch){

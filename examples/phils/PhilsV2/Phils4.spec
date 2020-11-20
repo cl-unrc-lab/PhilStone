@@ -36,7 +36,7 @@ process phil(left:lock, right:lock) {
 				pre: this.st=Hungry && own(left) && own(right);
 				post: this.st=Eating ;
 			}
-    invariant: EF[this.st=Eating];
+    invariant:  AG[EF[this.st=Eating]] && AG[EF[this.st=Thinking]];
 }
 
 main(){

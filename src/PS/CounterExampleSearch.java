@@ -49,7 +49,8 @@ public class CounterExampleSearch {
 	String syntProgram; 								// the program synthesized
 	boolean open = false;								// it indicates if it is an open specification 
 	boolean token = false;                              // it indicates that it is a token ring, it adds 
-												        // formulas specifying token rings
+														// formulas specifying token rings
+	boolean noCEX = false; 								// with this option cexs are not taken into account
 	LinkedList<String> processes;						// a list of processes
 	LinkedList<String> instancesList; 					// a list of instances
 	HashMap<String, String> instances; 
@@ -219,12 +220,22 @@ public class CounterExampleSearch {
 		this.token = true;
 	}
 	
+	public void setNoCEX(){
+		this.noCEX=true;
+	}
+	
+	public void setSimpleSearch(){
+		this.noCEX = true;
+	}
 	
 	/**
 	 * It starts the synthesis of programs guided by counterexamples
 	 */
 	public void startSearch(){
-		System.out.println("Using Search Guided by Counterexamples for Synthesis...");
+		if (noCEX)
+			System.out.println("Using Simple Search for Synthesis...");
+		else
+			System.out.println("Using Search Guided by Counterexamples for Synthesis...");
 		// STEP 1: We generate the laxest model for each instance
 		for (int i=0; i<processes.size(); i++){
 			long startTime = System.currentTimeMillis();    
@@ -265,11 +276,13 @@ public class CounterExampleSearch {
 			for (int j=0; j<instancesList.size();j++){
 				if (instances.get(instancesList.get(j)).equals(currentProcess)){
 					mapInsModels.put(instancesList.get(j), lts); // if the instance has as type the current process 
+					if (noCEX)
+						this.currentSol[j] = sol;
 					if (this.printPDF)
 						lts.toDot(outputPath+"lax"+instancesList.get(j)+".dot");
 				}
 			}
-
+		
 			long estimatedTime = System.currentTimeMillis() - startTime;
 			System.out.println(currentProcess+" time:" + estimatedTime);
 		}
@@ -281,7 +294,11 @@ public class CounterExampleSearch {
 			this.cexActualRun.put(instancesList.get(j), new LinkedList<LinkedList<String>>());
 		}
 		
-		boolean found = counterExampleSearch(0, scope);
+		boolean found = false;
+		if (!noCEX)
+			found = counterExampleSearch(0, scope);
+		else
+			found = simpleSearch(0, scope);
 		if (found){
 			System.out.println("Program Synthesized, saved to output folder.."); 
 			System.out.println("Number of iterations: "+iterations);
@@ -443,6 +460,102 @@ public class CounterExampleSearch {
 	}
 	
 	
+	/**
+	 * This is a version of Search without taking into account the cexs
+	 * @param insNumber
+	 * @param scope
+	 * @return
+	 */
+	public boolean simpleSearch(int insNumber, int scope){
+		String currentIns = instancesList.get(insNumber);
+		//this.currentSol[insNumber] = null;
+		if (insNumber == (this.numberIns - 1)){ //  Base Case
+			System.out.println("Last instance: "+currentIns);
+			LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
+			lts.setName(currentIns);
+			if (mySpec.isTokenRing())
+				lts.setTokenRing();
+			LTS formerLTS = mapInsModels.get(currentIns);
+			boolean checkResult = false;
+			checkResult = selectChecker(currentIns);
+			iterations++;
+			if (checkResult)
+				return true;
+			int j = 0;		
+			A4Solution solver = this.getAlloySolution(currentIns);
+		
+			while (solver.satisfiable()){ //add refined & !disjointCexFound.get(currentIns)
+				this.iterations++;
+				try{
+					solver.writeXML(outputPath+"temp"+j+".xml");
+				}
+				catch (Exception e){
+					System.out.println(e);
+				}
+				lts.fromAlloyXML(outputPath+"temp"+j+".xml");
+				lts.toDot(outputPath+currentIns+iterations+".dot");
+				System.out.println("iteration:"+iterations);
+				if (showInfo) 
+					System.out.println("Instance "+ currentIns + ", Iteration Number:"+j);
+				j++;
+				mapInsModels.put(currentIns, lts);
+				changed.put(currentIns, new Boolean(true));						
+				checkResult = selectChecker(currentIns);	
+				if (checkResult)
+					return true;		
+				mapInsModels.put(currentIns, formerLTS);
+				changed.put(currentIns, new Boolean(false));
+				try{
+					solver = solver.next();	
+				}
+				catch (Exception e){
+					throw new RuntimeException("error generating solver");
+				}
+			}//end while					
+		}// end of base case
+		else{ // recursive case
+			System.out.println("Inspecting Instance: "+currentIns);
+				int p=0; // and aux var needed for numbering the files
+				LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
+				lts.setName(currentIns);
+				if (mySpec.isTokenRing())
+					lts.setTokenRing();
+				LTS formerLTS = mapInsModels.get(currentIns);
+				A4Solution solver = this.getAlloySolution(currentIns);
+				while (solver.satisfiable()){  // !disjointCexFound.get(currentIns)??
+					try{
+						solver.writeXML(outputPath+"temp"+p+".xml");
+					}
+					catch(Exception e){
+						System.out.println("Input-Output Error trying to write Alloy files.");
+						e.printStackTrace();//System.out.println(e);
+						System.exit(0);
+					}
+					lts.fromAlloyXML(outputPath+"temp"+p+".xml");
+					lts.toDot(outputPath+"instance"+insNumber+":"+p+".dot");
+					p++;
+					mapInsModels.put(currentIns, lts);
+					changed.put(currentIns, new Boolean(true));		
+					// we try with this model recursively
+					if (simpleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
+						return true;
+			
+					changed.put(currentIns, new Boolean(false));
+					mapInsModels.put(currentIns, formerLTS);
+								
+					this.solverRefreshed[insNumber] =  false;
+					try{
+						solver = solver.next();	
+					}
+					catch (Exception e){
+						throw new RuntimeException("error generating solver");
+					}
+				}//endwhile
+		}			
+		return false;
+	}
+	
+	
 	private void addCounterExToProcess(String process, LinkedList<String> cex){
 		this.disjointCexFound.put(process, new Boolean(false));
 		if (showInfo){
@@ -463,7 +576,7 @@ public class CounterExampleSearch {
 			rinclusion = rInclusion(this.currentCexs[this.getNumberInstance(process)].get(i), cex); // a refined cex is found
 			updateCex = updateCex || ((rinclusion && !linclusion)||(!rinclusion && !linclusion));
 		}
-		if (updateCex){
+		if (updateCex && !noCEX){
 			refreshSolver(process, cex);
 			this.solverRefreshed[this.getNumberInstance(process)] = true;
 		}
@@ -797,7 +910,7 @@ public class CounterExampleSearch {
 		// If a "is true" string found then the model checker didnt find a counterexample
 		result = mcResult.contains("is true");
 		//System.out.println(mcResult);
-		if (!result){ // if a counterexamples was found
+		if (!result && !noCEX){ // if a counterexamples was found
 			// We create a new counterexample
 			CounterExample c = new CounterExample();
 			
@@ -2442,7 +2555,10 @@ public class CounterExampleSearch {
 			PrintWriter writer = new PrintWriter(outputPath+"Instances.als", "UTF-8");
 			//mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.cexActualRun.get(currentIns));	
 			LTS lts = new LTS();
-			mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.currentCexs[getNumberInstance(currentIns)]);
+			if (!noCEX)
+				mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, this.currentCexs[getNumberInstance(currentIns)]);
+			else
+				mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, new LinkedList<LinkedList<String>>());
 			A4Options opt = new A4Options();
 			opt.solver = A4Options.SatSolver.MiniSatJNI;
 			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
@@ -2555,7 +2671,7 @@ public class CounterExampleSearch {
 			System.out.println(e.getStackTrace());
 		}
 		this.currentSol[getNumberInstance(process)] = getAlloySolution(process);
-		System.out.println(this.currentSol[getNumberInstance(process)]);
+		//System.out.println(this.currentSol[getNumberInstance(process)]);
 		this.solverRefreshed[this.getNumberInstance(process)] = true;
 		
 	}
