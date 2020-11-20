@@ -1,0 +1,57 @@
+int P = 2; // Number of processes
+int T = 4; // number of tries, needed for bounded liveness
+
+bit genComparison (bit f1, bit f2, bit t1, bit t2) {   // 72/2 = 36
+    int _which = ??;
+    bit res;
+    bit g1 = ?? ? f1 : f2;
+    bit g2 = ?? ? t1 : t2;
+    assert 0 <= _which && _which <= 7;
+    if (0 == _which) {  res = g1 && g2;  }
+    if (1 == _which) {  res = !g1 && g2;  }
+    if (2 == _which) {  res = g1 && !g2;  }
+    if (3 == _which) {  res = !g1 && !g2;  } 
+    if (4 == _which) {  res = !g1 || !g2;  }
+    if (5 == _which) {  res = g1 || g2;  }
+    if (6 == _which) {  res = !g1 || g2;  }
+    if (7 == _which) {  res = g1 || !g2;  }
+    return res;
+}
+
+bit sp () { return 1; }
+
+bit main () implements sp {
+    bit[P] flag;
+    bit[P] turn;
+
+    fork (int i; P) {
+        for (int t = 0; t < T; ++t) {
+            if (i == 0){ //Process 1
+                bit cond = genComparison(flag[0], flag[1], turn[0], turn[1]);
+                atomic (cond){};
+                int _which = ??;
+		assert 0 <= _which && _which <= 3;
+		reorder{
+                    flag[0] = ?? ? 0 : 1;
+                    flag[1] = ?? ? 0 : 1;
+                    turn[0] = ?? ? 0 : 1;
+                    turn[1] = ?? ? 0 : 1;
+                }
+            }
+            else{ //Process 2
+                 bit cond = genComparison(flag[0], flag[1], turn[0], turn[1]);
+                atomic (cond){};
+                int _which = ??;
+		assert 0 <= _which && _which <=3;
+		reorder{
+                    flag[0] = ?? ? 0 : 1;
+                    flag[1] = ?? ? 0 : 1;
+                    turn[0] = ?? ? 0 : 1;
+                    turn[1] = ?? ? 0 : 1;
+                }
+                }
+            }
+        }
+  return 1;    
+}
+

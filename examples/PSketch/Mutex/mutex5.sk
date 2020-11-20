@@ -1,0 +1,15 @@
+int N = 5;
+
+bit sp () { return 1; }
+
+bit main () implements sp {
+    int resource;
+    fork (int i; N) {
+            reorder{
+                unlock(resource);
+                lock(resource);
+            }
+    }
+
+    return 1;
+}

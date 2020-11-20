@@ -1,0 +1,45 @@
+int R = 1;
+int W = 1;
+int T = 1;
+
+bit sp () { return 1; }
+
+bit main () implements sp {
+    int w;
+    int r;
+    int resource;
+    int readcount = 0;
+
+    fork (int i; R+W) {
+        for (int t = 0; t < T; ++t) {
+            if (i <= W){ //A writer process
+                reorder{
+                    unlock(resource);
+                    //write
+                    lock(resource);
+                }
+            }
+            else{ //A reader process
+                reorder{
+
+                    //Aca me parece que si o si hay que poner los valores de la solucion en ?? porque sino le asigna valores para que se hagan falsos siempre los ifs
+
+                    readcount = readcount + 1;
+                    lock(r);
+                    readcount = readcount - 1;
+                    unlock(r);
+                    if (readcount == 1){
+                        lock(resource);
+                    }
+                    unlock(r);
+                    lock(r);  
+                    if (readcount == 0){
+                        unlock(resource);
+                    }
+                }
+            }
+        }
+    }
+
+    return 1;
+}

@@ -1,0 +1,39 @@
+int R = 1;
+int W = 1;
+int T = 1;
+
+bit sp () { return 1; }
+
+bit main () implements sp {
+    int w;
+    int r;
+    int resource;
+    int readcount = 0;
+
+    fork (int i; R+W) {
+        for (int t = 0; t < T; ++t) {
+            if (i <= W){ //A writer process
+                lock(resource);
+                //write
+                unlock(resource);
+            }
+            else{ //A reader process
+                lock(r);
+                readcount = readcount + 1;
+                if (readcount == 1){
+                    lock(resource);
+                }
+                unlock(r);
+                //read
+                lock(r);
+                readcount = readcount - 1;
+                if (readcount == 0){
+                    unlock(resource);
+                }
+                unlock(r);
+            }
+        }
+    }
+
+    return 1;
+}
