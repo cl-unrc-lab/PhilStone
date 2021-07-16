@@ -484,6 +484,7 @@ public class LTS {
 				LinkedList<String> actualCex = counterexamples.get(i);
 				boolean firstTimeOr = true;
 				
+				
 				for (int j=0; j<actualCex.size()-1;j++){
 					if (!actualCex.get(j).equals(actualCex.get(j+1))){	
 						LinkedList<Edge> egs = this.getEdges(actualCex.get(j),actualCex.get(j+1));
@@ -495,18 +496,19 @@ public class LTS {
 								firstTimeOr = false;
 							}
 							else{
-								writer.print(" or ");
+								writer.print(" and ");
 							}
 							boolean firstTimeAnd = true;
 						//LinkedList<Edge> egs = this.getEdges(actualCex.get(j),actualCex.get(j+1));
 							for (int h=0; h<egs.size(); h++){
 								
+								// This need to be improved, we can give the precise information to Alloy, the or makes the process slower
 								if (firstTimeAnd){
 									writer.print("(not ("+egs.get(h).getTarget().getName()+" in succs["+egs.get(h).getOrigin().getName()+"]))");
 									firstTimeAnd = false;
 								}
 								else{
-									writer.print("and (not ("+egs.get(h).getTarget().getName()+" in succs["+egs.get(h).getOrigin().getName()+"]))");	
+									writer.print("or (not ("+egs.get(h).getTarget().getName()+" in succs["+egs.get(h).getOrigin().getName()+"]))");	
 								}
 							}
 						}

@@ -203,15 +203,24 @@ public class Node {
 	public String getNuSMVCommandForVar(UnionFind uf, String var, String type){
 		String result = "";
 		String space = "    ";
+		LinkedList<Node> succs = new LinkedList<Node>();
+		for (int i=0; i<this.adj.size();i++){
+			Node current = uf.find(this.adj.get(i).getTarget());
+			if (!succs.contains(current)) {
+				succs.add(current);	
+			}
+		}
 		
+		if (!type.equals("State")) {
 		for (int i=0; i<this.adj.size();i++){
 			if (uf.find(this) != uf.find(this.adj.get(i).getTarget())){
 				result += space + space + "state = "+ uf.find(this).getName();
-				if (!type.equals("State")){
+				//if (!type.equals("State")){
 					result += " & ";
 					result += "next(state) = "+uf.find(this.adj.get(i).getTarget()).getName();				
-				}
+				//}
 				LinkedList<String> allGlobalProps = this.myLTS.getGlobalProps();
+				
 				// for the guards only the global properties are important, the others are ensured by the actual state
 				for (int j=0; j<allGlobalProps.size(); j++){
 					if (this.globalProperties.contains(allGlobalProps.get(j)))
@@ -225,9 +234,9 @@ public class Node {
 				}
 				result += " : {";
 				Node target = this.adj.get(i).getTarget();
-				if (type.equals("State")){
-					result += uf.find(target).getName();
-				}
+				//if (type.equals("State")){
+				//	result += uf.find(target).getName();
+				//}
 				if (type.equals("Bool")){
 					result += target.getGlobalBooleanVarValue(var)?"TRUE":"FALSE";
 				}
@@ -240,7 +249,45 @@ public class Node {
 				result += " };\n";
 			}
 		}
+		} // endif
+		else{ // the var is of type state
+			LinkedList<Node> succNodes = new LinkedList<Node>();
+			for (int i=0; i < this.adj.size();i++){
+				Node target = this.adj.get(i).getTarget();
+				if (uf.find(this) != uf.find(target)){	
+					succNodes.add(uf.find(target));
+				}
+			}
+			if (succNodes.size()>0) {
+			
+				result += space + space + "state = "+ uf.find(this).getName();
+				LinkedList<String> allGlobalProps = this.myLTS.getGlobalProps();
+			
+				// for the guards only the global properties are important, the others are ensured by the actual state
+				for (int j=0; j<allGlobalProps.size(); j++){
+					if (this.globalProperties.contains(allGlobalProps.get(j)))
+						result += " & " + allGlobalProps.get(j);
+					else
+						result += " & !" + allGlobalProps.get(j);
+				}
 		
+				for (int j=0; j<this.globalEnums.size();j++){
+					result += "&" + this.globalEnums.get(j) +"="+ this.getEnumVarValue(this.globalEnums.get(j));
+				}
+			
+				result += " : {";
+				boolean firstTime = true;
+				for (int i=0; i < this.adj.size();i++){
+					Node target = this.adj.get(i).getTarget();
+					if (uf.find(this) != uf.find(target)){			
+						result += (firstTime?"":",") + uf.find(target).getName();
+						firstTime = false;
+					}
+				}
+				result += " }; \n ";	
+			}
+		}
+	
 		return result;
 	}
 	

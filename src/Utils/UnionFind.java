@@ -60,6 +60,19 @@ public class UnionFind{
 	    }
 	  }	 
 	  
+	  /**
+	   * 
+	   * @return the list of all the representatives
+	   */
+	  public LinkedList<Node> getRepresentatives(){
+		  LinkedList<Node> result = new LinkedList<Node>();
+		  for (Node current: parent.keySet()) {
+			  if (parent.get(current) == current)
+				  result.add(current);
+		  }
+		  return result;
+	  }
+	  
 	  public String toString(){
 		  String result ="";
 		  Collection<Node> ns = this.parent.keySet();

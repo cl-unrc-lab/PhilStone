@@ -6,27 +6,32 @@ process p{
 	
 	action enterTry(){
 		frame: ncs, try;
-		pre: (this.ncs ) || (this.try && !own(global.m)) ;
-		post: this.try;
+		pre: this.ncs ;
+		post: this.try && !this.ncs;
 	}	
 	
 	action enterCS(){
-		frame: try, m, cs;
-		pre: this.try &&  own(global.m);
-		post: this.cs && own(global.m); 
+		frame: try, cs;
+		pre: this.try;
+		post: this.cs && !this.try; 
 	}
 
 	action enterNCS(){
-		frame: cs, ncs, m;
+		frame: m, cs, ncs;
 		pre:  this.cs;
-		post: this.ncs && (!own(global.m));
+		post: this.ncs && !this.cs && (!own(global.m));
 	}
 	action getLock(){
 		frame: m;
-		pre: this.try && av(global.m);
-		post: this.try && own(global.m);
+		pre:  av(global.m);
+		post: own(global.m);
 	}	
-	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)];
+	action freeLock(){
+		frame: m;
+		pre:  own(global.m);
+		post: av(global.m);
+	}
+	invariant: AG[!(this.ncs && this.try)&&!(this.try&&this.cs)] && AG[EF[own(global.m)]] && AG[!own(global.m) || EF[av(global.m)]];
 }
 
 main(){
