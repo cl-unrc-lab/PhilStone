@@ -10,6 +10,7 @@ import JFlex.Out;
 import javax.xml.parsers.DocumentBuilder;
 import Utils.*;
 import edu.mit.csail.sdg.alloy4compiler.translator.A4Options;
+import PS.CounterExample;
 
 /**
  * A simple class to manipulate and visualize labeled transition systems
@@ -285,18 +286,69 @@ public class LTS {
 		return result;
 	}
 	
-	/**
-	 * 
-	 * @return the name of the LTS
-	 */
-	public String getName(){
-		return this.name;
+	public Edge getEdge(CounterExample cex, String instance, int i) {
+		// inspect all the equivalence classes
+		Edge result = null;
+		Node from = nodes.get(cex.getRuns(instance).get(i));
+		Node to = nodes.get(cex.getRuns(instance).get(i+1));
+		for (String nodeName : this.nodes.keySet()) {
+			Node current = this.nodes.get(nodeName);
+			for (Edge e : current.getAdj()) {
+				//Node origin = e.getOrigin();
+				Node target = e.getTarget();
+				boolean ok = (this.eqClasses.find(current) == this.eqClasses.find(from)) && (this.eqClasses.find(target) == this.eqClasses.find(to)) ;
+				//boolean ok = origin.getName().equals(cex.getRuns(instance).get(i)) && target.getName().equals(cex.getRuns(instance).get(i+1));
+				// we check that the nodes has the same propositions
+				
+				for (String prop : cex.getProps(instance).get(i).keySet()) {
+					// Enum vars need to be added
+					String realNameProp = prop;
+					if (!this.globalProps.contains(prop)) { // in the case that it is a parameter we look for its real name
+						for (Pair<String,String> p : this.getProcessSpec().getSpec().getFormalActualPars(instance)) {
+							//System.out.println(p);
+							if (p.getSecond().equals(prop))
+								realNameProp = p.getFirst();
+						}
+						if (prop.equals(realNameProp)) // the global var is not used for the instance
+							continue;
+						//System.out.println(this.getProcessSpec().getSpec().getFormalActualPars(instance));
+					}
+							
+					//System.out.println(cex.getRuns(instance).get(i));
+					//System.out.println(realNameProp);
+					//System.out.println(prop);
+					//System.out.println(current.getProperties());
+					String value = current.getGlobalBooleanVarValue(realNameProp)?"TRUE":"FALSE";
+					ok = ok && cex.getProps(instance).get(i).get(prop).equals(value);
+				}
+				for (String prop : cex.getProps(instance).get(i+1).keySet()) {
+					String realNameProp = prop;
+					if (!this.globalProps.contains(prop)) { // in the case that it is a parameter we look for its real name
+						for (Pair<String,String> p : this.getProcessSpec().getSpec().getFormalActualPars(instance)) {
+							if (p.getSecond().equals(prop)) {								
+								realNameProp = p.getFirst();
+							}
+						}
+						if (prop.equals(realNameProp)) // the global var is not used for the instance
+							continue;
+						//System.out.println(this.getProcessSpec().getSpec().getFormalActualPars(instance));
+					}
+					// Enum vars need to be added
+					
+					String value = target.getGlobalBooleanVarValue(realNameProp)?"TRUE":"FALSE";
+					ok = ok && cex.getProps(instance).get(i+1).get(prop).equals(value);
+				}
+				if (ok) return e; // edge found
+			}
+		}
+		return result;		
 	}
 	
 	
 	/**
 	 * Creates an alloy specification for  the possible instance for this LTS
-	 * Note: the instance only preserves properties of ACTL, this could be extended to all CTL...
+	 * Note1: the instance only preserves properties of ACTL, this could be extended to all CTL...
+	 * Note2: This version is DEPRECATED, all version of search use it 
 	 * @param output	
 	 * @param scope		the scope that will passed to Alloy
 	 * @param counterexamples a collection of counterexamples that allows us to refine the specification
@@ -519,6 +571,309 @@ public class LTS {
 			}
 		
 		
+			// we write down the counterexamples
+			//for (int i=0; i<counterexamples.size();i++){
+			//	LinkedList<String> actualCex = counterexamples.get(i);
+			//	boolean firstTime = true;
+			//	for (int j=0; j<actualCex.size()-1;j++){
+			//		if (!actualCex.get(j).equals(actualCex.get(j+1))){
+			//			if (firstTime){
+			//				writer.print("(not ("+actualCex.get(j+1)+" in succs["+actualCex.get(j)+"]))");
+			//				firstTime = false;
+			//			}
+			//			else{
+			//				writer.print("or (not ("+actualCex.get(j+1)+" in succs["+actualCex.get(j)+"]))");	
+			//			}
+			//		}
+			//	}
+			//	writer.print("\n");	
+			//}
+			writer.println("");
+			writer.println("}");
+			//writer.println("pred compile[s:Node]{s="+ this.initialNode+"\n all n:Instance"+name+".nodes | some Instance"+name+".local[n] }");
+			//writer.println("pred compile[s:Node]{s="+ this.initialNode+"\n 	some n':(*(Instance"+name+".succs))[s] | Prop_eating[InstanceNoName, n'] \n 	all n':(*(Instance"+name+".succs))[s] | some n'':(*(Instance"+name+".succs))[n'] | some InstanceNoName.local[n'']}");
+			
+			
+			// we write the additional predicates
+			for (int i=0; i<auxPreds.size(); i++){
+				writer.println(auxPreds.get(i));
+			}
+			generateInvs(name);
+			writer.println("pred compile[s:Node]{s="+ this.initialNode);	
+			for (int i=0; i<this.localInvs.size(); i++){
+				writer.println(this.localInvs.get(i));
+			}	
+			
+			//no sure why this
+			//writer.println("all n':(*(Instance"+name+".succs))[s] | some n'':(*(Instance"+name+".succs))[n'] | some Instance"+name+".local[n'']}");
+			writer.println("}");
+			//		+ "\n all n':(*(Instance"+name+".succs))[s] | some n'':(*(Instance"+name+".succs))[n'] | some InstanceNoName.local[n'']}");
+			writer.println("run compile for "+scope + " but 1 Instance"+name);
+			writer.close();
+	}
+
+	
+	
+	
+	
+	/**
+	 * 
+	 * @return the name of the LTS
+	 */
+	public String getName(){
+		return this.name;
+	}
+	
+	
+	/**
+	 * Creates an alloy specification for  the possible instance for this LTS
+	 * Note: the instance only preserves properties of ACTL, this could be extended to all CTL...
+	 * @param output	
+	 * @param scope		the scope that will passed to Alloy
+	 * @param counterexamples a collection of counterexamples that allows us to refine the specification
+	 */
+	public void getAlloyInstancesSpec(PrintWriter writer, int scope, LinkedList<CounterExample> counterexamples, String instance){			
+		if (this.eqClasses == null)
+				this.computeEqClasses();
+			String space = "    ";
+			//PrintWriter writer = new PrintWriter(output, "UTF-8");
+			writer.println("abstract sig Node{}");
+			
+			// get the list of the nodes
+			LinkedList<String> listNodes = new LinkedList<String>(nodes.keySet());
+			
+			for (int i=0; i<listNodes.size(); i++){
+				writer.println("one sig "+listNodes.get(i)+ " extends Node{}");
+			}
+			// write down the propositions
+			writer.println("abstract sig Prop{}");	
+			
+			for (int i=0; i<props.size(); i++){
+				writer.println("one sig "+props.get(i)+ " extends Prop{}");
+				writer.println("pred "+props.get(i)+"[m:Instance"+name+",n:Node]{"+props.get(i)+" in m.val[n]}");
+			}
+			
+			// write down the enum constants
+			// let us calculate the enum constants in the spec
+			LinkedList<String> enumCons = new LinkedList<String>();
+			if (this.enums.size()>0)
+				writer.println("abstract sig Enum{}");
+			for (String v: this.enums){
+				if (this.globalEnums.contains(v)){ // if a global var
+					for  (String cons:((EnumVar) this.processSpec.getSpec().getGlobalVarByName(v)).getValues()){
+						writer.println("one sig "+cons+" extends Enum{}");
+					}
+				}
+				else{
+					for  (String cons:((EnumVar) this.processSpec.getLocalVarByName(v.replace("EnumVar_", ""))).getValues()){
+						writer.println("one sig "+cons+" extends Enum{}");
+					}
+				}		
+			}
+			if (this.enums.size()>0)
+				writer.println("abstract sig EnumVar{}");
+			for (int i=0; i<enums.size(); i++){
+				writer.println("one sig "+enums.get(i)+ " extends EnumVar{}");
+				writer.println("fun "+" Val_"+enums.get(i).replace("EnumVar_", "")+"[m:Instance"+name+",n:Node]:Enum { m.enums[n]["+enums.get(i)+"]} ");
+			}
+			
+			LinkedList<String> auxVars = new LinkedList<String>();
+			LinkedList<String> auxAxioms = new LinkedList<String>();
+			LinkedList<String> auxPreds = new LinkedList<String>();	
+			if (this.processSpec != null){
+				auxVars = this.processSpec.getAuxVars("Instance"+name);
+				auxAxioms = this.processSpec.getAuxAxioms();
+				auxPreds = this.processSpec.getAuxPreds("Instance"+name);
+				
+			}			
+			
+			for (int i=0; i<auxVars.size(); i++){
+				writer.println(auxVars.get(i));
+			}
+			
+			// writes down the metamodel of the signature
+			writer.println("one sig Instance"+name+"{"  );
+			writer.println(space + "nodes : set Node,");
+			writer.println(space + "succs : nodes -> nodes,");
+			writer.println(space + "val: nodes -> Prop,");
+			if (enums.size() > 0)
+				writer.println(space + "enums : (nodes-> EnumVar) -> one Enum,");
+			// print the actions
+			for (int i=0; i<actions.size(); i++){
+				writer.println(space + actions.get(i)+": nodes -> nodes,");
+			}
+			writer.println(space + "local: nodes -> nodes,");
+			writer.println(space + "env: nodes -> nodes");
+			writer.println("}");
+			
+			// starts the description of the model
+			writer.println("{");
+			// the nodes
+			writer.print(space + "nodes = ");
+			for (int i=0; i<listNodes.size();i++){
+				if (i == 0)
+					writer.print( listNodes.get(i));
+				else
+					writer.print( "+" + listNodes.get(i));
+			}
+			writer.println("");
+			
+			// the actions
+			for (int i=0; i<actions.size();i++){
+				LinkedList<Edge> edgeList = this.getEdgesWithName(actions.get(i));
+				if (edgeList.size() == 0){
+					writer.println(space + "no " + actions.get(i));
+					continue;
+				}
+				if (!env.contains(actions.get(i)) && (!this.tokenRing || (!actions.get(i).contains("receive")))){
+					//if (actions.get(i).equals("ACTgetLeft") || actions.get(i).equals("ACTgetRight"))
+						writer.print(space + actions.get(i)+" in "); // NOTE: CHANGE THIS!
+					//else
+					//	writer.print(space + actions.get(i)+" = ");
+				}
+				else
+					writer.print(space + actions.get(i)+" = ");
+				for (int j=0; j<edgeList.size();j++){
+					if (j==0)
+						writer.print("("+edgeList.get(j).getOrigin().getName()+"->"+edgeList.get(j).getTarget().getName()+")");
+					else
+						writer.print(" + (" + edgeList.get(j).getOrigin().getName()+"->"+edgeList.get(j).getTarget().getName()+")");
+				}
+				writer.println("");
+			}
+			writer.println("");
+			
+			
+			// the propositions
+			writer.print(space + "val = ");
+			writer.print(space);
+			boolean first = true;
+			for (int i=0; i<listNodes.size();i++){	
+				LinkedList<String> propList = nodes.get(listNodes.get(i)).getProperties();	
+				for (int j=0; j<propList.size(); j++){
+					if (j==0 && first){
+						writer.print(listNodes.get(i)+"->"+propList.get(j));
+						first =false;
+					}
+					else
+						writer.print(" + "+listNodes.get(i)+"->"+propList.get(j));
+				}
+			}
+			//writer.print(" in val");
+			writer.println("");
+			
+			if (this.enums.size()>0){
+				// the enums: TBD
+				writer.print(space + "enums = ");
+				for (int i=0; i<listNodes.size();i++){	
+					for (int j=0; j<this.enums.size();j++){
+						if (j==0 && i==0)
+							writer.print(listNodes.get(i)+"->"+enums.get(j)+"->"+this.nodes.get(listNodes.get(i)).getEnumVarValue(enums.get(j)));
+						else
+							writer.print(" + "+listNodes.get(i)+"->"+enums.get(j)+"->"+this.nodes.get(listNodes.get(i)).getEnumVarValue(enums.get(j)));
+					}
+					
+				}
+				writer.println("");
+			}
+			
+			// the succs relation
+			writer.print(space+"succs = ");
+			for (int i=0;i<actions.size();i++){
+				if (i==0)
+					writer.print( actions.get(i));
+				else
+					writer.print("+"+actions.get(i));
+			}
+			writer.println("");
+			
+			// the env
+			if (env.size()>0){
+				writer.print(space+"env =");
+				for (int i=0;i<env.size();i++){
+					if (i==0)
+						writer.print(env.get(i));
+					else
+						writer.print("+"+env.get(i));
+				}
+				writer.println("");
+			}
+			else
+				writer.println("no env");
+			
+			// the local actions
+			writer.println(space+"local = succs - env");
+			
+			// we write the additional axioms for fresh variables for CTL formulas
+			for (int i=0; i<auxAxioms.size(); i++){
+				if (!auxAxioms.get(i).equals(""))
+					writer.println(auxAxioms.get(i));
+			}
+			
+			//System.out.println("counter examples:"+counterexamples);
+			
+			// we keep track of the nodes 
+			LinkedList<Pair<String,String>> usedNodes = new LinkedList<Pair<String,String>>();
+			for (int i=0; i<counterexamples.size();i++){
+				CounterExample currentCex = counterexamples.get(i); 
+				LinkedList<String> actualCexRuns = currentCex.getRuns(instance);
+				boolean firstTimeOr = true;
+				//boolean firstTimeAnd = true;		
+				for (int j=0; j<actualCexRuns.size()-1;j++){
+					if (!actualCexRuns.get(j).equals(actualCexRuns.get(j+1))){	
+						//LinkedList<Edge> egs = this.getEdges(actualCexStates.get(j),actualCexStates.get(j+1));
+						Edge e = this.getEdge(currentCex, instance, j);
+						//if (egs.size() > 0){
+						if (e == null){ 
+							writer.println("--edge not found:"+ actualCexRuns.get(j)+","+actualCexRuns.get(j+1));
+							writer.println("--properties source:"+ currentCex.getProps(instance).get(j));
+							writer.println("--properties target:"+ currentCex.getProps(instance).get(j+1));
+						}
+						if (e != null) {
+							if (firstTimeOr){
+								firstTimeOr = false;
+							}
+							else{
+								writer.print(" or ");
+							}
+							//boolean firstTimeAnd = true;
+							//for (int h=0; h<egs.size(); h++){
+							if (e != null) {
+								writer.print("(not ("+e.getTarget().getName()+" in succs["+e.getOrigin().getName()+"]))");
+								usedNodes.add(new Pair(e.getTarget().getName(), e.getOrigin().getName()));
+								// This need to be improved, we can give the precise information to Alloy, the or makes the process slower
+								//if (firstTimeAnd){
+									//writer.print("(not ("+egs.get(h).getTarget().getName()+" in succs["+egs.get(h).getOrigin().getName()+"]))");
+									
+									//firstTimeAnd = false;
+								//}
+								//else{
+								//	writer.print("or (not ("+egs.get(h).getTarget().getName()+" in succs["+egs.get(h).getOrigin().getName()+"]))");	
+								//}
+								
+							}
+							//}
+						//}
+					}
+					}
+				}
+				writer.println("");
+				
+				
+				// For debugging:
+				writer.println("--"+counterexamples.get(i).toString());
+				writer.print("\n");	
+			}
+			
+			// we assert that the arcs not mentioned in the counterexample are kept 
+			for (String nodeName : this.nodes.keySet()) {
+				Node currentNode = this.nodes.get(nodeName);
+				for (Edge e : currentNode.getAdj()) {
+					Pair<String,String> ePair = new Pair<String,String>(e.getTarget().getName(),e.getOrigin().getName());
+					if (!usedNodes.contains(ePair))
+						writer.println(ePair.getFirst() + " in " + "succs["+ePair.getSecond()+"]");
+				}
+			}
 			// we write down the counterexamples
 			//for (int i=0; i<counterexamples.size();i++){
 			//	LinkedList<String> actualCex = counterexamples.get(i);

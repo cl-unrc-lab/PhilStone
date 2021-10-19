@@ -2,14 +2,13 @@ package PS;
 import java.util.*;
 
 /**
- * This class is used for saving counterexamples, it implements the basic methods to manage coutnerexamples
+ * This class is used for saving counterexamples, it implements the basic methods to manage counterexamples
  * @author Pablo
- *
  */
 
-public class CounterExample {
-	HashMap<String, LinkedList<String>> runs; // maps for each instance process the run (the list of nodes) corresponding to the counter example, the order is not important for us
-											  // since the backtracking inspects every possibility
+public class CounterExample{
+	HashMap<String, LinkedList<String>> runs; // maps for each instance process the run (the list of nodes) corresponding to the counter example, the order
+											  // is not important to us  since the backtracking inspects every possibility
 	HashMap<String, LinkedList<HashMap<String, String>>> props; // It stores the propositions holding in each state for each instance
 	
 	public CounterExample(){
@@ -29,11 +28,17 @@ public class CounterExample {
 		return props.get(process);
 	}
 	
+	public int size(String instance){
+		return runs.get(instance).size();
+	}
+	
+	
 	/**
 	 * 
 	 * @param cex A counterexample represented by a HashMap, for each step of the CEX there is a mapping
 	 * 			  assigning to each instance a state  
-	 * @param props The list of propositions true in each state, this is useful since nuSMV works with equivalence classes	
+	 * @param props The list of propositions true in each state, this is useful since nuSMV works 
+	 * 		  with equivalence classes	
 	 */
 	public void addRuns(LinkedList<HashMap<String, String>> cex, LinkedList<HashMap<String, HashMap<String, String>>> props){
 		//System.out.println(cex);
@@ -56,10 +61,10 @@ public class CounterExample {
 				Iterator<String> it = currentMap.keySet().iterator();
 				while (it.hasNext()){
 					String currentProcess = it.next();
-					if (!runs.get(currentProcess).getLast().equals(cex.get(i).get(currentProcess))) { // avoid repeated elements
-						runs.get(currentProcess).addLast(cex.get(i).get(currentProcess));
-						this.props.get(currentProcess).addLast(props.get(i).get(currentProcess));
-					}
+					//if (!runs.get(currentProcess).getLast().equals(cex.get(i).get(currentProcess))) { // avoid repeated elements
+					runs.get(currentProcess).addLast(cex.get(i).get(currentProcess));
+					this.props.get(currentProcess).addLast(props.get(i).get(currentProcess));
+					//}
 				}
 			}
 		}
@@ -97,7 +102,9 @@ public class CounterExample {
 		}
 	}
 	
-	
+	/**
+	 * An implementation of equals for Counterexample
+	 */
 	public boolean equals(Object obj){
 		if (obj == null || obj instanceof CounterExample)
 			return false;
@@ -128,12 +135,62 @@ public class CounterExample {
 		return true;
 	}
 	
+	/**
+	 * this <= c (this refines c)
+	 * @param c	another counterexample
+	 * @return	check if this refines c 
+	 */
+	public boolean lInclusion(CounterExample c, String instance) {
+		if (this.size(instance)>1){
+			if (c.size(instance) >= this.size(instance)){ // the length of c has to be less than the length of this
+				int i=0;
+				int j=0;	
+				while (j<c.size(instance)-1){
+					if (this.getRuns(instance).get(i).equals(c.getRuns(instance).get(j)) 
+						&& this.getRuns(instance).get(i+1).equals(c.getRuns(instance).get(j+1))
+						&& this.getProps(instance).get(i).equals(c.getProps(instance).get(j))
+						&& this.getProps(instance).get(i+1).equals(c.getProps(instance).get(j+1)))		
+					{
+						i++; // if found we search the next element
+						j++;
+						if (i == this.size(instance)-1) // if we have traversed all the sequence of this then true
+							break;
+					}
+					else{
+						j++; // otherwise we continue searching
+						//i=0; // and reset the position in the first sequence
+					}
+				}
+				return (i == this.size(instance)-1);
+			}
+			else{
+				return false;
+			}
+		}
+		else{
+			return true;
+		}
+	}
+	
+	/**
+	 * Checks if c refines the current instance: c <= this for the given inctance
+	 * @param c	Another counterexample
+	 * @param instance	
+	 * @return
+	 */
+	public boolean rInclusion(CounterExample c, String instance){
+		return c.lInclusion(this, instance);
+	}	
+	
 	public String toString(){
-		String result = "";
+		String result = " ";
 		Iterator<String> it = runs.keySet().iterator();
 		while (it.hasNext()){
 			String current = it.next();
 			result += "["+current +" : "+ runs.get(current) + "]";
+		}
+		for (String ins : this.props.keySet()) {
+			result += "["+ins+":"+props.get(ins).toString()+"]";
 		}
 		return result;
 	}

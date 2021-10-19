@@ -1,7 +1,7 @@
 package Spec;
 import java.io.FileWriter;
 import java.util.*;
-
+import Utils.Pair;
 import FormulaSpec.*;
 
 /**
@@ -358,6 +358,18 @@ public class Spec {
 		}
 		return result;
 	}
+	
+	public LinkedList<Pair<String,String>> getFormalActualPars(String instance){
+		LinkedList<Pair<String,String>> result = new LinkedList<Pair<String,String>>();
+		LinkedList<String> actualPars = this.getActualPars(instance);
+		LinkedList<String> formalPars = this.getProcessSpec(instance).getParNames();
+		for (int i=0; i<formalPars.size(); i++){
+			if (this.getProcessSpec(instance).getParType(formalPars.get(i)) == Type.LOCK)
+			result.add(new Pair<String, String>("Av_"+formalPars.get(i), "Av_"+actualPars.get(i)));
+		}
+		return result;
+	}
+	
 	
 	/**
 	 * 

@@ -4,6 +4,7 @@ package Spec;
 import java.util.*;
 import java.io.*;
 import org.stringtemplate.v4.*;
+import Utils.Pair;
 
 import FormulaSpec.*;
 import JFlex.Out;
@@ -168,6 +169,14 @@ public class ProcessSpec {
 		}
 	}
 	
+	
+	public Type getParType(String name){
+		for (Var v:this.pars) {
+			if (v.getName().equals(name))
+				return v.getType();
+		}
+		return Type.ERROR;
+	}
 	
 	public LinkedList<String> getSharedVarsNames(){
 		return this.mySpec.getGlobalVarsNames();

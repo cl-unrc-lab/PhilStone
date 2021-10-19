@@ -56,4 +56,22 @@ public class Pair<F, S> {
     public S getSecond() {
         return second;
     }
+    
+    public boolean equals(Object o) {
+    	if (o instanceof Pair<?,?>) {
+    		Pair<F,S> anotherObject = (Pair<F,S>) o;
+    		return this.first.equals(anotherObject.getFirst()) && this.second.equals(anotherObject.getSecond());
+    		
+    	}
+    	else {
+    		return false;
+    	}
+    	
+    }
+    
+    public String toString() {
+    	return "("+this.first.toString()+" , "+this.second.toString()+" )";
+    }
+    
+    
 }
