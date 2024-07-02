@@ -16,8 +16,10 @@ if ! [ -x "$(command -v NuSMV)" ]; then
   exit 1
 fi
 
+echo $OSTYPE
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export JAVA_LIBRARY_PATH="../lib/MacOs/"
+	export JAVA_LIBRARY_PATH="../lib/MacOS/"
         export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
 elif [[ "$OSTYPE" == "linux"* ]]; then
 	export LD_LIBRARY_PATH='../lib/AMD64/'
@@ -25,4 +27,5 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 fi
 
 cd ../build/
-java PS/PhilStone -pdf -NuSMV -scope=$1 -pdf $2
+
+java   PS/PhilStone -pdf -NuSMV -scope=$1 -pdf $2

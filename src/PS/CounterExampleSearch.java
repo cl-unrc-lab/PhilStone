@@ -67,12 +67,11 @@ public class CounterExampleSearch {
 	LinkedList<LinkedList<CounterExample>>[] queueCexs;
 	boolean[] stopped;
 	boolean[] solverRefreshed;
-	
-	//HashMap<String, Pair<A4Solution, LinkedList<LinkedList<String>>>> currentSol; // it takes into account the current solver and cexs																		  // used for each instances
+																			  // used for each instances
 	Spec mySpec;			// the specification
 	String outputPath;		// the output path for the synthesized program
 	String templatePath;	// the path to the template,
-	int numberIns; 			// number of the running processes
+	int numberIns; 			// number of running processes
 	HashMap<String, Integer> currentCex; // used for synthesis, the maps points out the current cex used for each process, -1 indicates no counterexample
 	boolean showInfo = false; // when true the methods will show the info of the search
 	boolean printPDF;
@@ -236,6 +235,7 @@ public class CounterExampleSearch {
 			System.out.println("Using Simple Search for Synthesis...");
 		else
 			System.out.println("Using Search Guided by Counterexamples for Synthesis...");
+		
 		// STEP 1: We generate the laxest model for each instance
 		for (int i=0; i<processes.size(); i++){
 			long startTime = System.currentTimeMillis();    
@@ -246,7 +246,6 @@ public class CounterExampleSearch {
 			String outputfilename = outputPath+currentProcess+".xml";
 			
 			// we obtain the alloy specification for the laxest model
-			//String myProcess = instances.get(currentProcess);
 			String metamodel = mySpec.metamodelToString(currentProcess, templatePath, scope);
 			try{			
 				// we write the specification to a file
@@ -308,7 +307,6 @@ public class CounterExampleSearch {
 			}
 			// the program is written to the output folder
 			try{
-				//System.out.println("Program:"+syntProgram);
 				PrintWriter writer = new PrintWriter(outputPath+mySpec.getName()+".imp", "UTF-8");
 				writer.print(syntProgram);
 				writer.flush();
@@ -331,59 +329,109 @@ public class CounterExampleSearch {
 	 * @return
 	 */
 	public boolean counterExampleSearch(int insNumber, int scope){
+		// This is the current instance which are working on
 		String currentIns = instancesList.get(insNumber);
+		
+		// This map is used to point out that a disjoint CEX was found for the corresponfding instance
 		this.disjointCexFound.put(currentIns, new Boolean(false));
+		
+		// A queues of cexs for each instance
 		this.queueCexs[insNumber].clear();
+		
+		// a queue of solver for each instance, solver an be enriched with counter examples
 		this.queueSolvers[insNumber].clear();
+		
+		// THe current solver for each instance
 		this.currentSol[insNumber] = null;
+		
+		// the current cexs for each instance
 		this.currentCexs[insNumber] = new LinkedList<CounterExample>();
+		
+		// if it has to be stopped
 		this.stopped[insNumber]=false;
-		if (insNumber == (this.numberIns - 1)){ //  Base Case
+		
+		// if the instance is the last one we are in the base case
+		if (insNumber == (this.numberIns - 1)){ 
 			System.out.println("Last instance: "+currentIns);
+			
+			// we construct a lts for the unrestricted model
 			LTS lts = new LTS(mySpec.getProcessSpec(currentIns));
 			lts.setName(currentIns);
 			if (mySpec.isTokenRing())
 				lts.setTokenRing();
+			
+			// we save the actual model
 			LTS formerLTS = mapInsModels.get(currentIns);
+			
+			// used to keep the result output by the model checker
 			boolean checkResult = false;
+			
+			// we model check the model 
 			checkResult = selectChecker(currentIns);
+			
+			// one iteration is performed
 			iterations++;
+			
+			// if the model checker returns true, then we are done
 			if (checkResult) 
 				return true;
 			
+			// a new empty list of counterexamples is added to the queue of the current instance
 			this.queueCexs[insNumber].addLast(new LinkedList<CounterExample>());
+			// we create an initial solver for this instance
 			this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));
+			
+			// while the queue fo solver is empty
 			while(!this.queueSolvers[insNumber].isEmpty()){
-					
 					int j = 0;
+					// we use the current solver
 					this.currentSol[insNumber] = this.queueSolvers[insNumber].removeLast();
+					
+					// we use the current cexs
 					this.currentCexs[insNumber] = this.queueCexs[insNumber].removeLast();	
+					
+					// we mark that no disjoint ces was found until now
 					disjointCexFound.put(currentIns, new Boolean(false));
 					System.out.println("Size of queue:"+ this.queueSolvers[insNumber].size());
+					
+					// while there is instances in the current solver
 					while (this.currentSol[insNumber].satisfiable()){ //add refined & !disjointCexFound.get(currentIns)
 						this.iterations++;
 						try{
+							// write the current instance to a file
 							this.currentSol[insNumber].writeXML(outputPath+"temp"+j+".xml");
 						}
 						catch (Exception e){
 							System.out.println(e);
 						}
+						
 						lts.fromAlloyXML(outputPath+"temp"+j+".xml");
 						lts.toDot(outputPath+currentIns+iterations+".dot");
 						//if (showInfo) 
 							System.out.println("Instance "+ currentIns + ", Iteration Number:"+j);
+							
 						j++;
-						mapInsModels.put(currentIns, lts);			
-						changed.put(currentIns, new Boolean(true));						
+						
+						// we set the current model to teh actual instance
+						mapInsModels.put(currentIns, lts);	
+						changed.put(currentIns, new Boolean(true));		
+						
+						// we model check the current ins
 						checkResult = selectChecker(currentIns);	
+						
+						// if this is ok we are done
 						if (checkResult)
 							return true;		
+						
+						//otherwise we undo to the older model
 						mapInsModels.put(currentIns, formerLTS);
 						changed.put(currentIns, new Boolean(false));
+						
 						 if (this.stopped[insNumber]){ // if a disjoint cex is found stop the search
 							 return false;
 						 }
 						 this.stopped[insNumber] = false;
+						 
 						// else continue with the search, and restore the previous values
 						
 						try{
@@ -407,12 +455,19 @@ public class CounterExampleSearch {
 					lts.setName(currentIns);
 					if (mySpec.isTokenRing())
 						lts.setTokenRing();
+					
 					LTS formerLTS = mapInsModels.get(currentIns);
+					
 					// adding the followign line increases a lot the number of iterations
 					if (counterExampleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
 						return true;
+					
+					// a new entry in the cex queue is added were the cexs will be collected
 					this.queueCexs[insNumber].addLast(new LinkedList<CounterExample>());
+					
+					// a new solver is addded to the queue
 					this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));		
+					
 					while (!this.queueSolvers[insNumber].isEmpty()){
 						this.currentSol[insNumber] = this.queueSolvers[insNumber].removeLast();
 						this.currentCexs[insNumber] = this.queueCexs[insNumber].removeLast();
@@ -443,7 +498,29 @@ public class CounterExampleSearch {
 								mapInsModels.put(currentIns, formerLTS);
 								if (stop)
 									return false;
-								this.stopped[insNumber] = false;							
+								this.stopped[insNumber] = false;	
+								
+								// if not we also try changing all the instances of the same type with this solution
+								HashMap<String, LTS> formerLTSs= new HashMap<String, LTS>();
+								for (int i=0; i<instancesList.size(); i++){
+									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
+										formerLTSs.put(instancesList.get(i), mapInsModels.get(instancesList.get(i)));
+										mapInsModels.put(instancesList.get(i), lts);
+										changed.put(instancesList.get(i), new Boolean(true));
+									}
+								}
+								if (selectChecker(currentIns)) // model check generates new counterexamples, TBD: we need to add any found instance to actualCexs
+									return true;
+								
+								// else we restore the previous values and try the next solution
+								// if not we also try changing all the instances of the same type with this solution
+								for (int i=0; i<instancesList.size(); i++){
+									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
+										mapInsModels.put(instancesList.get(i), formerLTSs.get(instancesList.get(i)));
+										changed.put(instancesList.get(i), new Boolean(false));
+									}
+								}	
+								
 								if (!this.solverRefreshed[insNumber]){
 									try{
 										this.currentSol[insNumber] = this.currentSol[insNumber].next();	
@@ -527,9 +604,12 @@ public class CounterExampleSearch {
 				LTS formerLTS = mapInsModels.get(currentIns);
 				if (simpleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
 					return true;
+				
+				// gets an initial solution for this instance
 				A4Solution solver = this.getAlloySolution(currentIns);
 				while (solver.satisfiable()){  // !disjointCexFound.get(currentIns)??
 					try{
+						// we write the instance to a file
 						solver.writeXML(outputPath+"temp"+p+".xml");
 					}
 					catch(Exception e){
@@ -2338,6 +2418,7 @@ public class CounterExampleSearch {
 		}
 		return result;
 	}
+	
 	/**
 	 * A Method to read a counterexample from a NuSMV given Counterexample
 	 * @param fileName	the filenames with the cex, it must have the complete path
@@ -2644,7 +2725,8 @@ public class CounterExampleSearch {
 			writer.flush();
 			writer.close();
 			A4Options opt = new A4Options();
-			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			//opt.solver = A4Options.SatSolver.MiniSatJNI;
+			opt.solver = A4Options.SatSolver.SAT4J;
 			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
 			Command cmd = world.getAllCommands().get(0);
 			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
@@ -2674,7 +2756,8 @@ public class CounterExampleSearch {
 			LTS lts = new LTS();
 			mapInsModels.get(currentIns).getAlloyInstancesSpec(writer,scope, cexs, currentIns);
 			A4Options opt = new A4Options();
-			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			//opt.solver = A4Options.SatSolver.MiniSatJNI;
+			opt.solver = A4Options.SatSolver.SAT4J;
 			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+"Instances.als");
 			Command cmd = world.getAllCommands().get(0);
 			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
@@ -2695,7 +2778,8 @@ public class CounterExampleSearch {
 			A4Reporter rep = new A4Reporter();
 			Module world = null;
 			A4Options opt = new A4Options();
-			opt.solver = A4Options.SatSolver.MiniSatJNI;
+			//opt.solver = A4Options.SatSolver.MiniSatJNI;
+			opt.solver = A4Options.SatSolver.SAT4J;
 			world = CompUtil.parseEverything_fromFile(rep, null, outputPath+currentIns+"Template.als");
 			Command cmd = world.getAllCommands().get(0);
 			sol = TranslateAlloyToKodkod.execute_command(rep, world.getAllReachableSigs(), cmd, opt);		
