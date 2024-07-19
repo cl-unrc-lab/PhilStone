@@ -458,7 +458,7 @@ public class CounterExampleSearch {
 					
 					LTS formerLTS = mapInsModels.get(currentIns);
 					
-					// adding the followign line increases a lot the number of iterations
+					// adding the following line increases a lot the number of iterations
 					if (counterExampleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
 						return true;
 					
@@ -500,9 +500,11 @@ public class CounterExampleSearch {
 									return false;
 								this.stopped[insNumber] = false;	
 								
-								// if not we also try changing all the instances of the same type with this solution
+								// We use the following heuristics:
+								// We try to use the instance found we all the processes of the same type,
+								// in the case of symmetric cases this can improve the search
 								HashMap<String, LTS> formerLTSs= new HashMap<String, LTS>();
-								for (int i=0; i<instancesList.size(); i++){
+								for (int i=insNumber; i<instancesList.size(); i++){
 									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
 										formerLTSs.put(instancesList.get(i), mapInsModels.get(instancesList.get(i)));
 										mapInsModels.put(instancesList.get(i), lts);
@@ -514,7 +516,7 @@ public class CounterExampleSearch {
 								
 								// else we restore the previous values and try the next solution
 								// if not we also try changing all the instances of the same type with this solution
-								for (int i=0; i<instancesList.size(); i++){
+								for (int i=insNumber; i<instancesList.size(); i++){
 									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
 										mapInsModels.put(instancesList.get(i), formerLTSs.get(instancesList.get(i)));
 										changed.put(instancesList.get(i), new Boolean(false));
@@ -621,15 +623,16 @@ public class CounterExampleSearch {
 					lts.toDot(outputPath+"instance"+insNumber+":"+p+".dot");
 					p++;
 					mapInsModels.put(currentIns, lts);
-					changed.put(currentIns, new Boolean(true));		
+					changed.put(currentIns, new Boolean(true));	
 					// we try with this model recursively
 					if (simpleSearch(insNumber+1, scope)) // model check generates new counterexamples, 
 						return true;
 			
+					System.out.print("comeback to  instance"+currentIns);
 					changed.put(currentIns, new Boolean(false));
 					mapInsModels.put(currentIns, formerLTS);
 								
-					this.solverRefreshed[insNumber] =  false;
+					//this.solverRefreshed[insNumber] =  false;
 					try{
 						solver = solver.next();	
 					}
@@ -1001,9 +1004,10 @@ public class CounterExampleSearch {
 		}
 		//System.out.println(mcResult);
 		// If a "is true" string found then the model checker didnt find a counterexample
+		//System.out.print(mcResult);
 		result = mcResult.contains("is true");
 		//System.out.println(mcResult);
-		if (!result && !noCEX){ // if a counterexamples was found
+		if (!result && !noCEX){ // if a counterexample was found
 			// We create a new counterexample
 			CounterExample c = new CounterExample();
 			
@@ -1012,7 +1016,7 @@ public class CounterExampleSearch {
 			cexs.addLast(c); // we add the counterexample to the collection of counterexamples of the current instance
 	    	this.processCounterExample(c);
 		}
-		else{
+		if (result){
 			this.syntProgram=spec;
 		}
 		

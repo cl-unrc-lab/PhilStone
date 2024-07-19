@@ -933,12 +933,14 @@ public class LTS {
 			}
 			
 			// we assert that the arcs not mentioned in the counterexample are kept 
-			for (String nodeName : this.nodes.keySet()) {
-				Node currentNode = this.nodes.get(nodeName);
-				for (Edge e : currentNode.getAdj()) {
-					Pair<String,String> ePair = new Pair<String,String>(e.getTarget().getName(),e.getOrigin().getName());
-					if (!usedNodes.contains(ePair))
-						writer.println(ePair.getFirst() + " in " + "succs["+ePair.getSecond()+"]");
+			if (counterexamples.size()>0) {
+				for (String nodeName : this.nodes.keySet()) {
+					Node currentNode = this.nodes.get(nodeName);
+					for (Edge e : currentNode.getAdj()) {
+						Pair<String,String> ePair = new Pair<String,String>(e.getTarget().getName(),e.getOrigin().getName());
+						if (!usedNodes.contains(ePair))
+							writer.println(ePair.getFirst() + " in " + "succs["+ePair.getSecond()+"]");
+					}
 				}
 			}
 			// we write down the counterexamples

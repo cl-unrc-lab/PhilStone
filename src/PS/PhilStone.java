@@ -47,6 +47,7 @@ public class PhilStone {
 	private static boolean cexSearch = true; // by default we use cexSearch
 	private static boolean genSearch = false;
 	private static boolean herSearch = false;
+	private static boolean batchSearch = false;
 	private static boolean BMC = false;
 	private static boolean Electrum = false;
 	private static boolean NuXMV = false;
@@ -83,6 +84,11 @@ public class PhilStone {
 				}
 				if (args[i].equals("-noCEX")){
 					noCEX = true;
+					continue;
+				}
+				if (args[i].equals("-batch")) {
+					batchSearch = true;
+					cexSearch = false;
 					continue;
 				}
 				if (args[i].equals("-pdf")){
@@ -307,6 +313,18 @@ public class PhilStone {
 					System.out.println(gs.getSyntProgram());
 				else
 					System.out.println("program not found.");
+			}
+			if (batchSearch) {
+				LinkedList<Integer> progression = new LinkedList<Integer>();
+				// we try with the progression 1,2,4,8,16...
+				// diferents progressions can be tried.
+				progression.add(1);
+				progression.add(2);
+				progression.add(4);
+				progression.add(8);
+				progression.add(16);
+				BatchSearch bs = new BatchSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope, false, pathBound, progression);
+				bs.startSearch();
 			}
 			
 		}
