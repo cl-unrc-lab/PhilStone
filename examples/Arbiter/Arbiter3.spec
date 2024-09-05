@@ -19,7 +19,7 @@ process process1{
     }
     
     
-    invariant: AG[!this.hasToken || EF[global.send2]] && AG[EF[this.g1]] && AG[EF[!this.g1]] ;
+    invariant: AG[EF[global.send2]];
 }
 
 process process2{
@@ -40,7 +40,7 @@ process process2{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send3]] ;
+    invariant:  AG[EF[global.send3]] ;
 }
 
 process process3{
@@ -61,7 +61,7 @@ process process3{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send1]] ;
+    invariant:  AG[EF[global.send1]] ;
 }
 
 
@@ -84,10 +84,11 @@ property:     G[!global.r1 || F[p1.g1]]
           &&  G[!(p2.g2 && p3.g3)];
        
 
-assumption: G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]
+assumption: /*G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]
             && G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]]
             && G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]] 
             && G[global.r2 || !p2.g2 || [!global.r2 W  !p2.g2]]
             && G[F[!p1.g1 || !global.r1]] 
             && G[F[!p2.g2 || !global.r2]]
-            && G[F[!p3.g3 || !global.r3]];
+            && G[F[!p3.g3 || !global.r3]]*/
+             G[F[p1.hasToken]] && G[F[p2.hasToken]] &&  G[F[p3.hasToken]];

@@ -1,7 +1,7 @@
 // Candidates:  6*(2+72*(6*INT)^2), INT=10  -->  1,555,212
 
 int genArithExp (int e1, int e2) {      // 6
-    int _which = { * 3 };
+    int _which = ??;
     assert 0 <= _which && _which <= 5;
 
     if (0 == _which) {  return e1 + e2;  }

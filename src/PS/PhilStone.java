@@ -318,12 +318,23 @@ public class PhilStone {
 				LinkedList<Integer> progression = new LinkedList<Integer>();
 				// we try with the progression 1,2,4,8,16...
 				// diferents progressions can be tried.
-				progression.add(1);
-				progression.add(2);
+				// with 1,2,4,8... the readers writers is found with 8 instances
+				// with 8,16... it is found with 4
+				//progression.add(1);
+				//progression.add(2);
 				progression.add(4);
 				progression.add(8);
 				progression.add(16);
+				progression.add(32);
+				progression.add(64);
+				progression.add(128);
 				BatchSearch bs = new BatchSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope, false, pathBound, progression);
+				if (open)
+					bs.setOpen();
+				if (token){
+					bs.setToken();
+					mySpec.setTokenRing();
+				}
 				bs.startSearch();
 			}
 			

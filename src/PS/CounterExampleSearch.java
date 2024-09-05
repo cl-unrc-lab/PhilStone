@@ -381,7 +381,7 @@ public class CounterExampleSearch {
 			// we create an initial solver for this instance
 			this.queueSolvers[insNumber].addLast(this.getAlloySolution(currentIns));
 			
-			// while the queue fo solver is empty
+			// while the queue for solver is empty
 			while(!this.queueSolvers[insNumber].isEmpty()){
 					int j = 0;
 					// we use the current solver
@@ -427,9 +427,9 @@ public class CounterExampleSearch {
 						mapInsModels.put(currentIns, formerLTS);
 						changed.put(currentIns, new Boolean(false));
 						
-						 if (this.stopped[insNumber]){ // if a disjoint cex is found stop the search
-							 return false;
-						 }
+						 //if (this.stopped[insNumber]){ // if a disjoint cex is found stop the search
+						 //	 return false;
+						 //}
 						 this.stopped[insNumber] = false;
 						 
 						// else continue with the search, and restore the previous values
@@ -491,37 +491,37 @@ public class CounterExampleSearch {
 			
 								boolean stop = true;
 								
-								for (int m=this.numberIns-1; m>=insNumber; m--){
-										stop = stop && this.stopped[m];
-								}
+								//for (int m=this.numberIns-1; m>=insNumber; m--){
+								//		stop = stop && this.stopped[m];
+								//}
 								changed.put(currentIns, new Boolean(false));
 								mapInsModels.put(currentIns, formerLTS);
-								if (stop)
-									return false;
+								//if (stop)
+								//	return false;
 								this.stopped[insNumber] = false;	
 								
 								// We use the following heuristics:
 								// We try to use the instance found we all the processes of the same type,
 								// in the case of symmetric cases this can improve the search
-								HashMap<String, LTS> formerLTSs= new HashMap<String, LTS>();
-								for (int i=insNumber; i<instancesList.size(); i++){
-									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
-										formerLTSs.put(instancesList.get(i), mapInsModels.get(instancesList.get(i)));
-										mapInsModels.put(instancesList.get(i), lts);
-										changed.put(instancesList.get(i), new Boolean(true));
-									}
-								}
-								if (selectChecker(currentIns)) // model check generates new counterexamples, TBD: we need to add any found instance to actualCexs
-									return true;
+								//HashMap<String, LTS> formerLTSs= new HashMap<String, LTS>();
+								//for (int i=insNumber; i<instancesList.size(); i++){
+								//	if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
+								//		formerLTSs.put(instancesList.get(i), mapInsModels.get(instancesList.get(i)));
+								//		mapInsModels.put(instancesList.get(i), lts);
+								//		changed.put(instancesList.get(i), new Boolean(true));
+								//	}
+								//}
+								//if (selectChecker(currentIns)) // model check generates new counterexamples, TBD: we need to add any found instance to actualCexs
+								//	return true;
 								
 								// else we restore the previous values and try the next solution
 								// if not we also try changing all the instances of the same type with this solution
-								for (int i=insNumber; i<instancesList.size(); i++){
-									if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
-										mapInsModels.put(instancesList.get(i), formerLTSs.get(instancesList.get(i)));
-										changed.put(instancesList.get(i), new Boolean(false));
-									}
-								}	
+								//for (int i=insNumber; i<instancesList.size(); i++){
+								//	if (this.instances.get(instancesList.get(i)).equals(this.instances.get(currentIns))){
+								//		mapInsModels.put(instancesList.get(i), formerLTSs.get(instancesList.get(i)));
+								//		changed.put(instancesList.get(i), new Boolean(false));
+								//	}
+								//}	
 								
 								if (!this.solverRefreshed[insNumber]){
 									try{
@@ -2432,7 +2432,7 @@ public class CounterExampleSearch {
 		// It returns two things, a list describing for each state in which state is it
 		LinkedList<HashMap<String,String>> result1 = new LinkedList<HashMap<String, String>>();
 		
-		// A list describing for each instance the properties of this instance en each step of the CEX
+		// A list describing for each instance the properties of this instance in each step of the CEX
 		LinkedList<HashMap<String, HashMap<String, String>>> result2 = new LinkedList<HashMap<String, HashMap<String, String>>>();
 		try{
 			//String content = new String(Files.readAllBytes(Paths.get(fileName)), "UTF-8");
@@ -2467,7 +2467,8 @@ public class CounterExampleSearch {
 								HashMap<String,String> h = new HashMap<String,String>();		
 								result1.add(i,h);
 							}
-							result1.get(i).put(ins, current.replace(ins+".state =", "").trim());
+							if (i <= result1.size())
+								result1.get(i).put(ins, current.replace(ins+".state =", "").trim());
 						}
 					} 
 				}

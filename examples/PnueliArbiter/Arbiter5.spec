@@ -20,7 +20,7 @@ process process1{
     }
     
     
-    invariant: AG[!this.hasToken || EF[global.send2]] && AG[EF[this.g1]] && AG[EF[!this.g1]] ;
+    invariant: AG[EF[global.send2]];
 }
 
 process process2{
@@ -41,7 +41,7 @@ process process2{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send3]] ;
+    invariant:  AG[EF[global.send3]] ;
 }
 
 process process3{
@@ -62,7 +62,7 @@ process process3{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send4]] ;
+    invariant:  AG[EF[global.send4]] ;
 }
 
 process process4{
@@ -83,7 +83,7 @@ process process4{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send5]] ;
+    invariant:  AG[EF[global.send5]] ;
 }
 
 process process5{
@@ -104,7 +104,7 @@ process process5{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send1]] ;
+    invariant:  AG[EF[global.send1]] ;
 }
 
 
@@ -146,21 +146,22 @@ property:
           ]; /* mutual exclusion */
        
 
-assumption:    G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]   /*Requests keeps hight until a grant is given*/
-            && G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]] /*If a grant was given, the request keeps down until the grant is down*/
-            && G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]]   /*Requests keeps hight until a grant is given*/
-            && G[global.r2 || !p2.g2 || [!global.r2 W  !p2.g2]] /*If a grant was given, the request keeps down until the grant is down*/
-            && G[!global.r3 || p3.g3 || [global.r3 W  p3.g3]]   /*Requests keeps hight until a grant is given*/
-            && G[global.r3 || !p3.g3 || [!global.r3 W  !p3.g3]] /*If a grant was given, the request keeps down until the grant is down*/
-            && G[!global.r4 || p4.g4 || [global.r4 W  p4.g4]]   /*Requests keeps hight until a grant is given*/
-            && G[global.r4 || !p4.g4 || [!global.r4 W  !p4.g4]] /*If a grant was given, the request keeps down until the grant is down*/ 
-            && G[!global.r5 || p5.g5 || [global.r5 W  p5.g5]]   /*Requests keeps hight until a grant is given*/
-            && G[global.r5 || !p5.g5 || [!global.r5 W  !p5.g5]] /*If a grant was given, the request keeps down until the grant is down*/ 
-            && G[F[!p1.g1 || !global.r1]] /* eventually grants or requests get down*/         
-            && G[F[!p2.g2 || !global.r2]]
+assumption: /*   G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]   Requests keeps hight until a grant is given*/
+            /*&& G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]] If a grant was given, the request keeps down until the grant is down*/
+            /*&& G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]]   Requests keeps hight until a grant is given*/
+            /*&& G[global.r2 || !p2.g2 || [!global.r2 W  !p2.g2]] If a grant was given, the request keeps down until the grant is down*/
+            /*&& G[!global.r3 || p3.g3 || [global.r3 W  p3.g3]]   Requests keeps hight until a grant is given*/
+            /*&& G[global.r3 || !p3.g3 || [!global.r3 W  !p3.g3]]   If a grant was given, the request keeps down until the grant is down*/
+            /*&& G[!global.r4 || p4.g4 || [global.r4 W  p4.g4]]    Requests keeps hight until a grant is given*/
+            /*&& G[global.r4 || !p4.g4 || [!global.r4 W  !p4.g4]] If a grant was given, the request keeps down until the grant is down*/ 
+            /*&& G[!global.r5 || p5.g5 || [global.r5 W  p5.g5]]    Requests keeps hight until a grant is given*/
+            /*&& G[global.r5 || !p5.g5 || [!global.r5 W  !p5.g5]]  If a grant was given, the request keeps down until the grant is down*/ 
+            /*&& G[F[!p1.g1 || !global.r1]]  eventually grants or requests get down*/         
+            /*&& G[F[!p2.g2 || !global.r2]]
             && G[F[!p3.g3 || !global.r3]]
             && G[F[!p4.g4 || !global.r4]]
-            && G[F[!p5.g5 || !global.r5]];
+            && G[F[!p5.g5 || !global.r5]];*/
+            G[F[p1.hasToken]] && G[F[p2.hasToken]] && G[F[p3.hasToken]] && G[F[p4.hasToken]]&& G[F[p5.hasToken]];
 
 
             

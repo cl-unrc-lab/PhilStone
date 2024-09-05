@@ -17,12 +17,17 @@ if ! [ -x "$(command -v NuSMV)" ]; then
 fi
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export JAVA_LIBRARY_PATH="../lib/MacOs/"
-        export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
+  if [[ $(uname -m) == 'arm64' ]]; then
+	  export JAVA_LIBRARY_PATH="../lib/MacOSARM/" # for ARM processors
+    export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
+  else
+    export JAVA_LIBRARY_PATH="../lib/MacOS"
+    export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
+  fi
 elif [[ "$OSTYPE" == "linux"* ]]; then
 	export LD_LIBRARY_PATH='../lib/AMD64/'
 	export CLASSPATH='../jar/java-cup-11a.jar:../jar/*:$CLASSPATH:.'
 fi
 
 cd ../build/
-java PS/PhilStone -open -token -pdf -NuSMV -scope=$1 -pdf $2
+java PS/PhilStone  -batch -open -token -pdf -scope=$1 -pdf $2

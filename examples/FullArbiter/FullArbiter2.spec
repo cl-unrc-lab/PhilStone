@@ -19,7 +19,7 @@ process process1{
     }
     
     
-    invariant: AG[!this.hasToken || EF[global.send2]] && AG[EF[this.g1]] && AG[EF[!this.g1]] ;
+    invariant: AG[EF[global.send2]];
 }
 
 process process2{
@@ -40,13 +40,16 @@ process process2{
     }
     
     
-    invariant:  AG[!this.hasToken || EF[global.send1]] ;
+    invariant:  AG[EF[global.send1]];
 }
+
+
 
 
 main(){
     p1:process1;
     p2:process2;
+    
     run p1();
     run p2();
 } 
@@ -63,16 +66,19 @@ property:
           &&  !F[[p2.g2 U [(!global.r2 && !p2.g2) U (p2.g2 && !global.r2)]]]         
           &&  G[ !(!global.r1 && p1.g1) || F[(global.r1 && p1.g1) || (!p1.g1)] ]  /* Grants are lowered */
           &&  G[ !(!global.r2 && p2.g2) || F[(global.r2 && p2.g2) || (!p2.g2)] ]
-          &&  G[F[p1.hasToken]] && G[F[p2.hasToken]];
+          &&  G[!p1.hasToken || F[global.send1]]
+          &&  G[!p2.hasToken || F[global.send2]];
          
        
 
 assumption: /* with the unique assumption G[F[p1.hasToken]] && G[F[p2.hastoken]] is faster */
-            G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]] /* Assumptions taken from Pnueli's paper */
-            && G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]]
-            && G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]] 
+            /*G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]*/ /* Assumptions taken from Pnueli's paper */
+            /*&& G[global.r1 || !p1.g1 || [!global.r1 W  !p1.g1]]
+            /*&& G[!global.r2 || p2.g2 || [global.r2 W  p2.g2]] 
             && G[global.r2 || !p2.g2 || [!global.r2 W  !p2.g2]]
             && G[F[!p1.g1 || !global.r1]] 
-            && G[F[!p2.g2 || !global.r2]];
+            && G[F[!p2.g2 || !global.r2]];*/
+            G[F[p1.hasToken]] && G[F[p2.hasToken]];
+
 
             
