@@ -1,4 +1,4 @@
-spec philosophers
+spec phils9
 
 f1, f2, f3, f4, f5, f6, f7, f8, f9: lock;
 
@@ -63,4 +63,5 @@ main(){
 
 /* Temporal Spec */
 
-property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left) && phil4.own(left) && phil5.own(left) && phil6.own(left) && phil7.own(left) && phil8.own(left) && phil9.own(left)] && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right) && phil4.own(right) && phil4.own(right) && phil5.own(right) && phil6.own(right) && phil7.own(right) && phil8.own(right) && phil9.own(right)];
+property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left) && phil4.own(left) && phil5.own(left) && phil6.own(left) && phil7.own(left) && phil8.own(left) && phil9.own(left)] 
+&& !EF[phil1.own(right) && phil2.own(right) && phil3.own(right) && phil4.own(right) && phil4.own(right) && phil5.own(right) && phil6.own(right) && phil7.own(right) && phil8.own(right) && phil9.own(right)];

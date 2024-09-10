@@ -30,4 +30,4 @@ elif [[ "$OSTYPE" == "linux"* ]]; then
 fi
 
 cd ../build/
-java PS/PhilStone  -batch -open -token -pdf -scope=$1 -pdf $2
+java PS/PhilStone  -batch=2,4,8,16,32 -open -token -pdf -scope=$1 -pdf $2

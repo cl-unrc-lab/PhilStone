@@ -1,4 +1,4 @@
-spec philosophers
+spec phils3
 
 /* note that only LTL are used for global specs*/
 
@@ -52,5 +52,4 @@ main(){
 
 /* Temporal Spec */
 
-property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left)] && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right)] 
-          && EF[phil1.st = Eating || phil2.st = Eating || phil3.st = Eating];
+property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left)] && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right)] && EF[phil1.st = Eating || phil2.st = Eating || phil3.st = Eating];

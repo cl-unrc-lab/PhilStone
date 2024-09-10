@@ -56,6 +56,7 @@ public class PhilStone {
 	private static boolean open = false; // true when the specification is an open system (i.e., with an environment)
 	private static boolean token = false; // an option for token ring systems
 	private static boolean noCEX = false;
+	private static LinkedList<Integer> progression = new LinkedList<Integer>();
 	
 	public static void main(String[] args) {
 		
@@ -86,9 +87,23 @@ public class PhilStone {
 					noCEX = true;
 					continue;
 				}
-				if (args[i].equals("-batch")) {
+				if (args[i].startsWith("-batch")) {
 					batchSearch = true;
 					cexSearch = false;
+					
+					// after the option batch we must have the progression in the style x0,x1,x2,...
+					try {
+						String prog = args[i].replace("-batch=","");
+						List<String> numberList = Arrays.asList(prog.split(","));
+						for (String str : numberList) {
+							progression.add(Integer.parseInt(str));
+						}
+					}
+					catch(Exception e) {
+						System.out.println("Wrong parameter after option -batch");
+						System.exit(0);
+					}
+					
 					continue;
 				}
 				if (args[i].equals("-pdf")){
@@ -315,19 +330,19 @@ public class PhilStone {
 					System.out.println("program not found.");
 			}
 			if (batchSearch) {
-				LinkedList<Integer> progression = new LinkedList<Integer>();
+				//LinkedList<Integer> progression = new LinkedList<Integer>();
 				// we try with the progression 1,2,4,8,16...
 				// diferents progressions can be tried.
 				// with 1,2,4,8... the readers writers is found with 8 instances
 				// with 8,16... it is found with 4
 				//progression.add(1);
 				//progression.add(2);
-				progression.add(4);
-				progression.add(8);
-				progression.add(16);
-				progression.add(32);
-				progression.add(64);
-				progression.add(128);
+				//progression.add(4);
+				//progression.add(8);
+				//progression.add(16);
+				//progression.add(32);
+				//progression.add(64);
+				//progression.add(128);
 				BatchSearch bs = new BatchSearch(mySpec, outputPath, templateDir, showInfo, writePdf, scope, false, pathBound, progression);
 				if (open)
 					bs.setOpen();

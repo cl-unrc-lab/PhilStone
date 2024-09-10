@@ -1,4 +1,4 @@
-spec philosophers
+spec phils5
 
 f1, f2, f3, f4, f5: lock;
 
@@ -55,4 +55,6 @@ main(){
 
 /* Temporal Spec */
 
-property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left) && phil4.own(left) && phil5.own(left)] && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right) && phil4.own(right) && phil4.own(right)];
+property: !EF[phil1.own(left) && phil2.own(left) && phil3.own(left) && phil4.own(left) && phil5.own(left)] 
+		   && !EF[phil1.own(right) && phil2.own(right) && phil3.own(right) && phil4.own(right)]
+		   &&  EF[phil1.st = Eating || phil2.st = Eating || phil3.st = Eating || phil4.st=Eating || phil5.st=Eating];
