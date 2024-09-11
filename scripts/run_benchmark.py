@@ -58,6 +58,15 @@ timeout = 600 # by default we set a timeout of 30min
 
 examples = ["mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
 
+# the script may take as an argument a specific example
+try :
+    arg = sys.argv[1]
+    assert arg in examples 
+    target = [arg]
+except :
+    target = examples
+    pass 
+
 instances = {}
 instances["phils"] = ["phils3","phils4","phils5","phils6","phils7"]
 instances["mutex"] = ["mutex2","mutex3","mutex4","mutex5", "mutex6","mutex7"]
@@ -113,7 +122,7 @@ scopes["pnueliarbiter5"] = [7,8]
 
 
 
-for example in examples :
+for example in target :
     results = []
     #for scope in scopes[example] :
     for instance in instances[example] :
