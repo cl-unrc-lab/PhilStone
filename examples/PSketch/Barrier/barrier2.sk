@@ -1,0 +1,66 @@
+//#define BCOND1 {| answer[other][k] | !answer[other][k] |}
+#define BCOND2 {| pcount == P-1 | pcount < P-1 | pcount == 0 | pcount > 0 |}
+#define BCOND3 {| sense != localsense | sense == localsense |}
+int P = 2; // Number of processes
+int LOGP = 2; // this is used for computing the number of rounds
+int T = 1; // Number of iterations
+bit sp () { return 1; }
+
+bit main () implements sp {
+    bit sense = 0; /* global sens */
+    int pcount = 0; 
+    bit asw = 0;
+    bit[P] finish = 0;
+    bit[P] parity = 0;
+    int[LOGP][P] opp = 0;
+    bit[LOGP][P] answer = 0;
+    //bit asw = 0;
+    /* the opponents are defined */
+    opp[0][0] = 1;
+    opp[1][0] = 0;
+    //opp[2][0] = P;  
+    fork (int i; P){
+        for (int t = 0; t < T; ++t) {
+            /* The assert states that the parities always coincide */
+	    assert (finish[0] || finish[1]) || (parity[0] || parity[1]) || (!parity[0] || !parity[1]);
+	    for (int k=0; k<LOGP-1;k++){
+        	if (i<opp[i][k]){
+		   answer[i][k] = 1;
+		}
+                if(i==P){ //winner
+                  int other;
+                  int x = ??;
+                  assert 0 <= x && x <=4;
+                  if (x==0){other = 1;}
+                  if (x==1){other = 0;}
+                  if (x==2){other = opp[i][k];}
+                  if (x==4){other = opp[k][i];} 
+                  //int other = opp[i][k];
+		  atomic(other){}; 
+		}
+            if (i == 0){ // the champion
+               atomic(BCOND2){
+	          sense = !sense;
+                  parity[i] = sense;
+                  finish[i] = 1;
+               };
+              
+            }	
+            else{ 
+                bit localsense = ??;
+                reorder{ 
+                atomic{pcount=pcount+1;};
+		atomic(BCOND3){
+                    pcount = 0;     //localsense= !sense;
+                    parity[i]=sense;
+                    finish[i]=1; 
+               };
+              }
+               
+                
+            }
+          }
+	}
+    }
+    return 1;
+  }

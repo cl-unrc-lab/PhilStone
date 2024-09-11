@@ -1,0 +1,52 @@
+/**
+*   This is a version of the reader writers problem for sketch. The tool has to guess the order in which the locks are adquires as well as to guees the conditions for 
+*   the readers.
+*   An int shared variable is used to count the number of reader, a truly distributed solution it does not seem possible 
+*   since the atomic constrution does not allow one to check several conditions
+*/
+#define CONDREADER1 {| readcount == 0 | readcount == R | readcount > 0 | readcount  < 0 |}
+#define CONDREADER2 {| readcount == 0 | readcount == R | readcount > 0 | readcount  < 0 |}
+
+bit sp () { return 1; }
+
+bit main () implements sp {
+    bit w = 0;
+    int r;
+    int resource;
+    int readcount = 0;
+
+    fork (int i; R+W) {
+        for (int t = 0; t < T; ++t) {
+            assert !(w && readcount > 0);
+            if (i <= W){ //A writer process
+                reorder{
+                    lock(resource);
+                    w = 1;
+                    w = 0;
+                    unlock(resource);
+                }
+            }
+            else{ //A reader process
+                reorder{
+                    lock(r);
+                    readcount = readcount + 1;
+                    /*if (readcount == 1){*/
+                    if(CONDREADER1){
+                        lock(resource);
+                    }
+                    unlock(r);
+                    //read
+                    lock(r);
+                    readcount = readcount - 1;
+                    /*if (readcount == 0){*/
+                    if (CONDREADER2){
+                       unlock(resource);
+                    }
+                    unlock(r);
+                    }
+                }
+        }
+    }
+
+    return 1;
+}

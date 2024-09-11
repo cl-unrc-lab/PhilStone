@@ -1,0 +1,4 @@
+int R = 2;
+int W = 3;
+int T = 1;
+include "readerwriter.skh"
