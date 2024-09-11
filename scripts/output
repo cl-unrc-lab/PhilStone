@@ -1,0 +1,1877 @@
+The specification is OK
+Using Search Guided by Counterexamples for Synthesis...
+Input-Output Error trying to write Alloy files.
+Error trying to write the alloy specifications for the processes.
+java.lang.NullPointerException: Cannot invoke "edu.mit.csail.sdg.alloy4compiler.translator.A4Solution.writeXML(String)" because "sol" is null
+	at PS.CounterExampleSearch.startSearch(CounterExampleSearch.java:263)
+	at PS.PhilStone.main(PhilStone.java:278)
+phil time:383
++Local Models Generated
+Inspecting Instance: phil3
+Inspecting Instance: phil2
+Last instance: phil1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    Av_f2 = FALSE
+    phil2.Own_left = TRUE
+    phil2.state = Node4
+  -> Input: 1.7 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.7 <-
+    Av_f1 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node4
+  -> Input: 1.8 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -- Loop starts here
+  -> State: 1.8 <-
+  -> Input: 1.9 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.12 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node4, phil1=Node8}, {phil3=Node4, phil2=Node4, phil1=Node4}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+[Ljava.lang.StackTraceElement;@41f69e84
+[Ljava.lang.StackTraceElement;@2b43529a
+Size of queue:0
+Instance phil1, Iteration Number:0
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    Av_f1 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node4
+  -> Input: 1.7 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -- Loop starts here
+  -> State: 1.7 <-
+    Av_f2 = FALSE
+    phil2.Own_left = TRUE
+    phil2.state = Node4
+  -> Input: 1.8 <-
+    _process_selector_ = main
+    running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.8 <-
+  -> Input: 1.9 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.12 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node4}, {phil3=Node4, phil2=Node4, phil1=Node4}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node1
+  -> Input: 1.8 <-
+  -> State: 1.8 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.9 <-
+  -> State: 1.9 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.10 <-
+  -> State: 1.10 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.11 <-
+  -> State: 1.11 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.12 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.12 <-
+    Av_f1 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node4
+  -> Input: 1.13 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -- Loop starts here
+  -> State: 1.13 <-
+    Av_f2 = FALSE
+    phil2.Own_left = TRUE
+    phil2.state = Node4
+  -> Input: 1.14 <-
+    _process_selector_ = main
+    running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.14 <-
+  -> Input: 1.15 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.15 <-
+  -> Input: 1.16 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.16 <-
+  -> Input: 1.17 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.17 <-
+  -> Input: 1.18 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.18 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node10}, {phil3=Node3, phil2=Node8, phil1=Node10}, {phil3=Node3, phil2=Node8, phil1=Node8}, {phil3=Node1, phil2=Node8, phil1=Node8}, {phil3=Node13, phil2=Node8, phil1=Node8}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node4}, {phil3=Node4, phil2=Node4, phil1=Node4}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:2
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.5 <-
+    Av_f2 = FALSE
+    phil2.Own_left = TRUE
+    phil2.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.8 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.8 <-
+    Av_f1 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node4
+  -> Input: 1.9 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.12 <-
+  -> Input: 1.13 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.13 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node8, phil1=Node10}, {phil3=Node8, phil2=Node4, phil1=Node10}, {phil3=Node8, phil2=Node4, phil1=Node8}, {phil3=Node4, phil2=Node4, phil1=Node8}, {phil3=Node4, phil2=Node4, phil1=Node4}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Last instance: phil1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+  -> State: 1.5 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.6 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.7 <-
+  -> State: 1.7 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.8 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.8 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.9 <-
+    _process_selector_ = main
+    running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.12 <-
+  -> Input: 1.13 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.13 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node8}, {phil3=Node8, phil2=Node10, phil1=Node3}, {phil3=Node8, phil2=Node8, phil1=Node3}, {phil3=Node8, phil2=Node3, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Size of queue:0
+Instance phil1, Iteration Number:0
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.7 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.7 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.8 <-
+  -- Loop starts here
+  -> State: 1.8 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.9 <-
+    _process_selector_ = main
+    running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> Input: 1.10 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.12 <-
+  -> Input: 1.13 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.13 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node8}, {phil3=Node3, phil2=Node10, phil1=Node8}, {phil3=Node3, phil2=Node10, phil1=Node3}, {phil3=Node3, phil2=Node8, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+  -> State: 1.7 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.8 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.8 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.9 <-
+  -- Loop starts here
+  -> State: 1.9 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.10 <-
+    _process_selector_ = main
+    running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.12 <-
+  -> Input: 1.13 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.13 <-
+  -> Input: 1.14 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.14 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node8}, {phil3=Node3, phil2=Node10, phil1=Node3}, {phil3=Node3, phil2=Node8, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:2
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+  -> State: 1.7 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.8 <-
+    _process_selector_ = phil2
+    phil1.running = FALSE
+    phil2.running = TRUE
+  -> State: 1.8 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.9 <-
+  -- Loop starts here
+  -> State: 1.9 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.10 <-
+    _process_selector_ = main
+    running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.10 <-
+  -> Input: 1.11 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.11 <-
+  -> Input: 1.12 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.12 <-
+  -> Input: 1.13 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.13 <-
+  -> Input: 1.14 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.14 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node8}, {phil3=Node3, phil2=Node10, phil1=Node3}, {phil3=Node3, phil2=Node8, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Last instance: phil1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node1
+  -> Input: 1.8 <-
+  -> State: 1.8 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.9 <-
+  -> State: 1.9 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.10 <-
+  -> State: 1.10 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.11 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.11 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.12 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.12 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.13 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.13 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.14 <-
+    _process_selector_ = main
+    running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.14 <-
+  -> Input: 1.15 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.15 <-
+  -> Input: 1.16 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.16 <-
+  -> Input: 1.17 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.17 <-
+  -> Input: 1.18 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.18 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node8}, {phil3=Node4, phil2=Node10, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node8}, {phil3=Node1, phil2=Node8, phil1=Node8}, {phil3=Node13, phil2=Node8, phil1=Node8}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Size of queue:0
+Instance phil1, Iteration Number:0
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.6 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node1
+  -> Input: 1.8 <-
+  -> State: 1.8 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.9 <-
+  -> State: 1.9 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.10 <-
+  -> State: 1.10 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.11 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.11 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.12 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.12 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.13 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.13 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.14 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -- Loop starts here
+  -> State: 1.14 <-
+  -> Input: 1.15 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.15 <-
+  -> Input: 1.16 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.16 <-
+  -> Input: 1.17 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.17 <-
+  -> Input: 1.18 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.18 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node8}, {phil3=Node4, phil2=Node10, phil1=Node8}, {phil3=Node4, phil2=Node8, phil1=Node8}, {phil3=Node1, phil2=Node8, phil1=Node8}, {phil3=Node13, phil2=Node8, phil1=Node8}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node8}, {phil3=Node3, phil2=Node3, phil1=Node8}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node1
+  -> Input: 1.8 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.8 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.9 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.9 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.10 <-
+  -> State: 1.10 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.11 <-
+  -> State: 1.11 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.12 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.12 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.13 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.13 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.14 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.14 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.15 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -- Loop starts here
+  -> State: 1.15 <-
+  -> Input: 1.16 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.16 <-
+  -> Input: 1.17 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.17 <-
+  -> Input: 1.18 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.18 <-
+  -> Input: 1.19 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.19 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node8}, {phil3=Node1, phil2=Node10, phil1=Node8}, {phil3=Node1, phil2=Node8, phil1=Node8}, {phil3=Node13, phil2=Node8, phil1=Node8}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node8}, {phil3=Node3, phil2=Node3, phil1=Node8}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Instance phil1, Iteration Number:2
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+  -> Input: 1.5 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.5 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.6 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.6 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.7 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.7 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node1
+  -> Input: 1.8 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.8 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.9 <-
+    _process_selector_ = phil3
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.9 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.10 <-
+  -> State: 1.10 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.11 <-
+  -> State: 1.11 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.12 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.12 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.13 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.13 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.14 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.14 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.15 <-
+    _process_selector_ = main
+    running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.15 <-
+  -> Input: 1.16 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.16 <-
+  -> Input: 1.17 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.17 <-
+  -> Input: 1.18 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.18 <-
+  -> Input: 1.19 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.19 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node10}, {phil3=Node3, phil2=Node10, phil1=Node8}, {phil3=Node1, phil2=Node10, phil1=Node8}, {phil3=Node1, phil2=Node8, phil1=Node8}, {phil3=Node13, phil2=Node8, phil1=Node8}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Last instance: phil1
+*** This is NuSMV 2.6.0 (compiled on Tue Jun 29 17:22:38 2021)
+*** Enabled addons are: compass
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Please report bugs to <Please report bugs to <nusmv-users@fbk.eu>>
+
+*** Copyright (c) 2010-2014, Fondazione Bruno Kessler
+
+*** This version of NuSMV is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of NuSMV is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+WARNING *** The model contains PROCESSes or ISAs. ***
+WARNING *** The HRC hierarchy will not be usable. ***
+-- specification (!( F ((phil1.Own_left & phil2.Own_left) & phil3.Own_left)) & !( F ((phil1.Own_right & phil2.Own_right) & phil3.Own_right)))  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+    phil2.Own_right = FALSE
+    phil2.Own_left = FALSE
+    phil2.EnumVar_st = Thinking
+    phil2.state = Node10
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.2 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil1.running = FALSE
+    phil2.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.2 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.3 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.3 <-
+  -> Input: 1.4 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.4 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.5 <-
+  -> State: 1.5 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.6 <-
+  -> State: 1.6 <-
+    Av_f1 = FALSE
+    phil1.Own_left = TRUE
+    phil1.state = Node1
+  -> Input: 1.7 <-
+  -> State: 1.7 <-
+    phil1.EnumVar_st = Eating
+    phil1.state = Node13
+  -> Input: 1.8 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.8 <-
+    Av_f3 = FALSE
+    phil3.Own_left = TRUE
+    phil3.state = Node4
+  -> Input: 1.9 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.9 <-
+    phil2.EnumVar_st = Hungry
+    phil2.state = Node8
+  -> Input: 1.10 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.10 <-
+    Av_f1 = TRUE
+    Av_f2 = TRUE
+    phil1.Own_right = FALSE
+    phil1.Own_left = FALSE
+    phil1.EnumVar_st = Thinking
+    phil1.state = Node10
+  -> Input: 1.11 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.11 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node1
+  -> Input: 1.12 <-
+  -> State: 1.12 <-
+    phil3.EnumVar_st = Eating
+    phil3.state = Node13
+  -> Input: 1.13 <-
+  -> State: 1.13 <-
+    Av_f1 = TRUE
+    Av_f3 = TRUE
+    phil3.Own_right = FALSE
+    phil3.Own_left = FALSE
+    phil3.EnumVar_st = Thinking
+    phil3.state = Node10
+  -> Input: 1.14 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.14 <-
+    phil1.EnumVar_st = Hungry
+    phil1.state = Node8
+  -> Input: 1.15 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -> State: 1.15 <-
+    phil3.EnumVar_st = Hungry
+    phil3.state = Node8
+  -> Input: 1.16 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -> State: 1.16 <-
+    Av_f3 = FALSE
+    phil2.Own_right = TRUE
+    phil2.state = Node3
+  -> Input: 1.17 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -> State: 1.17 <-
+    Av_f2 = FALSE
+    phil1.Own_right = TRUE
+    phil1.state = Node3
+  -> Input: 1.18 <-
+    _process_selector_ = phil3
+    phil1.running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.18 <-
+    Av_f1 = FALSE
+    phil3.Own_right = TRUE
+    phil3.state = Node3
+  -> Input: 1.19 <-
+    _process_selector_ = main
+    running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.19 <-
+  -> Input: 1.20 <-
+    _process_selector_ = phil3
+    running = FALSE
+    phil3.running = TRUE
+  -- Loop starts here
+  -> State: 1.20 <-
+  -> Input: 1.21 <-
+    _process_selector_ = phil2
+    phil2.running = TRUE
+    phil3.running = FALSE
+  -- Loop starts here
+  -> State: 1.21 <-
+  -> Input: 1.22 <-
+    _process_selector_ = phil1
+    phil1.running = TRUE
+    phil2.running = FALSE
+  -- Loop starts here
+  -> State: 1.22 <-
+  -> Input: 1.23 <-
+    _process_selector_ = main
+    running = TRUE
+    phil1.running = FALSE
+  -> State: 1.23 <-
+
+----------------------
+[{phil3=Node10, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node10}, {phil3=Node8, phil2=Node10, phil1=Node8}, {phil3=Node8, phil2=Node10, phil1=Node3}, {phil3=Node8, phil2=Node10, phil1=Node1}, {phil3=Node8, phil2=Node10, phil1=Node13}, {phil3=Node4, phil2=Node10, phil1=Node13}, {phil3=Node4, phil2=Node8, phil1=Node13}, {phil3=Node4, phil2=Node8, phil1=Node10}, {phil3=Node1, phil2=Node8, phil1=Node10}, {phil3=Node13, phil2=Node8, phil1=Node10}, {phil3=Node10, phil2=Node8, phil1=Node10}, {phil3=Node10, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node8, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node8}, {phil3=Node8, phil2=Node3, phil1=Node3}, {phil3=Node3, phil2=Node3, phil1=Node3}]
+----------------------
+[{phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=TRUE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=FALSE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=TRUE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=TRUE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=TRUE}}, {phil3={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil2={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}, phil1={Av_f3=FALSE, Av_f2=FALSE, Av_f1=FALSE}}]
+Size of queue:0
+Instance phil1, Iteration Number:0
+Program Synthesized, saved to output folder..
+Number of iterations: 14
