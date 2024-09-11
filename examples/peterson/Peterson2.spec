@@ -1,4 +1,4 @@
-spec peterson
+spec peterson2
 turn, try1, try2: prim_boolean;
 process proc1{
     cs:boolean;
@@ -12,10 +12,10 @@ process proc1{
 	}
 
 	action enterCS(){
-		frame: cs;
-		/*pre: (global.try1 && !this.cs && !global.turn) || (!global.try2 && !this.cs && global.try1);*/
-        pre: global.try1 && !this.cs;
-		post: this.cs;
+	   frame: cs;
+	   /*this is the condition to be guessed: pre: (global.try1 && !this.cs && !global.turn) || (!global.try2 && !this.cs && global.try1);*/
+           pre: global.try1 && !this.cs;
+           post: this.cs;
 	}
     action leaveCS(){
         frame: cs,  try1;
@@ -41,7 +41,7 @@ process proc2{
 
 	action enterCS(){
 		frame: cs;
-		/*pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
+		/*this is the condition to be guessed: pre: (global.try2 && !this.cs && global.turn) || (!global.try1 && !this.cs && global.try2);*/
         pre: global.try2 && !this.cs;
 		post: this.cs;
 	}

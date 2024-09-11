@@ -1,4 +1,4 @@
-spec arbiter
+spec fullarbiter5
 send1, send2, send3, send4, send5, r1, r2, r3, r4, r5 : prim_boolean;
 
 process process1{

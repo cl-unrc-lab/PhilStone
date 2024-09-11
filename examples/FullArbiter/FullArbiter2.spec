@@ -1,4 +1,4 @@
-spec arbiter
+spec fullarbiter2
 send1, send2, r1, r2:prim_boolean;
 
 process process1{
@@ -65,9 +65,7 @@ property:
           &&  !F[[p1.g1 U [!global.r1 && !p1.g1 U p1.g1 && !global.r1]]] /* No spurious grants */
           &&  !F[[p2.g2 U [(!global.r2 && !p2.g2) U (p2.g2 && !global.r2)]]]         
           &&  G[ !(!global.r1 && p1.g1) || F[(global.r1 && p1.g1) || (!p1.g1)] ]  /* Grants are lowered */
-          &&  G[ !(!global.r2 && p2.g2) || F[(global.r2 && p2.g2) || (!p2.g2)] ]
-          &&  G[!p1.hasToken || F[global.send1]]
-          &&  G[!p2.hasToken || F[global.send2]];
+          &&  G[ !(!global.r2 && p2.g2) || F[(global.r2 && p2.g2) || (!p2.g2)] ];
          
        
 

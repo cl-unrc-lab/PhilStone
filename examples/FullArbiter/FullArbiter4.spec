@@ -1,4 +1,4 @@
-spec arbiter
+spec fullarbiter4
 send1, send2, send3, send4, r1, r2, r3, r4:prim_boolean;
 
 process process1{

@@ -1,7 +1,7 @@
 /* This is an implementation of N-Peterson based on tournaments, see the book of Lynch,
    processes are the leaves of the tree, and nodes takes the results up in the tree
 */
-spec peterson
+spec peterson3
 
 turn12, turn23, try1, try2, try3: prim_boolean;
 
