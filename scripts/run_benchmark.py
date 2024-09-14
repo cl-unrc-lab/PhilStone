@@ -54,29 +54,52 @@ def run_example(command, name, dir, fileName, scope, timeout) :
 
 # main code, it runs the function for all the examples
 maindir = "../examples/"
-timeout = 600 # by default we set a timeout of 30min
+timeout = 1800 # by default we set a timeout of 30min
 
 examples = ["mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
+commands = ["all","exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
 
+if len(sys.argv) == 1 :
+    print("\nUsage: python run_benchmark.py <command> <example>")
+    print("""
+where: 
+<command> in ["all","exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
+<example> in ["all","mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
+all: runs the all the benchmarks/commands
+           """)
+    sys.exit()
+
+target = examples
 # the script may take as an argument a specific example
 try :
     arg = sys.argv[1]
+    assert arg in commands
+    if arg != "all" :
+        commands = [arg]
+except : 
+    command = commands # default command
+    pass
+
+try :
+    arg = sys.argv[2]
     assert arg in examples 
-    target = [arg]
+    if arg != all :
+        target = [arg]
 except :
-    target = examples
     pass 
+
+
 
 instances = {}
 instances["phils"] = ["phils3","phils4","phils5","phils6","phils7"]
 instances["mutex"] = ["mutex2","mutex3","mutex4","mutex5", "mutex6","mutex7"]
 instances["readerswriters"] = ["readers1writers1","readers2writers1","readers3writers1","readers4writers1", "readers1writers2",
                                 "readers2writers2","readers3writers2","readers4writers2", "readers1writers3","readers2writers3","readers3writers3","readers4writers3"]
-instances["barrier"] = ["tsense-barrier2","tsense-barrier3","tsense-barrier4"]
+instances["barrier"] = ["tsensebarrier2","tsensebarrier3","tsensebarrier4"]
 instances["peterson"] = ["peterson2","peterson3"]
 instances["arbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
 instances["pnueliarbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
-instances["fullarbiter"] = ["full-arbiter2","full-arbiter3","full-arbiter4","full-arbiter4","full-arbiter5"]
+instances["fullarbiter"] = ["fullarbiter2","fullarbiter3","fullarbiter4","fullarbiter4","fullarbiter5"]
 
 scopes = {}
 scopes["phils3"] = [13,14]
@@ -107,35 +130,47 @@ scopes["tsensebarrier3"] = [15,16]
 scopes["tsensebarrier4"] = [15,16]
 scopes["peterson2"] = [11,12]
 scopes["peterson3"] = [19,20]
-scopes["arbiter2"] = [7,8]
-scopes["arbiter3"] = [7,8]
-scopes["arbiter4"] = [7,8]
-scopes["arbiter5"] = [7,8]
-scopes["fullarbiter2"] = [7,8]
-scopes["fullarbiter3"] = [7,8]
-scopes["fullarbiter4"] = [7,8]
-scopes["fullarbiter5"] = [7,8]
-scopes["pnueliarbiter2"] = [7,8]
-scopes["pnueliarbiter3"] = [7,8]
-scopes["pnueliarbiter4"] = [7,8]
-scopes["pnueliarbiter5"] = [7,8]
+scopes["arbiter2"] = [11,12]
+scopes["arbiter3"] = [11,12]
+scopes["arbiter4"] = [11,12]
+scopes["arbiter5"] = [11,12]
+scopes["fullarbiter2"] = [11,12]
+scopes["fullarbiter3"] = [11,12]
+scopes["fullarbiter4"] = [11,12]
+scopes["fullarbiter5"] = [11,12]
+scopes["pnueliarbiter2"] = [11,12]
+scopes["pnueliarbiter3"] = [11,12]
+scopes["pnueliarbiter4"] = [11,12]
+scopes["pnueliarbiter5"] = [11,12]
 
+script = {
+           "exp2" : "batch2ExpSynt.sh",
+           "exp4" : "batch4ExpSynt.sh",
+           "exp8" : "batch4ExpSynt.sh",
+           "lineal10" : "batchLineal10Synt.sh",
+           "lineal100" : "batchLineal100Synt.sh",
+           "tokenexp2" : "token2ExpSynt.sh",
+           "tokenexp4" : "token4ExpSynt.sh",
+           "tokenexp8" : "token8ExpSynt.sh",
+           "tokenlineal10" : "token10LinealSynt.sh",
+           "tokenlineal100" : "token100LinealSynt.sh"
+}
 
-
-for example in target :
-    results = []
-    #for scope in scopes[example] :
-    for instance in instances[example] :
-        for scope in scopes[instance] :
-            row = run_example("batch2ExpSynt.sh",instance, maindir+example+"/", instance+".spec", f'''{scope}''', timeout)
-            results.append(row)
-    # finally a .cvs is generated
-    keys = results[0].keys()
-    # the results are saved in a file
-    with open(f'results-{example}.csv', 'w', newline='') as output_file:
-        dict_writer = csv.DictWriter(output_file, keys)
-        dict_writer.writeheader()
-        dict_writer.writerows(results)
+for command in commands :
+    for example in target :
+        results = []
+        #for scope in scopes[example] :
+        for instance in instances[example] :
+            for scope in scopes[instance] :
+                row = run_example(script[command],instance, maindir+example+"/", instance+".spec", f'''{scope}''', timeout)
+                results.append(row)
+        # finally a .cvs is generated
+        keys = results[0].keys()
+        # the results are saved in a file
+        with open(f'results/results-{command}-{example}.csv', 'w', newline='') as output_file:
+            dict_writer = csv.DictWriter(output_file, keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(results)
 
 
        
