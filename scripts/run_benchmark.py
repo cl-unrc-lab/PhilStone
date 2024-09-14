@@ -57,7 +57,7 @@ maindir = "../examples/"
 timeout = 1800 # by default we set a timeout of 30min
 
 examples = ["mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
-commands = ["all","exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
+commands = ["exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
 
 if len(sys.argv) == 1 :
     print("\nUsage: python run_benchmark.py <command> <example>")
@@ -73,7 +73,7 @@ target = examples
 # the script may take as an argument a specific example
 try :
     arg = sys.argv[1]
-    assert arg in commands
+    assert arg in commands or arg == "all"
     if arg != "all" :
         commands = [arg]
 except : 
@@ -82,8 +82,8 @@ except :
 
 try :
     arg = sys.argv[2]
-    assert arg in examples 
-    if arg != all :
+    assert arg in examples or arg == "all"
+    if arg != "all" :
         target = [arg]
 except :
     pass 
