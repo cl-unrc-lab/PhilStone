@@ -58,7 +58,8 @@ timeout = 1800 # by default we set a timeout of 30min
 
 examples = ["mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
 commands = ["exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
-
+token_commands = ["tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
+token_examples = ["arbiter","fullarbiter","pnueliarbiter"]
 if len(sys.argv) == 1 :
     print("\nUsage: python run_benchmark.py <command> <example>")
     print("""
@@ -158,6 +159,8 @@ script = {
 
 for command in commands :
     for example in target :
+        if (example in token_examples and not (command in token_commands)) or (not (example in token_examples) and (command in token_commands)) :
+            continue; 
         results = []
         #for scope in scopes[example] :
         for instance in instances[example] :
