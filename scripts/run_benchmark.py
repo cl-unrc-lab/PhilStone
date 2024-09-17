@@ -1,8 +1,14 @@
-import sys, os, subprocess, csv, re
+import sys, os, subprocess, csv, re, signal
 
 """
 This script runs the benchmarks, and saves the results in .cvs files in folder report
 """
+
+def clean_output() :
+    for f in os.listdir("../output") :
+        if (not f.endswith(".xml")) and  (not f.endswith(".dot")) and (not f.endswith(".als")) and (not f.endswith(".imp")):
+            continue
+        os.remove(os.path.join("../output", f))
 
 # Method for running the examples
 def run_example(command, name, dir, fileName, scope, timeout) :
@@ -17,8 +23,10 @@ def run_example(command, name, dir, fileName, scope, timeout) :
     row["Result"] = "UNSAT"
     try: 
         print("Running: "+name+" with scope:"+scope)
-        output = subprocess.run(["./"+command,scope, dir+fileName], capture_output=True, timeout=timeout).stdout.decode()
-        for line in output.splitlines() : 
+        #output = subprocess.run(["./"+command,scope, dir+fileName], capture_output=True, timeout=timeout).stdout.decode()
+        proc = subprocess.Popen(["./"+command,scope, dir+fileName],stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+        output, err = proc.communicate(timeout=timeout)
+        for line in output.decode().splitlines() : 
             words = line.split()
             if line.startswith("+ Time for generating the models") :
                 row["Local Time"] = words[7] #we add the property checked to the dictionary
@@ -29,12 +37,14 @@ def run_example(command, name, dir, fileName, scope, timeout) :
             elif line.startswith("- Spec UNSAT") :
                 row["Result"] = "UNSAT"
             elif line.startswith("+ Program Synthesized") :
-                row["Result"] = "SAT"
+                row["Result"] = "Found"
+            elif line.startswith("- Program not found") :
+                row["Result"] = "Not Found"
         # if success we check the number of states with NuSMV
-        if row["Result"] == "SAT" :
+        if row["Result"] == "Found" :
             try :
                 sizes = [] 
-                regex = r"(\d*\^(\d+(\.\d\d)?))"
+                regex = r"(\d*\^(\d+(\.\d\d)?))" # a regex for n^m pattern
                 output = subprocess.run(["NuSMV","-r", "../output/"+fileName.replace('.spec','.imp')], capture_output=True).stdout.decode()
                 for line in output.splitlines() : 
                     sizes = re.findall(regex, line)
@@ -48,13 +58,14 @@ def run_example(command, name, dir, fileName, scope, timeout) :
     except subprocess.TimeoutExpired:
         row["Global Time"] = "T/O"
         row["Result"] = "-"
+        os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
         pass
     return row
 
 
 # main code, it runs the function for all the examples
 maindir = "../examples/"
-timeout = 1800 # by default we set a timeout of 30min
+timeout = 1600 # by default we set a timeout of 30min
 
 examples = ["mutex", "phils","readerswriters","barrier", "peterson","arbiter","fullarbiter","pnueliarbiter"]
 commands = ["exp2", "exp4", "exp8", "lineal10", "lineal100", "tokenexp2", "tokenexp4", "tokenexp8","tokenlineal10","tokenlineal100"]
@@ -94,8 +105,9 @@ except :
 instances = {}
 instances["phils"] = ["phils3","phils4","phils5","phils6","phils7"]
 instances["mutex"] = ["mutex2","mutex3","mutex4","mutex5", "mutex6","mutex7"]
-instances["readerswriters"] = ["readers1writers1","readers2writers1","readers3writers1","readers4writers1", "readers1writers2",
-                                "readers2writers2","readers3writers2","readers4writers2", "readers1writers3","readers2writers3","readers3writers3","readers4writers3"]
+# examples with 4 readers are removed, all them give a timeout in the sat
+instances["readerswriters"] = ["readers1writers1","readers2writers1","readers3writers1", "readers1writers2",
+                                "readers2writers2","readers3writers2", "readers1writers3","readers2writers3","readers3writers3"]
 instances["barrier"] = ["tsensebarrier2","tsensebarrier3","tsensebarrier4"]
 instances["peterson"] = ["peterson2","peterson3"]
 instances["arbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
@@ -117,15 +129,15 @@ scopes["mutex7"] = [3,4]
 scopes["readers1writers1"] = [5,6]
 scopes["readers2writers1"] = [11,12]
 scopes["readers3writers1"] = [23,24]
-scopes["readers4writers1"] = [47,48]
+scopes["readers4writers1"] = [50,51] # this is a timeout
 scopes["readers1writers2"] = [5,6]
 scopes["readers2writers2"] = [11,12]
-scopes["readers3writers2"] = [13,24]
-scopes["readers4writers2"] = [47,48]
+scopes["readers3writers2"] = [23,24]
+scopes["readers4writers2"] = [50,51] # this is a timeout
 scopes["readers1writers3"] = [5,6]
 scopes["readers2writers3"] = [11,12]
-scopes["readers3writers3"] = [25,24]
-scopes["readers4writers3"] = [47,48]
+scopes["readers3writers3"] = [23,24]
+scopes["readers4writers3"] = [50,51] # this is a timeout
 scopes["tsensebarrier2"] = [15,16]
 scopes["tsensebarrier3"] = [15,16]
 scopes["tsensebarrier4"] = [15,16]

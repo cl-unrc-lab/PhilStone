@@ -43,14 +43,19 @@ for i in range(1,n+1) :
     file.write(f"""r{i}  : prim_boolean;  /* r{i} is the lock for the reader {i} */ \n""")
            
 # we calculate the global init condition 
-    globalinit = "&&".join([f""" !global.r{i} """ for i in range(1,n+1)]) + "&& av(global.w)" #[f""" !global.w{i} """ for i in range(1,m+1)])
+globalinit_writer = "&&".join([f""" !global.r{i} """ for i in range(1,n+1)]) + "&& av(global.w)" #[f""" !global.w{i} """ for i in range(1,m+1)])
+
+globalinit_reader = [f"""!global.r{i} && av(global.w)""" for i in range(1,n+1)] #[f""" !global.w{i} """ for i in range(1,m+1)])
+
+
+
 
 # we define the writer processes
 for i in range(1,m+1) :
     file.write(f"""
 process writer{i}{{
 	enum st = {{Writing, Waiting}}; /* the writer can be waiting or reading */
-	init: this.st = Waiting  && {globalinit};
+	init: this.st = Waiting  && {globalinit_writer};
     
 	/* Writer's action for adquiring the lock */
 	action startWriting(){{
@@ -74,11 +79,11 @@ for i in range(1,n+1) :
     file.write(f"""process reader{i}{{
 	enum st = {{Reading, Waiting}}; /* the reader is reading or waiting */
 	owns: r{i}; /* this flag is only modified by this process */
-	init: (this.st = Waiting) && {globalinit};
+	init: (this.st = Waiting) && {globalinit_reader[i-1]};
 
 	action startReading(){{
 		frame: st, r{i};
-		pre: this.st = Waiting;
+		pre: this.st = Waiting && av(w);
 		post: this.st = Reading && global.r{i};
 	}}
 
@@ -123,10 +128,10 @@ someone_writes = "||".join([f"""(pw{i}.st = Writing)""" for i in range(1,m+1)])
 safety = "&&".join(combinations_rw + combinations_ww)
 liveness = "EF["+  someone_reads + "||" + someone_writes + "]"
 formula = safety + " && " + liveness
-for i in range(1,m+1) : 
-    formula = formula + f"""&& AG[!(pw{i}.st = Writing) || EF[pw{i}.st = Waiting]]"""
-for i in range(1,n+1) : 
-    formula = formula + f"""&& AG[!(pr{i}.st = Reading) || EF[pr{i}.st = Waiting]]"""
+#for i in range(1,m+1) : 
+#    formula = formula + f"""&& AG[!(pw{i}.st = Writing) || EF[pw{i}.st = Waiting]]"""
+#for i in range(1,n+1) : 
+#    formula = formula + f"""&& AG[!(pr{i}.st = Reading) || EF[pr{i}.st = Waiting]]"""
 
 file.write("property :" + formula + ";")
 file.close()

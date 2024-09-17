@@ -1,0 +1,25 @@
+Example,Scope,Local Time,Global Time,It.,#R.States,#T.States,Result
+readers1writers1,5,-,0.221,-,-,-,UNSAT
+readers1writers1,6,0.31,0.752,15,-,-,UNSAT
+readers2writers1,11,-,0.821,-,-,-,UNSAT
+readers2writers1,12,0.687,1.614,21,2^1,2^10,SAT
+readers3writers1,23,-,T/O,-,-,-,-
+readers3writers1,24,55.906,64.737,38,2^1,2^13,SAT
+readers4writers1,47,-,T/O,-,-,-,-
+readers4writers1,48,-,T/O,-,-,-,-
+readers1writers2,5,-,0.458,-,-,-,UNSAT
+readers1writers2,6,0.805,3.537,33,-,-,UNSAT
+readers2writers2,11,-,1.452,-,-,-,UNSAT
+readers2writers2,12,1.865,8.541,57,2^1.58,2^13,SAT
+readers3writers2,13,-,5.211,-,-,-,UNSAT
+readers3writers2,24,214.093,282.163,110,2^1.58,2^16,SAT
+readers4writers2,47,-,T/O,-,-,-,-
+readers4writers2,48,-,T/O,-,-,-,-
+readers1writers3,5,-,0.735,-,-,-,UNSAT
+readers1writers3,6,1.463,14.205,87,-,-,UNSAT
+readers2writers3,11,-,2.638,-,-,-,UNSAT
+readers2writers3,12,4.025,44.388,165,2^2,2^16,SAT
+readers3writers3,25,-,T/O,-,-,-,-
+readers3writers3,24,478.832,-,-,-,-,UNSAT
+readers4writers3,47,-,T/O,-,-,-,-
+readers4writers3,48,-,T/O,-,-,-,-

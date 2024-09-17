@@ -1,0 +1,19 @@
+Example,Scope,Local Time,Global Time,It.,#R.States,#T.States,Result
+readers1writers1,5,-,0.214,-,-,-,UNSAT
+readers1writers1,6,0.291,0.459,7,-,-,Found
+readers2writers1,11,-,0.778,-,-,-,UNSAT
+readers2writers1,12,0.636,1.909,33,-,-,Found
+readers3writers1,23,-,T/O,-,-,-,-
+readers3writers1,24,38.134,251.83,3006,-,-,UNSAT
+readers1writers2,5,-,0.201,-,-,-,UNSAT
+readers1writers2,6,0.341,0.945,25,-,-,Found
+readers2writers2,11,-,0.806,-,-,-,UNSAT
+readers2writers2,12,0.916,6.876,167,-,-,Found
+readers3writers2,23,-,T/O,-,-,-,-
+readers3writers2,24,73.077,74.451,13,-,-,Found
+readers1writers3,5,-,0.197,-,-,-,UNSAT
+readers1writers3,6,0.386,2.166,79,-,-,Found
+readers2writers3,11,-,0.8,-,-,-,UNSAT
+readers2writers3,12,1.172,110.19,1377,-,-,Found
+readers3writers3,23,-,T/O,-,-,-,-
+readers3writers3,24,111.59,115.438,40,-,-,Found

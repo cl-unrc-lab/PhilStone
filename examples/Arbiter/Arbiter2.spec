@@ -8,18 +8,18 @@ process process1{
     
     action giveGrant(){
         frame: g1;
-        pre :!this.g1 || this.g1 ;
+        pre : global.r1;
         post: this.g1;
     }
     
     action downGrant(){
         frame: g1;
-        pre : !this.g1 || this.g1;
+        pre : global.r1 || !global.r1 ;
         post: !this.g1;
     }
     
     
-    invariant: AG[EF[global.send2]];
+    invariant: AG[EF[global.send2]]&&AG[EF[this.g1]] && AG[EF[!this.g1]];
 }
 
 process process2{
@@ -29,18 +29,18 @@ process process2{
     
     action giveGrant(){
         frame: g2;
-        pre : !this.g2 || this.g2 ;
+        pre :  global.r2;
         post: this.g2;
     }
     
     action downGrant(){
         frame: g2;
-        pre : !this.g2 || this.g2;
+        pre : global.r2 || !global.r2;
         post: !this.g2;
     }
     
     
-    invariant:  AG[EF[global.send1]];
+    invariant:  AG[EF[global.send1]]&&AG[EF[this.g2]] && AG[EF[!this.g2]];
 }
 
 

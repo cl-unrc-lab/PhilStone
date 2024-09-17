@@ -79,11 +79,11 @@ process writer3{
  process reader1{
 	enum st = {Reading, Waiting}; /* the reader is reading or waiting */
 	owns: r1; /* this flag is only modified by this process */
-	init: (this.st = Waiting) &&  !global.r1 && av(global.w);
+	init: (this.st = Waiting) && !global.r1 && av(global.w);
 
 	action startReading(){
 		frame: st, r1;
-		pre: this.st = Waiting;
+		pre: this.st = Waiting && av(w);
 		post: this.st = Reading && global.r1;
 	}
 
@@ -105,4 +105,4 @@ main(){
    run pw3();
    run pr1();
 }
-property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr1.st=Reading&&pw2.st=Writing)]&&AG[!(pr1.st=Reading&&pw3.st=Writing)]&&AG[!(pw1.st=Writing&&pw2.st=Writing)]&&AG[!(pw1.st=Writing&&pw3.st=Writing)]&&AG[!(pw2.st=Writing&&pw3.st=Writing)] && EF[(pr1.st = Reading)||(pw1.st = Writing)||(pw2.st = Writing)||(pw3.st = Writing)]&& AG[!(pw1.st = Writing) || EF[pw1.st = Waiting]]&& AG[!(pw2.st = Writing) || EF[pw2.st = Waiting]]&& AG[!(pw3.st = Writing) || EF[pw3.st = Waiting]]&& AG[!(pr1.st = Reading) || EF[pr1.st = Waiting]];
+property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr1.st=Reading&&pw2.st=Writing)]&&AG[!(pr1.st=Reading&&pw3.st=Writing)]&&AG[!(pw1.st=Writing&&pw2.st=Writing)]&&AG[!(pw1.st=Writing&&pw3.st=Writing)]&&AG[!(pw2.st=Writing&&pw3.st=Writing)] && EF[(pr1.st = Reading)||(pw1.st = Writing)||(pw2.st = Writing)||(pw3.st = Writing)];

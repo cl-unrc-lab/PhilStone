@@ -1,0 +1,5 @@
+Example,Scope,Local Time,Global Time,It.,#R.States,#T.States,Result
+peterson2,11,-,0.448,-,-,-,UNSAT
+peterson2,12,0.527,0.65,2,2^2,2^8.16,SAT
+peterson3,19,-,T/O,-,-,-,-
+peterson3,20,364.514,365.455,5,2^3.32,2^16.22,SAT

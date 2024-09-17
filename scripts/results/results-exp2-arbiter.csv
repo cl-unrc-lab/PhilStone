@@ -1,0 +1,11 @@
+Example,Scope,Local Time,Global Time,It.,#R.States,#T.States,Result
+arbiter2,7,-,-,-,-,-,UNSAT
+arbiter2,8,-,-,-,-,-,UNSAT
+arbiter3,7,-,0.289,-,-,-,UNSAT
+arbiter3,8,0.602,0.64,1,2^0,2^12,SAT
+arbiter4,7,-,0.302,-,-,-,UNSAT
+arbiter4,8,0.597,1.335,14,2^1,2^16,SAT
+arbiter4,7,-,0.311,-,-,-,UNSAT
+arbiter4,8,0.597,1.312,14,2^1,2^16,SAT
+arbiter5,7,-,0.373,-,-,-,UNSAT
+arbiter5,8,0.721,3.052,41,2^1,2^20,SAT

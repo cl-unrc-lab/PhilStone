@@ -33,4 +33,4 @@ fi
 
 cd ../build/
 
-java   PS/PhilStone -pdf -batch=4,8,16,32 -scope=$1 -pdf $2
+java   PS/PhilStone -pdf -batch=4,16,64 -scope=$1 -pdf $2

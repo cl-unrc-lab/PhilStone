@@ -37,11 +37,11 @@ process writer1{
  process reader1{
 	enum st = {Reading, Waiting}; /* the reader is reading or waiting */
 	owns: r1; /* this flag is only modified by this process */
-	init: (this.st = Waiting) &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+	init: (this.st = Waiting) && !global.r1 && av(global.w);
 
 	action startReading(){
 		frame: st, r1;
-		pre: this.st = Waiting;
+		pre: this.st = Waiting && av(w);
 		post: this.st = Reading && global.r1;
 	}
 
@@ -56,11 +56,11 @@ process writer1{
 process reader2{
 	enum st = {Reading, Waiting}; /* the reader is reading or waiting */
 	owns: r2; /* this flag is only modified by this process */
-	init: (this.st = Waiting) &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+	init: (this.st = Waiting) && !global.r2 && av(global.w);
 
 	action startReading(){
 		frame: st, r2;
-		pre: this.st = Waiting;
+		pre: this.st = Waiting && av(w);
 		post: this.st = Reading && global.r2;
 	}
 
@@ -75,11 +75,11 @@ process reader2{
 process reader3{
 	enum st = {Reading, Waiting}; /* the reader is reading or waiting */
 	owns: r3; /* this flag is only modified by this process */
-	init: (this.st = Waiting) &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+	init: (this.st = Waiting) && !global.r3 && av(global.w);
 
 	action startReading(){
 		frame: st, r3;
-		pre: this.st = Waiting;
+		pre: this.st = Waiting && av(w);
 		post: this.st = Reading && global.r3;
 	}
 
@@ -101,4 +101,4 @@ main(){
    run pr2();
    run pr3();
 }
-property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr2.st=Reading&&pw1.st=Writing)]&&AG[!(pr3.st=Reading&&pw1.st=Writing)] && EF[(pr1.st = Reading)||(pr2.st = Reading)||(pr3.st = Reading)||(pw1.st = Writing)]&& AG[!(pw1.st = Writing) || EF[pw1.st = Waiting]]&& AG[!(pr1.st = Reading) || EF[pr1.st = Waiting]]&& AG[!(pr2.st = Reading) || EF[pr2.st = Waiting]]&& AG[!(pr3.st = Reading) || EF[pr3.st = Waiting]];
+property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr2.st=Reading&&pw1.st=Writing)]&&AG[!(pr3.st=Reading&&pw1.st=Writing)] && EF[(pr1.st = Reading)||(pr2.st = Reading)||(pr3.st = Reading)||(pw1.st = Writing)];

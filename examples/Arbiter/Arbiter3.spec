@@ -8,7 +8,7 @@ process process1{
     
     action giveGrant(){
         frame: g1;
-        pre :!this.g1 || this.g1 ;
+        pre : global.r1 ;
         post: this.g1;
     }
     
@@ -19,7 +19,7 @@ process process1{
     }
     
     
-    invariant: AG[EF[global.send2]];
+    invariant: AG[EF[global.send2]] &&AG[EF[this.g1]] && AG[EF[!this.g1]];
 }
 
 process process2{
@@ -29,7 +29,7 @@ process process2{
     
     action giveGrant(){
         frame: g2;
-        pre : !this.g2 || this.g2 ;
+        pre : global.r2 ;
         post: this.g2;
     }
     
@@ -40,7 +40,7 @@ process process2{
     }
     
     
-    invariant:  AG[EF[global.send3]] ;
+    invariant:  AG[EF[global.send3]] &&AG[EF[this.g2]] && AG[EF[!this.g2]];
 }
 
 process process3{
@@ -50,7 +50,7 @@ process process3{
     
     action giveGrant(){
         frame: g3;
-        pre : !this.g3 || this.g3 ;
+        pre : global.r3;
         post: this.g3;
     }
     
@@ -61,7 +61,7 @@ process process3{
     }
     
     
-    invariant:  AG[EF[global.send1]] ;
+    invariant:  AG[EF[global.send1]]  &&AG[EF[this.g3]] && AG[EF[!this.g3]];
 }
 
 
@@ -82,6 +82,7 @@ property:     G[!global.r1 || F[p1.g1]]
           &&  G[!(p1.g1 && p2.g2)]
           &&  G[!(p1.g1 && p3.g3)]
           &&  G[!(p2.g2 && p3.g3)];
+
        
 
 assumption: /*G[!global.r1 || p1.g1 || [global.r1 W  p1.g1]]
