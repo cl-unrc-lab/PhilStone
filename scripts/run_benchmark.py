@@ -5,10 +5,10 @@ This script runs the benchmarks, and saves the results in .cvs files in folder r
 """
 
 def clean_output() :
-    for f in os.listdir("../output") :
+    for f in os.listdir("../output/") :
         if (not f.endswith(".xml")) and  (not f.endswith(".dot")) and (not f.endswith(".als")) and (not f.endswith(".imp")):
             continue
-        os.remove(os.path.join("../output", f))
+        os.remove(os.path.join("../output/", f))
 
 # Method for running the examples
 def run_example(command, name, dir, fileName, scope, timeout) :
@@ -22,6 +22,7 @@ def run_example(command, name, dir, fileName, scope, timeout) :
     row["#T.States"] = "-"
     row["Result"] = "UNSAT"
     try: 
+        clean_output() # the folder output is cleaned
         print("Running: "+name+" with scope:"+scope)
         #output = subprocess.run(["./"+command,scope, dir+fileName], capture_output=True, timeout=timeout).stdout.decode()
         proc = subprocess.Popen(["./"+command,scope, dir+fileName],stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
@@ -103,11 +104,13 @@ except :
 
 
 instances = {}
-instances["phils"] = ["phils3","phils4","phils5","phils6","phils7"]
+instances["phils"] = ["phils2","phils3","phils4","phils5","phils6", "phils7"] 
 instances["mutex"] = ["mutex2","mutex3","mutex4","mutex5", "mutex6","mutex7"]
 # examples with 4 readers are removed, all them give a timeout in the sat
-instances["readerswriters"] = ["readers1writers1","readers2writers1","readers3writers1", "readers1writers2",
-                                "readers2writers2","readers3writers2", "readers1writers3","readers2writers3","readers3writers3"]
+instances["readerswriters"] = ["readers1writers1","readers1writers2","readers1writers3","readers1writers4","readers1writers5",
+                               "readers1writers6","readers2writers1","readers2writers2","readers2writers3","readers2writers4",
+                               "readers2writers5","readers2writers6","readers3writers1","readers3writers2","readers3writers3",
+                               "readers3writers4","readers3writers5","readers3writers6"]
 instances["barrier"] = ["tsensebarrier2","tsensebarrier3","tsensebarrier4"]
 instances["peterson"] = ["peterson2","peterson3"]
 instances["arbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
@@ -115,6 +118,7 @@ instances["pnueliarbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbit
 instances["fullarbiter"] = ["fullarbiter2","fullarbiter3","fullarbiter4","fullarbiter4","fullarbiter5"]
 
 scopes = {}
+scopes["phils2"] = [13,14]
 scopes["phils3"] = [13,14]
 scopes["phils4"] = [13,14]
 scopes["phils5"] = [13,14]
@@ -126,18 +130,35 @@ scopes["mutex4"] = [3,4]
 scopes["mutex5"] = [3,4]
 scopes["mutex6"] = [3,4]
 scopes["mutex7"] = [3,4]
-scopes["readers1writers1"] = [5,6]
+scopes["readers1writers1"] = [11,12]
+scopes["readers1writers2"] = [11,12]
+scopes["readers1writers3"] = [11,12]
+scopes["readers1writers4"] = [11,12]
+scopes["readers1writers5"] = [11,12]
+scopes["readers1writers6"] = [11,12]
 scopes["readers2writers1"] = [11,12]
-scopes["readers3writers1"] = [23,24]
-scopes["readers4writers1"] = [50,51] # this is a timeout
-scopes["readers1writers2"] = [5,6]
 scopes["readers2writers2"] = [11,12]
-scopes["readers3writers2"] = [23,24]
-scopes["readers4writers2"] = [50,51] # this is a timeout
-scopes["readers1writers3"] = [5,6]
 scopes["readers2writers3"] = [11,12]
+scopes["readers2writers4"] = [11,12]
+scopes["readers2writers5"] = [11,12]
+scopes["readers2writers6"] = [11,12]
+scopes["readers3writers1"] = [23,24]
+scopes["readers3writers2"] = [23,24]
 scopes["readers3writers3"] = [23,24]
-scopes["readers4writers3"] = [50,51] # this is a timeout
+scopes["readers3writers4"] = [23,24]
+scopes["readers3writers5"] = [23,24]
+scopes["readers3writers6"] = [23,24]
+#scopes["readers2writers1"] = [11,12]
+#scopes["readers3writers1"] = [23,24]
+#scopes["readers4writers1"] = [50,51] # this is a timeout
+#scopes["readers1writers2"] = [5,6]
+#scopes["readers2writers2"] = [11,12]
+#scopes["readers3writers2"] = [23,24]
+#scopes["readers4writers2"] = [50,51] # this is a timeout
+#scopes["readers1writers3"] = [5,6]
+#scopes["readers2writers3"] = [11,12]
+#scopes["readers3writers3"] = [23,24]
+#scopes["readers4writers3"] = [50,51] # this is a timeout
 scopes["tsensebarrier2"] = [15,16]
 scopes["tsensebarrier3"] = [15,16]
 scopes["tsensebarrier4"] = [15,16]
@@ -159,7 +180,7 @@ scopes["pnueliarbiter5"] = [11,12]
 script = {
            "exp2" : "batch2ExpSynt.sh",
            "exp4" : "batch4ExpSynt.sh",
-           "exp8" : "batch4ExpSynt.sh",
+           "exp8" : "batch8ExpSynt.sh",
            "lineal10" : "batchLineal10Synt.sh",
            "lineal100" : "batchLineal100Synt.sh",
            "tokenexp2" : "token2ExpSynt.sh",

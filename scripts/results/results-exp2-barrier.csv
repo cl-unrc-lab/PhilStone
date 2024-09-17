@@ -1,7 +1,7 @@
 Example,Scope,Local Time,Global Time,It.,#R.States,#T.States,Result
-tsensebarrier2,15,-,39.932,-,-,-,UNSAT
-tsensebarrier2,16,0.819,1.676,11,2^2.58,2^14.58,SAT
-tsensebarrier3,15,-,40.013,-,-,-,UNSAT
-tsensebarrier3,16,1.243,11.726,97,2^5.90,2^23.16,SAT
-tsensebarrier4,15,-,18.488,-,-,-,UNSAT
-tsensebarrier4,16,3.049,66.712,85,2^10.75,2^32.16,SAT
+tsensebarrier2,15,-,37.697,-,-,-,UNSAT
+tsensebarrier2,16,0.779,1.542,11,2^2.58,2^14.58,Found
+tsensebarrier3,15,-,37.842,-,-,-,UNSAT
+tsensebarrier3,16,1.094,11.153,97,2^5.90,2^23.16,Found
+tsensebarrier4,15,-,18.381,-,-,-,UNSAT
+tsensebarrier4,16,2.99,64.67,85,2^10.75,2^32.16,Found

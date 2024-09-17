@@ -209,6 +209,9 @@ main(){
         run p1();
         run p2();
         run p3();
+        run n1();
+        run n2();
+        run n3();
 }
 
 property:  AG[(!p1.finish || !p2.finish || !p3.finish || !p4.finish) || (p1.parity && p2.parity && p3.parity  &&  p4.parity) || (!p1.parity && !p2.parity && !p3.parity && !p4.parity)];

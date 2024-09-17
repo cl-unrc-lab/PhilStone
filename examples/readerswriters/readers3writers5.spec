@@ -1,5 +1,5 @@
 
-spec readers3writers2
+spec readers3writers5
 /*
 * This version of the readers and writers is based in the basic solution given in
 * "Concurrent Reading while Writing" (Peterson 1982)
@@ -36,6 +36,69 @@ process writer1{
 }
  
 process writer2{
+	enum st = {Writing, Waiting}; /* the writer can be waiting or reading */
+	init: this.st = Waiting  &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+    
+	/* Writer's action for adquiring the lock */
+	action startWriting(){
+		frame: w, st;
+		pre: av(global.w);
+		post: own(global.w) && (this.st = Writing);
+	}
+
+	/* Writers action for freeing the lock */
+	action stopWriting(){
+		frame: w, st;
+		pre: own(global.w);
+		post: av(global.w) && (this.st = Waiting);
+	}
+	/* The invariant ensures that the states Writing and Waiting are revisited */
+	invariant: AG[EF[this.st = Writing]] &&  AG[EF[this.st = Waiting]];
+}
+ 
+process writer3{
+	enum st = {Writing, Waiting}; /* the writer can be waiting or reading */
+	init: this.st = Waiting  &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+    
+	/* Writer's action for adquiring the lock */
+	action startWriting(){
+		frame: w, st;
+		pre: av(global.w);
+		post: own(global.w) && (this.st = Writing);
+	}
+
+	/* Writers action for freeing the lock */
+	action stopWriting(){
+		frame: w, st;
+		pre: own(global.w);
+		post: av(global.w) && (this.st = Waiting);
+	}
+	/* The invariant ensures that the states Writing and Waiting are revisited */
+	invariant: AG[EF[this.st = Writing]] &&  AG[EF[this.st = Waiting]];
+}
+ 
+process writer4{
+	enum st = {Writing, Waiting}; /* the writer can be waiting or reading */
+	init: this.st = Waiting  &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
+    
+	/* Writer's action for adquiring the lock */
+	action startWriting(){
+		frame: w, st;
+		pre: av(global.w);
+		post: own(global.w) && (this.st = Writing);
+	}
+
+	/* Writers action for freeing the lock */
+	action stopWriting(){
+		frame: w, st;
+		pre: own(global.w);
+		post: av(global.w) && (this.st = Waiting);
+	}
+	/* The invariant ensures that the states Writing and Waiting are revisited */
+	invariant: AG[EF[this.st = Writing]] &&  AG[EF[this.st = Waiting]];
+}
+ 
+process writer5{
 	enum st = {Writing, Waiting}; /* the writer can be waiting or reading */
 	init: this.st = Waiting  &&  !global.r1 && !global.r2 && !global.r3 && av(global.w);
     
@@ -115,13 +178,19 @@ process reader3{
 main(){
    pw1:writer1;
    pw2:writer2;
+   pw3:writer3;
+   pw4:writer4;
+   pw5:writer5;
    pr1:reader1;
    pr2:reader2;
    pr3:reader3;
    run pw1();
    run pw2();
+   run pw3();
+   run pw4();
+   run pw5();
    run pr1();
    run pr2();
    run pr3();
 }
-property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr1.st=Reading&&pw2.st=Writing)]&&AG[!(pr2.st=Reading&&pw1.st=Writing)]&&AG[!(pr2.st=Reading&&pw2.st=Writing)]&&AG[!(pr3.st=Reading&&pw1.st=Writing)]&&AG[!(pr3.st=Reading&&pw2.st=Writing)]&&AG[!(pw1.st=Writing&&pw2.st=Writing)] && EF[(pr1.st = Reading)||(pr2.st = Reading)||(pr3.st = Reading)||(pw1.st = Writing)||(pw2.st = Writing)];
+property :AG[!(pr1.st=Reading&&pw1.st=Writing)]&&AG[!(pr1.st=Reading&&pw2.st=Writing)]&&AG[!(pr1.st=Reading&&pw3.st=Writing)]&&AG[!(pr1.st=Reading&&pw4.st=Writing)]&&AG[!(pr1.st=Reading&&pw5.st=Writing)]&&AG[!(pr2.st=Reading&&pw1.st=Writing)]&&AG[!(pr2.st=Reading&&pw2.st=Writing)]&&AG[!(pr2.st=Reading&&pw3.st=Writing)]&&AG[!(pr2.st=Reading&&pw4.st=Writing)]&&AG[!(pr2.st=Reading&&pw5.st=Writing)]&&AG[!(pr3.st=Reading&&pw1.st=Writing)]&&AG[!(pr3.st=Reading&&pw2.st=Writing)]&&AG[!(pr3.st=Reading&&pw3.st=Writing)]&&AG[!(pr3.st=Reading&&pw4.st=Writing)]&&AG[!(pr3.st=Reading&&pw5.st=Writing)]&&AG[!(pw1.st=Writing&&pw2.st=Writing)]&&AG[!(pw1.st=Writing&&pw3.st=Writing)]&&AG[!(pw1.st=Writing&&pw4.st=Writing)]&&AG[!(pw1.st=Writing&&pw5.st=Writing)]&&AG[!(pw2.st=Writing&&pw3.st=Writing)]&&AG[!(pw2.st=Writing&&pw4.st=Writing)]&&AG[!(pw2.st=Writing&&pw5.st=Writing)]&&AG[!(pw3.st=Writing&&pw4.st=Writing)]&&AG[!(pw3.st=Writing&&pw5.st=Writing)]&&AG[!(pw4.st=Writing&&pw5.st=Writing)] && EF[(pr1.st = Reading)||(pr2.st = Reading)||(pr3.st = Reading)||(pw1.st = Writing)||(pw2.st = Writing)||(pw3.st = Writing)||(pw4.st = Writing)||(pw5.st = Writing)];

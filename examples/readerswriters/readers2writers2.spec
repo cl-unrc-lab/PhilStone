@@ -9,8 +9,7 @@ spec readers2writers2
 * a way that mutual exclusion is preserved.
 * Author: Pablo.
 */
-w  : lock;  /* w is the lock for the writer 1 */ 
-w  : lock;  /* w is the lock for the writer 2 */ 
+w  : lock;  /* w is the lock for the writers */ 
 r1  : prim_boolean;  /* r1 is the lock for the reader 1 */ 
 r2  : prim_boolean;  /* r2 is the lock for the reader 2 */ 
 

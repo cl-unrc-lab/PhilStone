@@ -35,8 +35,8 @@ spec readers{n}writers{m}
 */
 """)
 #for all the writers we define the shared variables
-for i in range(1,m+1) :
-    file.write(f"""w  : lock;  /* w is the lock for the writer {i} */ \n""")
+#for i in range(1,m+1) :
+file.write(f"""w  : lock;  /* w is the lock for the writers */ \n""")
 
 #for all the readers we define the shared variables
 for i in range(1,n+1) :
