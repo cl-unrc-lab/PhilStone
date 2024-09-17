@@ -4,7 +4,7 @@
 */
 spec tsensebarrier5
 
-n1, n2n4, n3n4, p1n2, p2n2, p3n3, p4n3, p5n5, n5n1, n4n1: prim_boolean;
+n1, n2n4, n3n4, p1n2, p2n2, p3n3, p4n3, p5n5, n5n1, n4n1, p6n5: prim_boolean;
 
 process node1{
     parity:boolean;
@@ -90,7 +90,7 @@ process node4{
 process node5{
     parity:boolean;
     owns: n5n1;
-    init: !this.parity &&   !global.p5n5 && !global.n5n1; 
+    init: !this.parity &&   !global.p5n5 && !global.p6n5 && !global.n5n1; 
     
     action passBarrier0(){
         frame: parity, n5n1;
@@ -267,6 +267,37 @@ process proc5{
      
      invariant: AG[EF[this.parity]] && AG[EF[!this.parity]] && AG[EF[global.p5n5]]  && AG[EF[!global.p5n5]];
  }
+ process proc6{
+    parity,finish:boolean;
+    owns:p6n5;
+     init: !this.finish && !this.parity && !global.n1 && !global.p6n5; 
+     
+     action finish0(){
+         frame: finish, p6n5;
+         pre: !this.finish;/* && !this.parity;*/
+         post: this.finish && global.p6n5;
+     }
+     
+     action finish1(){
+         frame: finish, p6n5;
+         pre: !this.finish;/* && this.parity;*/
+         post: this.finish && !global.p6n5;
+     }
+     
+     action passBarrier0(){
+         frame: parity, finish;
+         pre: !this.parity;/* && global.n1 && this.finish;*/
+         post: this.parity && !this.finish;
+     }
+     
+     action passBarrier1(){
+         frame: parity, finish;
+         pre: this.parity;/* && !global.n1 && this.finish;*/
+         post: !this.parity && !this.finish;
+     }
+     
+     invariant: AG[EF[this.parity]] && AG[EF[!this.parity]] && AG[EF[global.p6n5]]  && AG[EF[!global.p6n5]];
+ }
 
 
 
@@ -282,6 +313,7 @@ main(){
         p3:proc3;
         p4:proc4;
         p5:proc5;
+        p6:proc6;
         run n1();
         run n2();
         run n3();
@@ -292,7 +324,9 @@ main(){
         run p3();
         run p4();
         run p5();
+        run p6();
+
 
 }
 
-property:  AG[(!p1.finish || !p2.finish || !p3.finish || !p4.finish || !p5.finish) || (p1.parity && p2.parity && p3.parity  &&  p4.parity && p5.parity) || (!p1.parity && !p2.parity && !p3.parity && !p4.parity && !p5.parity)];
+property:  AG[(!p1.finish || !p2.finish || !p3.finish || !p4.finish || !p5.finish || !p6.finish) || (p1.parity && p2.parity && p3.parity  &&  p4.parity && p5.parity && p6.parity) || (!p1.parity && !p2.parity && !p3.parity && !p4.parity && !p5.parity && !p6.parity)];

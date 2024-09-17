@@ -111,7 +111,7 @@ instances["readerswriters"] = ["readers1writers1","readers1writers2","readers1wr
                                "readers1writers6","readers2writers1","readers2writers2","readers2writers3","readers2writers4",
                                "readers2writers5","readers2writers6","readers3writers1","readers3writers2","readers3writers3",
                                "readers3writers4","readers3writers5","readers3writers6"]
-instances["barrier"] = ["tsensebarrier2","tsensebarrier3","tsensebarrier4"]
+instances["barrier"] = ["tsensebarrier2","tsensebarrier3","tsensebarrier4","tsensebarrier5","tsensebarrier6"]
 instances["peterson"] = ["peterson2","peterson3"]
 instances["arbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
 instances["pnueliarbiter"] = ["arbiter2","arbiter3","arbiter4","arbiter4","arbiter5"]
@@ -162,6 +162,8 @@ scopes["readers3writers6"] = [23,24]
 scopes["tsensebarrier2"] = [15,16]
 scopes["tsensebarrier3"] = [15,16]
 scopes["tsensebarrier4"] = [15,16]
+scopes["tsensebarrier5"] = [15,16]
+scopes["tsensebarrier6"] = [15,16]
 scopes["peterson2"] = [11,12]
 scopes["peterson3"] = [19,20]
 scopes["arbiter2"] = [11,12]
